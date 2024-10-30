@@ -1,32 +1,37 @@
-from entity import *
 from pico2d import *
-
-collections = SpriteCollection()
-
-def main():
-    pico2d.open_canvas(1280, 720)
-
-    collections.initialize()
-
-    running = True
-    player = Knight(400, 200)
+from header import *
 
 
-    while running:
-        pico2d.clear_canvas()
-
-        player.update(0.01)
-        player.draw_animation(collections)
-
-        pico2d.update_canvas()
-
-        for event in pico2d.get_events():
-            if event.type == pico2d.SDL_QUIT:
-                running = False
+pico2d.open_canvas(WIDTH, HEIGHT)
+collections.initialize()
 
 
-    pico2d.close_canvas()
+running = True
+
+def handle_events():
+    global running
+
+    events = get_events()
+    for event in events:
+        if event.type == SDL_QUIT:
+            running = False
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            running = False
+        else:
+            if event.type in (SDL_KEYDOWN,SDL_KEYUP):
+                player.handle_event(event) # input event
+
+# game loop
+while running:
+    pico2d.clear_canvas()
+    player.update_time(0.01)
+    player.update()
+    player.draw_animation(collections)
+
+    pico2d.update_canvas()
+
+    handle_events()
 
 
-if __name__ == "__main__":
-    main()
+
+pico2d.close_canvas()

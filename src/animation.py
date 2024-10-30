@@ -1,4 +1,3 @@
-from logging import currentframe
 
 from pico2d import load_image
 
@@ -27,11 +26,13 @@ class SpriteCollection:
     def initialize(self):
         self.initialized = True
         self.animations = {
-            "knight_attack": SpriteAnimation("../resource/knight_attack.png",7,7,1),
+            "knight_slash_right": SpriteAnimation("../resource/knight_slash_right.png", 8, 8, 1),
+            "knight_slash_left": SpriteAnimation("../resource/knight_slash_left.png", 8, 8, 1),
             "knight_idle_left": SpriteAnimation("../resource/knight_idle_left.png",4,4,1),
             "knight_idle_right": SpriteAnimation("../resource/knight_idle_right.png",4,4,1),
             "knight_move_left": SpriteAnimation("../resource/knight_move_left.png",9,9,1),
-            "knight_move_right": SpriteAnimation("../resource/knight_move_right.png",9,9,1)
+            "knight_move_right": SpriteAnimation("../resource/knight_move_right.png",9,9,1),
+            "knight_jump": SpriteAnimation("../resource/knight_jump.png",8,8,1)
         }
 
     def get(self,animation_name:str)->SpriteAnimation:
