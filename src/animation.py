@@ -32,7 +32,8 @@ class SpriteCollection:
             "knight_idle_right": SpriteAnimation("../resource/knight_idle_right.png",4,4,1),
             "knight_move_left": SpriteAnimation("../resource/knight_move_left.png",9,9,1),
             "knight_move_right": SpriteAnimation("../resource/knight_move_right.png",9,9,1),
-            "knight_jump": SpriteAnimation("../resource/knight_jump.png",8,8,1)
+            "knight_jump_left": SpriteAnimation("../resource/knight_jump_left.png",8,8,1),
+            "knight_jump_right": SpriteAnimation("../resource/knight_jump_right.png", 8, 8, 1)
         }
 
     def get(self,animation_name:str)->SpriteAnimation:

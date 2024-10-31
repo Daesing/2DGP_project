@@ -1,122 +1,162 @@
 from src.entity import Entity
 from pico2d import *
+from state_machine import StateMachine, time_out
+from state_machine import AnimationState
+from typing import Optional
 
-from src.state_machine import space_down
-from state_machine import StateMachine,  time_out, right_down, left_down, right_up, left_up, a_down
 
+class Idle(AnimationState):
 
-class Idle:
-    @staticmethod
-    def enter(knight, e):
-        if right_up(e) or left_down(e):
+    def __init__(self, direction: str):
+        self.direction = direction
+
+    def on_right_down(self, e):
+        return Run('right')
+
+    def on_left_down(self, e):
+        return Run('left')
+
+    def on_right_up(self, e) -> Optional[AnimationState]:
+        if self.direction !='right':
+            return Idle('right')
+        return None
+    def on_left_up(self, e) -> Optional[AnimationState]:
+        if self.direction != 'left':
+            return Idle('left')
+        return None
+
+    def on_a_down(self, e) -> Optional[AnimationState]:
+        return Slash(self.direction)
+
+    def on_space_down(self, e) -> Optional[AnimationState]:
+        return Jump(self.direction)
+
+    def enter(self, knight, e):
+        if self.direction == 'right':
             knight.current_animation = 'knight_idle_right'
-        elif left_up(e) or right_down(e):
+        elif self.direction == 'left':
             knight.current_animation = 'knight_idle_left'
 
         knight.vx = 0
 
-        pass
 
-    @staticmethod
-    def exit(knight, e):
-        pass
+class Run(AnimationState):
 
-    @staticmethod
-    def do(knight):
-        pass
+    def __init__(self, direction: str):
+        self.direction = direction
 
-class Run:
-    @staticmethod
-    def enter(knight, e):
-        if right_down(e) or left_up(e):
+    def on_left_up(self, e) -> Optional[AnimationState]:
+        return Idle('left')
+
+    def on_right_up(self, e) -> Optional[AnimationState]:
+        return Idle('right')
+
+    def on_right_down(self, e) -> Optional[AnimationState]:
+        if self.direction != 'right':
+            return Run('right')
+        return None
+
+    def on_left_down(self, e) -> Optional[AnimationState]:
+        if self.direction != 'left':
+            return Run('left')
+        return None
+
+    def on_a_down(self, e) -> Optional[AnimationState]:
+        return Slash(self.direction)
+
+    def on_space_down(self, e) -> Optional[AnimationState]:
+        return Jump(self.direction)
+
+    def enter(self, knight, e):
+        if self.direction == 'right':
             knight.vx = 1
             knight.face_dir = 1
             knight.current_animation = 'knight_move_right'
-        elif left_down(e) or right_up(e):
+        elif self.direction == 'left':
             knight.vx = -1
             knight.face_dir = -1
             knight.current_animation = 'knight_move_left'
 
-        pass
 
-    @staticmethod
-    def exit(knight, e):
-        pass
+class Slash(AnimationState):
+    def __init__(self, direction: str):
+        self.direction = direction
 
-    @staticmethod
-    def do(knight):
-        pass
+    def on_right_down(self, e) -> Optional[AnimationState]:
+        return Run('right')
 
-class Slash:
-    @staticmethod
-    def enter(knight,e):
-        if knight.face_dir == 1:
+    def on_left_down(self, e) -> Optional[AnimationState]:
+        return Run('left')
+
+    def on_time_out(self, e) -> Optional[AnimationState]:
+        return Idle(self.direction)
+
+    def enter(self, knight, e):
+        if self.direction == 'right':
             knight.current_animation = 'knight_slash_right'
-        elif knight.face_dir == -1:
+        elif self.direction == 'left':
             knight.current_animation = 'knight_slash_left'
 
+        knight.vx = 0
+
         knight.start_time = get_time()
-        pass
-    @staticmethod
-    def exit(knight,e):
-        if knight.face_dir == 1:
+
+    def exit(self, knight, e):
+        if self.direction == 'right':
             knight.current_animation = 'knight_idle_right'
-        elif knight.face_dir == -1:
+        elif self.direction == 'left':
             knight.current_animation = 'knight_idle_left'
-        pass
-    @staticmethod
-    def do(knight):
+
+    def do(self, knight):
         if get_time() - knight.start_time > 1:
-            # 이벤트를 발생
-            knight.state_machine.add_event(('Time_OUT', 0))
-        pass
+            return Idle(self.direction)
+        return None
 
 
-class Jump:
-    @staticmethod
-    def enter(knight, e):
-        knight.current_animation = 'knight_jump'
+class Jump(AnimationState):
+    def __init__(self, direction: str):
+        self.direction = direction
+
+    def on_right_down(self, e) -> Optional[AnimationState]:
+        return Run('right')
+
+    def on_left_down(self, e) -> Optional[AnimationState]:
+        return Run('left')
+
+    def on_a_down(self, e) -> Optional[AnimationState]:
+        return Slash(self.direction)
+
+    def on_time_out(self, e) -> Optional[AnimationState]:
+        return Idle(self.direction)
+
+    def enter(self, knight, e):
+        if self.direction == 'right':
+            knight.current_animation = 'knight_jump_right'
+        elif self.direction == 'left':
+            knight.current_animation = 'knight_jump_left'
+
         knight.start_time = get_time()
-        knight.vy = 2
-        pass
-
-    @staticmethod
-    def exit(knight, e):
-        if knight.face_dir == 1:
-            knight.current_animation = 'knight_idle_right'
-        elif knight.face_dir == -1:
-            knight.current_animation = 'knight_idle_left'
-        pass
-
-    @staticmethod
-    def do(knight):
         if knight.y == 200:
-            # 이벤트를 발생
-            knight.state_machine.add_event(('Time_OUT', 0))
+            knight.vy = 2
+
+    def exit(self, knight, e):
         pass
 
+    def do(self, knight):
+        if knight.y == 200:
+            return Idle(self.direction)
+        return None
 
 
 class Knight(Entity):
-    def __init__(self,x,y):
+    def __init__(self, x, y):
         super().__init__()
-        self.x, self.y = x,y
-        self.vx,self.vy = 0, 0
+        self.x, self.y = x, y
+        self.vx, self.vy = 0, 0
         self.frame = 0
         self.face_dir = 1
         self.state_machine = StateMachine(self)  # 소년 객체를 위한 상태 머신인지 알려줄 필요
-        self.state_machine.start(Idle)  # 객체를 생성한게 아니고, 직접 Idle이라는 클래스를 사용
-        self.state_machine.set_transitions(
-            {
-                Idle: {right_down: Run, left_down: Run, right_up: Run, left_up: Run, a_down: Slash, space_down: Jump},
-                Run: {right_down: Idle, left_down: Idle, right_up: Idle, left_up: Idle, a_down: Slash,
-                      space_down: Jump},
-                Slash: {right_down: Run, left_down: Run, time_out: Idle},
-                Jump: {time_out: Idle, right_down: Run, left_down: Run, right_up: Idle, left_up: Idle},
-
-
-            }
-        )
+        self.state_machine.start(Idle('right'))  # 객체를 생성한게 아니고, 직접 Idle이라는 클래스를 사용
 
     def update(self):
         self.state_machine.update()
@@ -133,4 +173,3 @@ class Knight(Entity):
         self.state_machine.add_event(
             ('INPUT', event)
         )
-
