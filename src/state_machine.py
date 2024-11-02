@@ -34,32 +34,29 @@ def time_out(e):
 
 
 class AnimationState:
-    def on_right_down(self,e) -> Optional[AnimationState]:
+    def on_right_down(self) -> Optional[AnimationState]:
         return None
 
-    def on_left_down(self,e) -> Optional[AnimationState]:
+    def on_left_down(self) -> Optional[AnimationState]:
         return None
 
-    def on_right_up(self,e) -> Optional[AnimationState]:
+    def on_right_up(self) -> Optional[AnimationState]:
         return None
 
-    def on_left_up(self,e) -> Optional[AnimationState]:
+    def on_left_up(self) -> Optional[AnimationState]:
         return None
 
-    def on_space_down(self,e) -> Optional[AnimationState]:
+    def on_space_down(self) -> Optional[AnimationState]:
         return None
 
-    def on_a_down(self,e) -> Optional[AnimationState]:
-        return None
-
-    def on_time_out(self,e) -> Optional[AnimationState]:
+    def on_a_down(self) -> Optional[AnimationState]:
         return None
 
     #state
-    def enter(self, knight, e):
+    def enter(self, knight):
         pass
 
-    def exit(self, knight, e):
+    def exit(self, knight):
         pass
 
     def do(self, knight) -> Optional[AnimationState]:
@@ -67,13 +64,12 @@ class AnimationState:
 
 
 events = [
-    (left_down, lambda state,e: state.on_left_down(e)),
-    (left_up, lambda state,e: state.on_left_up(e)),
-    (right_down, lambda state,e: state.on_right_down(e)),
-    (right_up, lambda state,e: state.on_right_up(e)),
-    (a_down, lambda state,e: state.on_a_down(e)),
-    (space_down, lambda state,e: state.on_space_down(e)),
-    (time_out, lambda state,e: state.on_time_out(e)),
+    (left_down, lambda state: state.on_left_down()),
+    (left_up, lambda state: state.on_left_up()),
+    (right_down, lambda state: state.on_right_down()),
+    (right_up, lambda state: state.on_right_up()),
+    (a_down, lambda state: state.on_a_down()),
+    (space_down, lambda state: state.on_space_down()),
 ]
 
 # 상태 머신을 처리 관리해주는 클래스
@@ -88,7 +84,7 @@ class StateMachine:
 
     def update(self):
         next_state = self.cur_state.do(self.o)  # Idle.do()
-        self.update_state(next_state, None)
+        self.update_state(next_state)
 
         if not self.event_que:
             return
@@ -99,26 +95,30 @@ class StateMachine:
         for check_events,perform_action in events:
             if not check_events(e):
                 continue
-            next_state = perform_action(self.cur_state,e)
-            if self.update_state(next_state,e):
+            next_state = perform_action(self.cur_state)
+            if self.update_state(next_state):
                 return
 
-    def update_state(self,state,e)->bool:
+    def update_state(self,state)->bool:
         if state is None:
             return False
-        self.cur_state.exit(self.o, e)
+        self.cur_state.exit(self.o)
         print(f'Exit from {self.cur_state}')
         self.cur_state = state
-        self.cur_state.enter(self.o, e)
+        self.cur_state.enter(self.o)
         print(f'ENTER into {state}')
         if self.state_manager.jump:
-            return self.update_state(self.cur_state.on_space_down(None),None)
+            return self.update_state(self.cur_state.on_space_down())
         if self.state_manager.right and self.state_manager.left:
             pass
+        elif self.state_manager.right and self.state_manager.slash:
+            return self.update_state(self.cur_state.on_a_down())
+        elif self.state_manager.left and self.state_manager.slash:
+            return self.update_state(self.cur_state.on_a_down())
         elif self.state_manager.right:
-            return self.update_state(self.cur_state.on_right_down(None),None)
+            return self.update_state(self.cur_state.on_right_down())
         elif self.state_manager.left:
-            return self.update_state(self.cur_state.on_left_down(None),None)
+            return self.update_state(self.cur_state.on_left_down())
 
         return True
 
@@ -126,7 +126,7 @@ class StateMachine:
         # 현재 상태를 시작 상태로 만듬.
         self.cur_state = start_state # Idle
         # new start
-        self.cur_state.enter(self.o, 'START')
+        self.cur_state.enter(self.o)
         print(f'ENTER into{self.cur_state}')
 
     def set_transitions(self, transitions):

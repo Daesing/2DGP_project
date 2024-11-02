@@ -15,6 +15,7 @@ class Entity:
 
     def update_time(self, delta_time):
         self.total_time += delta_time
+        self.update()
 
     def update(self):
         pass
