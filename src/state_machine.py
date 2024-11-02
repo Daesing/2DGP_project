@@ -1,126 +1,42 @@
 # event ( 종류 문자열, 실제 값 )
 from __future__ import annotations
-from sdl2 import SDLK_SPACE, SDL_KEYDOWN, SDLK_RIGHT, SDLK_LEFT, SDL_KEYUP, SDLK_a
-from typing import Optional
+from typing import TypeVar
 
-from src.state_manager import StateManager
+T = TypeVar('T')
 
-
-def start_event(e):
-    return e[0] == 'START'
-
-def right_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_RIGHT
-
-def left_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_LEFT
-
-def a_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_a
-
-def right_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_RIGHT
-
-def left_up(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LEFT
-
-def space_down(e):
-    return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_SPACE
-
-def time_out(e):
-    return e[0] == 'TIME_OUT'
-
-
-
-
-class AnimationState:
-    def on_right_down(self) -> Optional[AnimationState]:
-        return None
-
-    def on_left_down(self) -> Optional[AnimationState]:
-        return None
-
-    def on_right_up(self) -> Optional[AnimationState]:
-        return None
-
-    def on_left_up(self) -> Optional[AnimationState]:
-        return None
-
-    def on_space_down(self) -> Optional[AnimationState]:
-        return None
-
-    def on_a_down(self) -> Optional[AnimationState]:
-        return None
+class AnimationState[T]:
 
     #state
-    def enter(self, knight):
+    def enter(self, entity:T):
         pass
 
-    def exit(self, knight):
+    def exit(self, entity:T):
         pass
 
-    def do(self, knight) -> Optional[AnimationState]:
+    def do(self, entity:T) -> AnimationState[T] | None:
         return None
 
 
-events = [
-    (left_down, lambda state: state.on_left_down()),
-    (left_up, lambda state: state.on_left_up()),
-    (right_down, lambda state: state.on_right_down()),
-    (right_up, lambda state: state.on_right_up()),
-    (a_down, lambda state: state.on_a_down()),
-    (space_down, lambda state: state.on_space_down()),
-]
 
 # 상태 머신을 처리 관리해주는 클래스
 
-class StateMachine:
-    state_manager:StateManager
-    cur_state:AnimationState
+class StateMachine[T]:
+    cur_state:AnimationState[T]
     def __init__(self, o):
-        self.state_manager = StateManager()
         self.o = o # boy self가 전달, self.o 상태머신과 연결된 캐릭터 객체
-        self.event_que = [] # 발생하는 이벤트를 담는
 
     def update(self):
         next_state = self.cur_state.do(self.o)  # Idle.do()
-        self.update_state(next_state)
-
-        if not self.event_que:
-            return
-        # 이벤트 발생했는지 확인하고, 거기에 따라서 상태변환을 수행.
-        e = self.event_que.pop(0)   # list의 첫번째 요소를 꺼내
-        self.state_manager.on_keyboard_event(e)
-
-        for check_events,perform_action in events:
-            if not check_events(e):
-                continue
-            next_state = perform_action(self.cur_state)
-            if self.update_state(next_state):
-                return
-
-    def update_state(self,state)->bool:
-        if state is None:
+        if next_state is None:
             return False
         self.cur_state.exit(self.o)
         print(f'Exit from {self.cur_state}')
-        self.cur_state = state
+        self.cur_state = next_state
         self.cur_state.enter(self.o)
-        print(f'ENTER into {state}')
-        if self.state_manager.jump:
-            return self.update_state(self.cur_state.on_space_down())
-        if self.state_manager.right and self.state_manager.left:
-            pass
-        elif self.state_manager.right and self.state_manager.slash:
-            return self.update_state(self.cur_state.on_a_down())
-        elif self.state_manager.left and self.state_manager.slash:
-            return self.update_state(self.cur_state.on_a_down())
-        elif self.state_manager.right:
-            return self.update_state(self.cur_state.on_right_down())
-        elif self.state_manager.left:
-            return self.update_state(self.cur_state.on_left_down())
+        print(f'ENTER into {next_state}')
 
         return True
+
 
     def start(self, start_state):
         # 현재 상태를 시작 상태로 만듬.
@@ -130,9 +46,4 @@ class StateMachine:
         print(f'ENTER into{self.cur_state}')
 
     def set_transitions(self, transitions):
-        self.set_transitions = transitions
-        pass
-    def add_event(self, e):
-        self.event_que.append(e) # 상태머신용 이벤트 추가
-        print(f'    DEBUG new event{e} is added')
-        pass
+        self.transitions = transitions
