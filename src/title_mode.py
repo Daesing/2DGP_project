@@ -7,7 +7,7 @@ import play_mode
 
 def init():
     global image
-    image = load_image('title.png')
+    image = load_image('../resource/game_title.png')
 
 
 def finish():
@@ -34,7 +34,7 @@ def update():
 
 def draw():
     clear_canvas()
-    image.draw(400, 300)
+    image.draw(1280/2, 720/2)
     update_canvas()
     pass
 

@@ -3,14 +3,17 @@ from pico2d import *
 import game_framework
 import game_world
 import title_mode
-import stage1
 from knight import Knight
+import play_mode
 
 
 def init():
+    global stage1_back
+    stage1_back = load_image('../resource/Forgotten_Crossroads_False_Knight_Arena.png')
     global knight
-    knight = Knight(1280 // 2)
-    game_world.add_object(knight, 1)
+    knight = Knight(0)
+    game_world.add_object(knight,1)
+
 
 def handle_events():
 
@@ -25,13 +28,12 @@ def handle_events():
 
 def update():
     game_world.update()
-    if knight.x > 1280:
-        game_framework.change_mode(stage1)
-
-
+    if knight.x < 0:
+        game_framework.change_mode(play_mode)
 
 def draw():
     clear_canvas()
+    stage1_back.draw(1280 // 2, 720 // 2)
     game_world.render()
     update_canvas()
 

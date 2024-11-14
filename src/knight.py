@@ -7,7 +7,7 @@ from state_machine import AnimationState
 class Knight(Entity):
     start_time: float
 
-    def __init__(self, x=300, y=200):
+    def __init__(self, x, y = 180):
         super().__init__(x,y,Idle('right'))
         self.vx, self.vy = 0, 0
         self.on_ground = True
@@ -18,9 +18,9 @@ class Knight(Entity):
         self.vy -= 0.01
         self.x += self.vx
         self.y += self.vy
-        if self.y <= 200:
+        if self.y <= 180:
             self.vy = 0
-            self.y = 200
+            self.y = 180
             self.on_ground = True
 
     def handle_event(self, event: Event):
