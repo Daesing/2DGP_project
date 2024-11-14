@@ -1,5 +1,5 @@
 from animation import SpriteCollection
-from src.state_machine import StateMachine, AnimationState
+from state_machine import StateMachine, AnimationState
 from typing import Self
 
 class Entity:

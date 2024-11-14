@@ -1,13 +1,13 @@
-from src.entity import Entity
+from entity import Entity
 from pico2d import *
-from src.input_manager import InputManager
+from input_manager import InputManager
 from state_machine import AnimationState
 
 
 class Knight(Entity):
     start_time: float
 
-    def __init__(self, x, y):
+    def __init__(self, x=300, y=200):
         super().__init__(x,y,Idle('right'))
         self.vx, self.vy = 0, 0
         self.on_ground = True
