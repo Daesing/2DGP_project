@@ -1,5 +1,6 @@
+from typing import Any
 
-from pico2d import load_image
+from pico2d import load_image, draw_rectangle
 
 
 class SpriteAnimation:
@@ -17,6 +18,7 @@ class SpriteAnimation:
         sx = (current_frame % self.width_cnt) * self.width
         sy = (self.height_cnt - current_frame // self.width_cnt - 1) * self.height
         self.image.clip_draw(sx, sy, self.width, self.height, x, y)
+        draw_rectangle(x - self.width / 2, y - self.height / 2, x + self.width / 2, y + self.height / 2)
 
 class SpriteCollection:
     def __init__(self):
@@ -33,10 +35,12 @@ class SpriteCollection:
             "knight_move_left": SpriteAnimation("../resource/knight_move_left.png",9,9,1),
             "knight_move_right": SpriteAnimation("../resource/knight_move_right.png",9,9,1),
             "knight_jump_left": SpriteAnimation("../resource/knight_jump_left.png",8,8,1),
-            "knight_jump_right": SpriteAnimation("../resource/knight_jump_right.png", 8, 8, 1)
+            "knight_jump_right": SpriteAnimation("../resource/knight_jump_right.png", 8, 8, 1),
+            "knight_slash_effect_left": SpriteAnimation('../resource/knight_slash_effect_left.png',5,5,1),
+            "knight_slash_effect_right": SpriteAnimation('../resource/knight_slash_effect_right.png',5,5,1)
         }
 
-    def get(self,animation_name:str)->SpriteAnimation:
+    def get(self,animation_name:str)-> SpriteAnimation:
         if not self.initialized:
             raise "not initialized"
         return self.animations[animation_name]

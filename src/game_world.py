@@ -11,7 +11,8 @@ def add_object(o, depth = 0):
 def update():
     for layer in world:
         for o in layer:
-            o.update_time(0.01)
+            # o.update_time(0.01)
+            o.update()
 
 
 def render():
@@ -24,6 +25,7 @@ def remove_object(o):
     for layer in world:
         if o in layer:
             layer.remove(o)
+            del o  # Delete object(memory)
             return
 
     raise ValueError('Cannot delete non existing object')

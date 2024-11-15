@@ -2,6 +2,7 @@ from animation import SpriteCollection
 from state_machine import StateMachine, AnimationState
 from typing import Self
 
+
 class Entity:
 
     def __init__(self,x,y,state:AnimationState[Self]):
@@ -20,12 +21,8 @@ class Entity:
         collections.get(self.current_animation).draw(self.x, self.y, self.animation_time)
 
 
-    def update_time(self, delta_time):
-        self.animation_time += delta_time
-        self.update()
-
     def update(self):
-        pass
+        self.animation_time += 0.01
 
 
 
