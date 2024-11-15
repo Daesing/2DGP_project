@@ -1,3 +1,5 @@
+from bdb import effective
+
 from entity import Entity
 from pico2d import *
 from input_manager import InputManager
@@ -14,9 +16,6 @@ class Knight(Entity):
         self.vx, self.vy = 0, 0
         self.on_ground = True
         self.input_manager = InputManager()
-        self.direction = 'right'
-        self.effect = KnightEffect(0,0,self.direction)
-        game_world.add_object(self.effect,2)
 
 
     def update(self):
@@ -29,15 +28,13 @@ class Knight(Entity):
             self.vy = 0
             self.y = 180
             self.on_ground = True
-        self.update_effect(self.x, self.y,self.direction)
 
     def handle_event(self, event: Event):
         self.input_manager.on_keyboard_event(event)
 
-    def update_effect(self,x,y,direction):
-        self.effect.x = x
-        self.effect.y = y
-        self.effect.direction = direction
+    def update_effect(self,direction):
+        effect = KnightEffect(self,direction)
+        game_world.add_object(effect,2)
 
 
 class Idle(AnimationState[Knight]):
@@ -111,11 +108,13 @@ class Slash(AnimationState):
         self.direction = direction
 
     def enter(self, knight):
+        print('slash enter')
         if self.direction == 'right':
             knight.set_animation('knight_slash_right')
         elif self.direction == 'left':
             knight.set_animation('knight_slash_left')
 
+        knight.update_effect(self.direction)
         knight.start_time = get_time()
 
 
