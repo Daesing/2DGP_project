@@ -8,7 +8,7 @@ def init():
     global image
     global logo_start_time
 
-    image = load_image('tuk_credit.png')
+    image = load_image('../resource/game_logo.png')
     logo_start_time = get_time()
 
 def finish():
@@ -23,7 +23,7 @@ def update():
 
 def draw():
     clear_canvas()
-    image.draw(400,300)
+    image.draw(1280//2,720//2)
     update_canvas()
 
 def handle_events():

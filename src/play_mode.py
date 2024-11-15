@@ -9,6 +9,8 @@ from knight import Knight
 
 def init():
     global knight
+    global image
+    image = load_image('../resource/Dirtmouth.png')
     knight = Knight(1280 // 2)
     game_world.add_object(knight, 1)
 
@@ -32,6 +34,7 @@ def update():
 
 def draw():
     clear_canvas()
+    image.draw(1280 // 2, 720 // 2)
     game_world.render()
     update_canvas()
 

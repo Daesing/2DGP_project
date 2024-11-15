@@ -2,7 +2,7 @@ from pico2d import *
 from game_world import collections
 import logo_mode, game_framework
 
-import play_mode as start_mode
+import logo_mode as start_mode
 
 WIDTH = 1280
 HEIGHT = 720

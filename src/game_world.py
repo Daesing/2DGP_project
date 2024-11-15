@@ -1,5 +1,5 @@
 from animation import SpriteCollection
-
+from pico2d import delay
 collections = SpriteCollection()
 
 world = [[] for _ in range(4)]
@@ -11,9 +11,7 @@ def add_object(o, depth = 0):
 def update():
     for layer in world:
         for o in layer:
-            # o.update_time(0.01)
             o.update()
-
 
 def render():
     for layer in world:

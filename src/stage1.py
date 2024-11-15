@@ -28,6 +28,8 @@ def handle_events():
 
 def update():
     game_world.update()
+    if knight.x < 0:
+        game_framework.change_mode(play_mode)
 
 def draw():
     clear_canvas()

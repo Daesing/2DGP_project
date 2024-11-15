@@ -5,8 +5,14 @@ from pico2d import *
 from input_manager import InputManager
 from knight_effect import KnightEffect
 import game_world
+import game_framework
 from state_machine import AnimationState
 
+PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+RUN_SPEED_KMPH = 40.0  # Km / Hour
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
 class Knight(Entity):
     start_time: float
@@ -17,13 +23,13 @@ class Knight(Entity):
         self.on_ground = True
         self.input_manager = InputManager()
 
-
+    # boy.x += boy.dir * RUN_SPEED_PPS * game_framework.frame_time
     def update(self):
         super().update()
         self.state_machine.update()
-        self.vy -= 0.01
-        self.x += self.vx
-        self.y += self.vy
+        self.vy -= 1500 * game_framework.frame_time
+        self.x += self.vx * game_framework.frame_time
+        self.y += self.vy * game_framework.frame_time
         if self.y <= 180:
             self.vy = 0
             self.y = 180
@@ -69,14 +75,14 @@ class Run(AnimationState[Knight]):
     def __init__(self, direction: str):
         self.direction = direction
 
+
     def enter(self, knight):
         if self.direction == 'right':
-            knight.vx = 1
-            knight.face_dir = 1
+            knight.vx = RUN_SPEED_PPS
             knight.set_animation('knight_move_right')
+
         elif self.direction == 'left':
-            knight.vx = -1
-            knight.face_dir = -1
+            knight.vx = - RUN_SPEED_PPS
             knight.set_animation('knight_move_left')
 
     def exit(self,knight):
@@ -147,14 +153,14 @@ class Jump(AnimationState):
     def enter(self, knight):
         if self.direction == 'right':
             knight.set_animation('knight_jump_right')
-            knight.vx = 1
+            knight.vx = RUN_SPEED_PPS
         elif self.direction == 'left':
             knight.set_animation('knight_jump_left')
-            knight.vx = -1
+            knight.vx = - RUN_SPEED_PPS
         self.start_time = get_time()
 
         if knight.on_ground:
-            knight.vy = 2
+            knight.vy = 700
             knight.on_ground = False
 
     def exit(self, knight):
@@ -189,12 +195,12 @@ class OnAir(AnimationState[Knight]):
     def enter(self, knight):
         # todo: Knight_jump_right를 Knight_on_air_right로 바꿀 것
         if self.direction == 'right':
-            knight.vx = 1
+            knight.vx = RUN_SPEED_PPS
             knight.set_animation('knight_jump_right')
         # todo: Knight_jump_left를 Knight_on_air_left로 바꿀 것
         elif self.direction == 'left':
             knight.set_animation('knight_jump_left')
-            knight.vx = -1
+            knight.vx = - RUN_SPEED_PPS
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.on_ground:
@@ -203,11 +209,11 @@ class OnAir(AnimationState[Knight]):
         if entity.input_manager.left and entity.input_manager.right:
             entity.vx = 0
         elif entity.input_manager.left:
-            entity.vx = -1
+            entity.vx = -RUN_SPEED_PPS
             if self.direction == 'right':
                 return OnAir('left')
         elif entity.input_manager.right:
-            entity.vx = 1
+            entity.vx = RUN_SPEED_PPS
             if self.direction == 'left':
                 return OnAir('right')
         else:
