@@ -11,7 +11,8 @@ def add_object(o, depth = 0):
 def update():
     for layer in world:
         for o in layer:
-            o.update_time(0.01)
+            # o.update_time(0.01)
+            o.update()
 
 
 def render():

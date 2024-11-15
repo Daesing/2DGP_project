@@ -1,6 +1,8 @@
 from entity import Entity
 from pico2d import *
 from input_manager import InputManager
+from knight_effect import KnightEffect
+import game_world
 from state_machine import AnimationState
 
 
@@ -8,12 +10,17 @@ class Knight(Entity):
     start_time: float
 
     def __init__(self, x, y = 180):
-        super().__init__(x,y,Idle('right'))
+        super().__init__(x, y, Idle('right'))
         self.vx, self.vy = 0, 0
         self.on_ground = True
         self.input_manager = InputManager()
+        self.direction = 'right'
+        self.effect = KnightEffect(0,0,self.direction)
+        game_world.add_object(self.effect,2)
+
 
     def update(self):
+        super().update()
         self.state_machine.update()
         self.vy -= 0.01
         self.x += self.vx
@@ -22,11 +29,15 @@ class Knight(Entity):
             self.vy = 0
             self.y = 180
             self.on_ground = True
+        self.update_effect(self.x, self.y,self.direction)
 
     def handle_event(self, event: Event):
-        # event : input event
-        # state machine event : (이벤트종류, 값)
         self.input_manager.on_keyboard_event(event)
+
+    def update_effect(self,x,y,direction):
+        self.effect.x = x
+        self.effect.y = y
+        self.effect.direction = direction
 
 
 class Idle(AnimationState[Knight]):
@@ -71,9 +82,13 @@ class Run(AnimationState[Knight]):
             knight.face_dir = -1
             knight.set_animation('knight_move_left')
 
+    def exit(self,knight):
+        pass
+
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.input_manager.jump: return Jump(self.direction)
-        if entity.input_manager.slash: return Slash(self.direction)
+        if entity.input_manager.slash:
+            return Slash(self.direction)
 
         if entity.input_manager.left and entity.input_manager.right:
             return Idle(self.direction)
@@ -102,6 +117,7 @@ class Slash(AnimationState):
             knight.set_animation('knight_slash_left')
 
         knight.start_time = get_time()
+
 
     def exit(self, knight):
         pass

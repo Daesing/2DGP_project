@@ -6,7 +6,7 @@ import title_mode
 from knight import Knight
 import play_mode
 
-
+# knight 객체의 생성이 스테이지마다 이루어지면 위치를 어떻게 설정하는가?
 def init():
     global stage1_back
     stage1_back = load_image('../resource/Forgotten_Crossroads_False_Knight_Arena.png')
@@ -28,8 +28,6 @@ def handle_events():
 
 def update():
     game_world.update()
-    if knight.x < 0:
-        game_framework.change_mode(play_mode)
 
 def draw():
     clear_canvas()
