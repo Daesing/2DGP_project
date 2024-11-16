@@ -39,7 +39,7 @@ class Knight(Entity):
     def handle_event(self, event: Event):
         self.input_manager.on_keyboard_event(event)
 
-    def update_effect(self,direction):
+    def add_effect(self, direction):
         effect = KnightEffect(self,direction)
         game_world.add_object(effect,2)
 
@@ -124,7 +124,7 @@ class Slash(AnimationState[Knight]):
         elif self.direction == 'left':
             knight.set_animation('knight_slash_left')
 
-        knight.update_effect(self.direction)
+        knight.add_effect(self.direction)
         knight.start_time = get_time()
 
 
@@ -159,7 +159,42 @@ class Upslash(AnimationState[Knight]):
         knight.set_animation('knight_upslash')
         knight.vx = 0
 
-        # knight.update_effect(self.direction)
+        knight.add_effect('up')
+        knight.start_time = get_time()
+
+
+    def exit(self, knight):
+        pass
+
+    def do(self, entity: Knight) -> AnimationState[Knight] | None:
+        if entity.input_manager.jump:
+            return Jump(self.direction)
+        if get_time() - entity.start_time > 0.5:
+            if not entity.on_ground:
+                return OnAir(self.direction)
+
+
+            if entity.input_manager.left and entity.input_manager.right:
+                return Idle(self.direction)
+            elif entity.input_manager.left:
+                return Run('left')
+            elif entity.input_manager.right:
+                return Run('right')
+
+
+            return Idle(self.direction)
+        return None
+
+class Downslash(AnimationState[Knight]):
+    def __init__(self, direction: str):
+        self.direction = direction
+
+    def enter(self, knight):
+        print('Downslash enter')
+        knight.set_animation('knight_downslash')
+        knight.vx = 0
+
+        knight.add_effect('down')
         knight.start_time = get_time()
 
 
