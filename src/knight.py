@@ -60,7 +60,7 @@ class Idle(AnimationState[Knight]):
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.input_manager.jump: return Jump(self.direction)
         if entity.input_manager.slash: return Slash(self.direction)
-
+        if entity.input_manager.dash: return Dash(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             pass
         elif entity.input_manager.left:
@@ -91,8 +91,8 @@ class Run(AnimationState[Knight]):
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.input_manager.jump: return Jump(self.direction)
-        if entity.input_manager.slash:
-            return Slash(self.direction)
+        if entity.input_manager.slash: return Slash(self.direction)
+        if entity.input_manager.dash: return Dash(self.direction)
 
         if entity.input_manager.left and entity.input_manager.right:
             return Idle(self.direction)
@@ -110,7 +110,7 @@ class Run(AnimationState[Knight]):
         return Idle(self.direction)
 
 
-class Slash(AnimationState):
+class Slash(AnimationState[Knight]):
     def __init__(self, direction: str):
         self.direction = direction
 
@@ -146,7 +146,7 @@ class Slash(AnimationState):
         return None
 
 
-class Jump(AnimationState):
+class Jump(AnimationState[Knight]):
     def __init__(self, direction: str):
         self.start_time = None
         self.direction = direction
@@ -170,10 +170,12 @@ class Jump(AnimationState):
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.on_ground:
             return Idle(self.direction)
-        if get_time() - self.start_time > 0.7:
+        if get_time() - self.start_time > 0.5:
             return OnAir(self.direction)
         if entity.input_manager.slash:
             return Slash(self.direction)
+        if entity.input_manager.dash:
+            return Dash(self.direction)
 
         if entity.input_manager.left and entity.input_manager.right:
             entity.vx = 0
@@ -206,6 +208,8 @@ class OnAir(AnimationState[Knight]):
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.on_ground:
             return Idle(self.direction)
+        if entity.input_manager.dash:
+            return Dash(self.direction)
         if entity.input_manager.slash: return Slash(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             entity.vx = 0
@@ -219,4 +223,30 @@ class OnAir(AnimationState[Knight]):
                 return OnAir('right')
         else:
             entity.vx = 0
+        return None
+
+class Dash(AnimationState[Knight]):
+    def __init__(self, direction: str):
+        self.direction = direction
+
+    def enter(self, knight):
+        if self.direction == 'right':
+            knight.set_animation('knight_dash_right')
+            knight.vx = 600
+        elif self.direction == 'left':
+            knight.set_animation('knight_dash_left')
+            knight.vx = - 600
+
+
+        knight.start_time = get_time()
+
+    def do(self, knight: Knight) -> AnimationState[Knight] | None:
+        if get_time() - knight.start_time > 0.5:
+            if knight.on_ground:
+                return Idle(self.direction)
+            else:
+                return OnAir(self.direction)
+        if knight.input_manager.jump:
+            return Jump(self.direction)
+
         return None

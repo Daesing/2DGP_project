@@ -8,6 +8,7 @@ class InputManager:
         self.left = False
         self.jump = False
         self.slash = False
+        self.dash = False
 
     def on_keyboard_event(self,e:Event):
         if e.type == SDL_KEYDOWN:
@@ -19,6 +20,8 @@ class InputManager:
                 self.left = True
             elif e.key == SDLK_a:
                 self.slash = True
+            elif e.key == SDLK_d:
+                self.dash = True
 
         elif e.type ==SDL_KEYUP:
             if e.key == SDLK_SPACE:
@@ -29,3 +32,5 @@ class InputManager:
                 self.left = False
             elif e.key == SDLK_a:
                 self.slash = False
+            elif e.key == SDLK_d:
+                self.dash = False

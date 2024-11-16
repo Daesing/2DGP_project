@@ -14,6 +14,9 @@ class SpriteAnimation:
         self.height_cnt = height_cnt
 
     def draw(self, x, y, total_time):
+        cycle_time = 3
+        self.frame_time = cycle_time/self.frame_cnt
+
         current_frame = int((total_time // self.frame_time) % self.frame_cnt)
         sx = (current_frame % self.width_cnt) * self.width
         sy = (self.height_cnt - current_frame // self.width_cnt - 1) * self.height
@@ -37,7 +40,9 @@ class SpriteCollection:
             "knight_jump_left": SpriteAnimation("../resource/knight_jump_left.png",8,8,1),
             "knight_jump_right": SpriteAnimation("../resource/knight_jump_right.png", 8, 8, 1),
             "knight_slash_effect_left": SpriteAnimation('../resource/knight_slash_effect_left.png',5,5,1),
-            "knight_slash_effect_right": SpriteAnimation('../resource/knight_slash_effect_right.png',5,5,1)
+            "knight_slash_effect_right": SpriteAnimation('../resource/knight_slash_effect_right.png',5,5,1),
+            "knight_dash_left": SpriteAnimation('../resource/knight_dash_left.png',10,5,2),
+            "knight_dash_right": SpriteAnimation('../resource/knight_dash_right.png', 10, 5, 2)
         }
 
     def get(self,animation_name:str)-> SpriteAnimation:
