@@ -8,6 +8,7 @@ class InputManager:
         self.left = False
         self.jump = False
         self.up = False
+        self.down = False
         self.slash = False
         self.dash = False
 
@@ -21,6 +22,8 @@ class InputManager:
                 self.left = True
             elif e.key == SDLK_UP:
                 self.up = True
+            elif e.key == SDLK_DOWN:
+                self.down = True
             elif e.key == SDLK_a:
                 self.slash = True
             elif e.key == SDLK_d:
@@ -35,6 +38,8 @@ class InputManager:
                 self.left = False
             elif e.key == SDLK_UP:
                 self.up = False
+            elif e.key == SDLK_DOWN:
+                self.down = False
             elif e.key == SDLK_a:
                 self.slash = False
             elif e.key == SDLK_d:

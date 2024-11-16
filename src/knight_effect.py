@@ -36,6 +36,9 @@ class SlashEffect(AnimationState[KnightEffect]):
         elif knight_effect.direction == 'up':
             knight_effect.set_animation('knight_upslash_effect')
             knight_effect.y = knight_effect.knight.y + 70
+        elif knight_effect.direction == 'down':
+            knight_effect.set_animation('knight_downslash_effect')
+            knight_effect.y = knight_effect.knight.y - 70
 
 
         knight_effect.start_time = get_time()
@@ -50,6 +53,8 @@ class SlashEffect(AnimationState[KnightEffect]):
             knight_effect.x = knight_effect.knight.x + 70
         elif knight_effect.direction == 'up':
             knight_effect.y = knight_effect.knight.y + 70
+        elif knight_effect.direction == 'down':
+            knight_effect.y = knight_effect.knight.y - 70
 
         if get_time() - knight_effect.start_time > 0.5:
             return Delete()

@@ -249,6 +249,8 @@ class Jump(AnimationState[Knight]):
             return OnAir(self.direction)
         if entity.input_manager.slash and entity.input_manager.up:
             return Upslash(self.direction)
+        if entity.input_manager.slash and entity.input_manager.down:
+            return Downslash(self.direction)
         if entity.input_manager.slash:
             return Slash(self.direction)
         if entity.input_manager.dash:
@@ -289,6 +291,8 @@ class OnAir(AnimationState[Knight]):
             return Dash(self.direction)
         if entity.input_manager.slash and entity.input_manager.up:
             return Upslash(self.direction)
+        if entity.input_manager.slash and entity.input_manager.down:
+            return Downslash(self.direction)
         if entity.input_manager.slash: return Slash(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             entity.vx = 0

@@ -45,6 +45,8 @@ class SpriteCollection:
             "knight_dash_right": SpriteAnimation('../resource/knight_dash_right.png', 10, 5, 2),
             "knight_upslash": SpriteAnimation('../resource/knight_upslash.png',8,8,1),
             "knight_upslash_effect": SpriteAnimation('../resource/knight_upslash_effect.png',5,5,1),
+            "knight_downslash": SpriteAnimation('../resource/knight_downslash.png',8,8,1),
+            "knight_downslash_effect": SpriteAnimation('../resource/knight_downslash_effect.png',5,5,1),
         }
 
     def get(self,animation_name:str)-> SpriteAnimation:
