@@ -1,0 +1,100 @@
+{
+  "animations": {
+    "knight_slash_right": {
+      "path": "../resource/knight_slash_right.png",
+      "frames": 8,
+      "width": 8,
+      "height": 1
+    },
+    "knight_slash_left": {
+      "path": "../resource/knight_slash_left.png",
+      "frames": 8,
+      "width": 8,
+      "height": 1
+    },
+    "knight_idle_left": {
+      "path": "../resource/knight_idle_left.png",
+      "frames": 4,
+      "width": 4,
+      "height": 1
+    },
+    "knight_idle_right": {
+      "path": "../resource/knight_idle_right.png",
+      "frames": 4,
+      "width": 4,
+      "height": 1
+    },
+    "knight_move_left": {
+      "path": "../resource/knight_move_left.png",
+      "frames": 9,
+      "width": 9,
+      "height": 1
+    },
+    "knight_move_right": {
+      "path": "../resource/knight_move_right.png",
+      "frames": 9,
+      "width": 9,
+      "height": 1
+    },
+    "knight_jump_left": {
+      "path": "../resource/knight_jump_left.png",
+      "frames": 8,
+      "width": 8,
+      "height": 1
+    },
+    "knight_jump_right": {
+      "path": "../resource/knight_jump_right.png",
+      "frames": 8,
+      "width": 8,
+      "height": 1
+    },
+    "knight_slash_effect_left": {
+      "path": "../resource/knight_slash_effect_left.png",
+      "frames": 5,
+      "width": 5,
+      "height": 1
+    },
+    "knight_slash_effect_right": {
+      "path": "../resource/knight_slash_effect_right.png",
+      "frames": 5,
+      "width": 5,
+      "height": 1
+    },
+    "knight_dash_left": {
+      "path": "../resource/knight_dash_left.png",
+      "frames": 10,
+      "width": 5,
+      "height": 2
+    },
+    "knight_dash_right": {
+      "path": "../resource/knight_dash_right.png",
+      "frames": 10,
+      "width": 5,
+      "height": 2
+    },
+    "knight_upslash": {
+      "path": "../resource/knight_upslash.png",
+      "frames": 8,
+      "width": 8,
+      "height": 1
+    },
+    "knight_upslash_effect": {
+      "path": "../resource/knight_upslash_effect.png",
+      "frames": 5,
+      "width": 5,
+      "height": 1
+    },
+    "knight_downslash": {
+      "path": "../resource/knight_downslash.png",
+      "frames": 8,
+      "width": 8,
+      "height": 1
+    },
+    "knight_downslash_effect": {
+      "path": "../resource/knight_downslash_effect.png",
+      "frames": 5,
+      "width": 5,
+      "height": 1
+    }
+  }
+}

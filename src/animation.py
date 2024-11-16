@@ -1,5 +1,5 @@
 from typing import Any
-
+import json
 from pico2d import load_image, draw_rectangle
 
 
@@ -29,25 +29,18 @@ class SpriteCollection:
         self.initialized = False
 
     def initialize(self):
+        with open('../resource/animations.json', 'r') as file:
+            data = json.load(file)
+            self.animations = {
+                name: SpriteAnimation(
+                    anim_data["path"],
+                    anim_data["frames"],
+                    anim_data["width"],
+                    anim_data["height"]
+                )
+                for name, anim_data in data["animations"].items()
+            }
         self.initialized = True
-        self.animations = {
-            "knight_slash_right": SpriteAnimation("../resource/knight_slash_right.png", 8, 8, 1),
-            "knight_slash_left": SpriteAnimation("../resource/knight_slash_left.png", 8, 8, 1),
-            "knight_idle_left": SpriteAnimation("../resource/knight_idle_left.png",4,4,1),
-            "knight_idle_right": SpriteAnimation("../resource/knight_idle_right.png",4,4,1),
-            "knight_move_left": SpriteAnimation("../resource/knight_move_left.png",9,9,1),
-            "knight_move_right": SpriteAnimation("../resource/knight_move_right.png",9,9,1),
-            "knight_jump_left": SpriteAnimation("../resource/knight_jump_left.png",8,8,1),
-            "knight_jump_right": SpriteAnimation("../resource/knight_jump_right.png", 8, 8, 1),
-            "knight_slash_effect_left": SpriteAnimation('../resource/knight_slash_effect_left.png',5,5,1),
-            "knight_slash_effect_right": SpriteAnimation('../resource/knight_slash_effect_right.png',5,5,1),
-            "knight_dash_left": SpriteAnimation('../resource/knight_dash_left.png',10,5,2),
-            "knight_dash_right": SpriteAnimation('../resource/knight_dash_right.png', 10, 5, 2),
-            "knight_upslash": SpriteAnimation('../resource/knight_upslash.png',8,8,1),
-            "knight_upslash_effect": SpriteAnimation('../resource/knight_upslash_effect.png',5,5,1),
-            "knight_downslash": SpriteAnimation('../resource/knight_downslash.png',8,8,1),
-            "knight_downslash_effect": SpriteAnimation('../resource/knight_downslash_effect.png',5,5,1),
-        }
 
     def get(self,animation_name:str)-> SpriteAnimation:
         if not self.initialized:
