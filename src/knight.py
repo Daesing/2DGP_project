@@ -17,9 +17,10 @@ RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 class Knight(Entity):
     start_time: float
 
-    def __init__(self, x, y = 180):
+    def __init__(self, x, y):
         super().__init__(x, y, Idle('right'))
         self.vx, self.vy = 0, 0
+        self.ground = y
         self.on_ground = True
         self.input_manager = InputManager()
 
@@ -30,9 +31,9 @@ class Knight(Entity):
         self.vy -= 1500 * game_framework.frame_time
         self.x += self.vx * game_framework.frame_time
         self.y += self.vy * game_framework.frame_time
-        if self.y <= 180:
+        if self.y <= self.ground:
             self.vy = 0
-            self.y = 180
+            self.y = self.ground
             self.on_ground = True
 
     def handle_event(self, event: Event):

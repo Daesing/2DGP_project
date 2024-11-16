@@ -9,9 +9,10 @@ from knight import Knight
 
 def init():
     global knight
-    global image
+    global image,text
     image = load_image('../resource/Dirtmouth.png')
-    knight = Knight(1280 // 2)
+    text = load_image('../resource/lobby_text.png')
+    knight = Knight(1280 // 2,100)
     game_world.add_object(knight, 1)
 
 def handle_events():
@@ -27,14 +28,16 @@ def handle_events():
 
 def update():
     game_world.update()
-    if knight.x > 1280:
+    if knight.x > 1300:
         game_framework.change_mode(stage1)
+
 
 
 
 def draw():
     clear_canvas()
     image.draw(1280 // 2, 720 // 2)
+    text.draw(100,650)
     game_world.render()
     update_canvas()
 
