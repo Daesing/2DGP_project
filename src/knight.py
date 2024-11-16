@@ -23,6 +23,7 @@ class Knight(Entity):
         self.ground = y
         self.on_ground = True
         self.input_manager = InputManager()
+        self.slashable = True
 
     # boy.x += boy.dir * RUN_SPEED_PPS * game_framework.frame_time
     def update(self):
@@ -56,6 +57,7 @@ class Idle(AnimationState[Knight]):
             knight.set_animation('knight_idle_left')
 
         knight.vx = 0
+        knight.slashable = True
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.input_manager.jump: return Jump(self.direction)
@@ -126,18 +128,19 @@ class Slash(AnimationState[Knight]):
 
         knight.add_effect(self.direction)
         knight.start_time = get_time()
+        knight.slashable = False
 
 
     def exit(self, knight):
         pass
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
-        if entity.input_manager.jump:
-            return Jump(self.direction)
+
         if get_time() - entity.start_time > 0.5:
             if not entity.on_ground:
                 return OnAir(self.direction)
-
+            if entity.input_manager.jump:
+                return Jump(self.direction)
 
             if entity.input_manager.left and entity.input_manager.right:
                 return Idle(self.direction)
@@ -161,28 +164,21 @@ class Upslash(AnimationState[Knight]):
 
         knight.add_effect('up')
         knight.start_time = get_time()
-
+        knight.slashable = False
 
     def exit(self, knight):
         pass
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
-        if entity.input_manager.jump:
-            return Jump(self.direction)
+
         if get_time() - entity.start_time > 0.5:
             if not entity.on_ground:
                 return OnAir(self.direction)
-
-
-            if entity.input_manager.left and entity.input_manager.right:
-                return Idle(self.direction)
-            elif entity.input_manager.left:
-                return Run('left')
-            elif entity.input_manager.right:
-                return Run('right')
-
-
+            if entity.input_manager.jump:
+                return Jump(self.direction)
             return Idle(self.direction)
+
+
         return None
 
 class Downslash(AnimationState[Knight]):
@@ -196,26 +192,18 @@ class Downslash(AnimationState[Knight]):
 
         knight.add_effect('down')
         knight.start_time = get_time()
-
+        knight.slashable = False
 
     def exit(self, knight):
         pass
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
-        if entity.input_manager.jump:
-            return Jump(self.direction)
+
         if get_time() - entity.start_time > 0.5:
             if not entity.on_ground:
                 return OnAir(self.direction)
-
-
-            if entity.input_manager.left and entity.input_manager.right:
-                return Idle(self.direction)
-            elif entity.input_manager.left:
-                return Run('left')
-            elif entity.input_manager.right:
-                return Run('right')
-
+            if entity.input_manager.jump:
+                return Jump(self.direction)
 
             return Idle(self.direction)
         return None
@@ -247,11 +235,11 @@ class Jump(AnimationState[Knight]):
             return Idle(self.direction)
         if get_time() - self.start_time > 0.5:
             return OnAir(self.direction)
-        if entity.input_manager.slash and entity.input_manager.up:
+        if entity.input_manager.slash and entity.input_manager.up and entity.slashable:
             return Upslash(self.direction)
-        if entity.input_manager.slash and entity.input_manager.down:
+        if entity.input_manager.slash and entity.input_manager.down and entity.slashable:
             return Downslash(self.direction)
-        if entity.input_manager.slash:
+        if entity.input_manager.slash and entity.slashable:
             return Slash(self.direction)
         if entity.input_manager.dash:
             return Dash(self.direction)
@@ -289,11 +277,12 @@ class OnAir(AnimationState[Knight]):
             return Idle(self.direction)
         if entity.input_manager.dash:
             return Dash(self.direction)
-        if entity.input_manager.slash and entity.input_manager.up:
+        if entity.input_manager.slash and entity.input_manager.up and entity.slashable:
             return Upslash(self.direction)
-        if entity.input_manager.slash and entity.input_manager.down:
+        if entity.input_manager.slash and entity.input_manager.down and entity.slashable:
             return Downslash(self.direction)
-        if entity.input_manager.slash: return Slash(self.direction)
+        if entity.input_manager.slash and entity.slashable:
+            return Slash(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             entity.vx = 0
         elif entity.input_manager.left:
