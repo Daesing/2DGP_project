@@ -42,7 +42,8 @@ class SpriteCollection:
             "knight_slash_effect_left": SpriteAnimation('../resource/knight_slash_effect_left.png',5,5,1),
             "knight_slash_effect_right": SpriteAnimation('../resource/knight_slash_effect_right.png',5,5,1),
             "knight_dash_left": SpriteAnimation('../resource/knight_dash_left.png',10,5,2),
-            "knight_dash_right": SpriteAnimation('../resource/knight_dash_right.png', 10, 5, 2)
+            "knight_dash_right": SpriteAnimation('../resource/knight_dash_right.png', 10, 5, 2),
+            "knight_upslash": SpriteAnimation('../resource/knight_upslash.png',8,8,1)
         }
 
     def get(self,animation_name:str)-> SpriteAnimation:
