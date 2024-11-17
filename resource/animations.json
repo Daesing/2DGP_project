@@ -131,6 +131,18 @@
       "frames": 4,
       "width": 4,
       "height": 1
+    },
+    "knight_focus_left": {
+      "path": "../resource/knight_focus_left.png",
+      "frames": 7,
+      "width": 7,
+      "height": 1
+    },
+    "knight_focus_right": {
+      "path": "../resource/knight_focus_right.png",
+      "frames": 7,
+      "width": 7,
+      "height": 1
     }
   }
 }

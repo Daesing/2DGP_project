@@ -18,7 +18,7 @@ def update():
 def render():
     for layer in world:
         for o in layer:
-            o.draw_animation(collections)
+            o.draw(collections)
 
 
 def remove_object(o):

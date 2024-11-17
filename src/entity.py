@@ -17,8 +17,8 @@ class Entity:
         self.current_animation = animation
         self.animation_time = 0
 
-    def draw_animation(self,collections: SpriteCollection):
-        collections.get(self.current_animation).draw(self.x, self.y, self.animation_time)
+    def draw(self,collections: SpriteCollection):
+        pass
 
 
     def update(self):

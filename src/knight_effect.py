@@ -1,6 +1,7 @@
 from pico2d import load_image, get_time
 
 from entity import Entity
+from src.animation import SpriteCollection
 from state_machine import Delete
 from state_machine import AnimationState
 
@@ -23,6 +24,9 @@ class KnightEffect(Entity):
     def update(self):
         super().update()
         self.state_machine.update()
+
+    def draw(self,collections: SpriteCollection):
+        super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time))
 
 class SlashEffect(AnimationState[KnightEffect]):
     def __init__(self):

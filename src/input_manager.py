@@ -12,6 +12,7 @@ class InputManager:
         self.slash = False
         self.dash = False
         self.fireball_cast = False
+        self.focus = False
 
     def on_keyboard_event(self,e:Event):
         if e.type == SDL_KEYDOWN:
@@ -31,6 +32,8 @@ class InputManager:
                 self.dash = True
             elif e.key == SDLK_q:
                 self.fireball_cast = True
+            elif e.key == SDLK_s:
+                self.focus = True
 
         elif e.type ==SDL_KEYUP:
             if e.key == SDLK_SPACE:
@@ -49,3 +52,5 @@ class InputManager:
                 self.dash = False
             elif e.key == SDLK_q:
                 self.fireball_cast = False
+            elif e.key == SDLK_s:
+                self.focus = False

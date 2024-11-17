@@ -37,7 +37,7 @@ def update():
 def draw():
     clear_canvas()
     image.draw(WIDTH // 2, HEIGHT // 2)
-    text.draw(150,650)
+    text.draw(1150,650)
     game_world.render()
     update_canvas()
 

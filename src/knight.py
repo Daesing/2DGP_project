@@ -5,6 +5,7 @@ from input_manager import InputManager
 from knight_effect import KnightEffect
 import game_world
 import game_framework
+from src.animation import SpriteCollection
 from state_machine import AnimationState
 
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
@@ -19,12 +20,22 @@ class Knight(Entity):
     def __init__(self, x, y):
         super().__init__(x, y, Idle('right'))
         self.vx, self.vy = 0, 0
+        self.hp = 5
+        self.skill_point = 9
+        self.hp_fill = load_image('../resource/hp_fill.png')
         self.ground = y
         self.on_ground = True
         self.input_manager = InputManager()
         self.actionable = True
+        self.hp_fill = load_image('../resource/hp_fill.png')
+        self.font = load_font('../resource/ENCR10B.TTF', 16)
 
-    # boy.x += boy.dir * RUN_SPEED_PPS * game_framework.frame_time
+    def draw(self,collections: SpriteCollection):
+        super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time))
+        self.font.draw(self.x - 10, self.y + 70, f'{self.skill_point:02d}', (255, 255, 0))
+        for i in range(1, self.hp + 1):
+            self.hp_fill.draw(65 * i, 650, 80, 100)
+
     def update(self):
         super().update()
         self.state_machine.update()
@@ -35,6 +46,8 @@ class Knight(Entity):
             self.vy = 0
             self.y = self.ground
             self.on_ground = True
+
+
 
     def handle_event(self, event: Event):
         self.input_manager.on_keyboard_event(event)
@@ -65,6 +78,7 @@ class Idle(AnimationState[Knight]):
         if entity.input_manager.slash: return Slash(self.direction)
         if entity.input_manager.dash: return Dash(self.direction)
         if entity.input_manager.fireball_cast: return FireballCast(self.direction)
+        if entity.input_manager.focus: return Focus(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             pass
         elif entity.input_manager.left:
@@ -100,8 +114,10 @@ class Run(AnimationState[Knight]):
         if entity.input_manager.slash: return Slash(self.direction)
         if entity.input_manager.dash and entity.actionable:
             return Dash(self.direction)
-        if entity.input_manager.fireball_cast and entity.actionable:
+        if entity.input_manager.fireball_cast and entity.actionable and entity.skill_point >= 3:
             return FireballCast(self.direction)
+        if entity.input_manager.focus and entity.actionable and entity.skill_point >= 3:
+            return Focus(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             return Idle(self.direction)
         elif entity.input_manager.left:
@@ -246,7 +262,7 @@ class Jump(AnimationState[Knight]):
             return Slash(self.direction)
         if entity.input_manager.dash and entity.actionable:
             return Dash(self.direction)
-        if entity.input_manager.fireball_cast and entity.actionable:
+        if entity.input_manager.fireball_cast and entity.actionable and entity.skill_point >= 3:
             return FireballCast(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             entity.vx = 0
@@ -287,7 +303,7 @@ class OnAir(AnimationState[Knight]):
             return Downslash(self.direction)
         if entity.input_manager.slash and entity.actionable:
             return Slash(self.direction)
-        if entity.input_manager.fireball_cast and entity.actionable:
+        if entity.input_manager.fireball_cast and entity.actionable and entity.skill_point >= 3:
             return FireballCast(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             entity.vx = 0
@@ -337,6 +353,7 @@ class FireballCast(AnimationState[Knight]):
         elif self.direction == 'right':
             knight.set_animation('knight_fireball_cast_right')
 
+        knight.skill_point -= 3
         knight.add_effect(self.direction,'fireball_cast')
         knight.start_time = get_time()
 
@@ -347,3 +364,25 @@ class FireballCast(AnimationState[Knight]):
             else:
                 return OnAir(self.direction)
         pass
+
+class Focus(AnimationState[Knight]):
+    def __init__(self,direction):
+        self.direction = direction
+
+    def enter(self,knight):
+        if self.direction == 'left':
+            knight.set_animation('knight_focus_left')
+        elif self.direction == 'right':
+            knight.set_animation('knight_focus_right')
+
+        knight.start_time = get_time()
+
+    def do(self, knight:Knight) -> AnimationState[Knight] | None:
+        if get_time() - knight.start_time > 1.4:
+            knight.skill_point -= 3
+            return Idle(self.direction)
+        if knight.input_manager.left:
+            return Run(self.direction)
+        elif knight.input_manager.right:
+            return Run(self.direction)
+

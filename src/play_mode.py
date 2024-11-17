@@ -12,7 +12,7 @@ def init():
     global image,text
     image = load_image('../resource/Dirtmouth.png')
     text = load_image('../resource/lobby_text.png')
-    knight = Knight(1280 // 2,100)
+    knight = Knight(WIDTH // 2,100)
     game_world.add_object(knight, 1)
 
 def handle_events():
@@ -30,6 +30,7 @@ def update():
     game_world.update()
     if knight.x > WIDTH:
         game_framework.change_mode(stage1)
+    knight.skill_point = 9
 
 
 
@@ -37,7 +38,7 @@ def update():
 def draw():
     clear_canvas()
     image.draw(WIDTH // 2, HEIGHT // 2)
-    text.draw(100,650)
+    text.draw(1180,650)
     game_world.render()
     update_canvas()
 
