@@ -21,15 +21,17 @@ class Entity:
     def draw(self,collections: SpriteCollection):
         pass
 
+    '''
     def get_boundary(self,collections: SpriteCollection):
-        width,height = collections.get(self.current_animation).get_size()
-
+        value = collections.get(self.current_animation).get_size()
+        width, height = value
         left = self.x - width / 2
         bottom = self.y - height / 2
         right = self.x + width / 2
         top = self.y + height / 2
 
         return left, bottom, right, top
+        '''
 
     def update(self):
         self.animation_time += 0.01

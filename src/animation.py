@@ -30,7 +30,7 @@ class SpriteAnimation:
             draw_rectangle(x - self.width / 2, y - self.height / 2, x + self.width / 2, y + self.height / 2)
         else:
             draw_rectangle(x - width / 2, y - height / 2, x + width / 2, y + height / 2)
-    def get_size(self):
+    def get_size(self)->tuple:
         if self.c_width is None:
             return self.width,self.height
         else:

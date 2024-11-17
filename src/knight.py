@@ -28,6 +28,8 @@ class Knight(Entity):
         self.input_manager = InputManager()
         self.actionable = True
         self.font = load_font('../resource/font/ENCR10B.TTF', 16)
+        self.is_invincible = False  # 무적 상태 여부
+        self.invincible_time = 0.0  # 무적 상태 남은 시간
 
     def draw(self,collections: SpriteCollection):
         super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time))
@@ -46,9 +48,27 @@ class Knight(Entity):
             self.y = self.ground
             self.on_ground = True
 
-    def handle_collision(self,group,other):
-        pass
+        self.invincible_time -= game_framework.frame_time
+        if self.invincible_time <= 0:
+            self.is_invincible = False
 
+    def handle_collision(self,group,other):
+        if group == 'knight:false_knight':
+            if self.hp > 0 and self.is_invincible == False:
+                self.hp -= 1
+                self.is_invincible = True
+                self.invincible_time = 2.5
+                print('invincible_activate')
+
+    def get_boundary(self,collections: SpriteCollection):
+        value = collections.get(self.current_animation).get_size()
+        width, height = value
+        left = self.x - width / 2
+        bottom = self.y - height / 2
+        right = self.x + width / 2
+        top = self.y + height / 2
+
+        return left, bottom, right, top
 
     def handle_event(self, event: Event):
         self.input_manager.on_keyboard_event(event)
@@ -383,6 +403,7 @@ class Focus(AnimationState[Knight]):
     def do(self, knight:Knight) -> AnimationState[Knight] | None:
         if get_time() - knight.start_time > 1.4:
             knight.skill_point -= 3
+            knight.hp += 1
             return Idle(self.direction)
         if knight.input_manager.left or knight.input_manager.right:
             return Idle(self.direction)

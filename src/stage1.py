@@ -25,6 +25,9 @@ def init():
     # knight_slash: false_knight collision pair
     game_world.add_collision_pair('slash:false_knight',None,false_knight)
 
+    #knight:false_knight
+    game_world.add_collision_pair('knight:false_knight',knight,false_knight)
+
 def handle_events():
 
     events = get_events()
@@ -38,6 +41,7 @@ def handle_events():
 
 def update():
     game_world.update()
+    game_world.handle_collisions()
     if knight.x < 0:
         game_framework.change_mode(play_mode)
     elif knight.x > WIDTH:

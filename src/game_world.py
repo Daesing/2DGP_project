@@ -1,8 +1,8 @@
 from animation import SpriteCollection
-from pico2d import delay
 collections = SpriteCollection()
 
 world = [[] for _ in range(4)]
+collision_pairs = {}
 
 def add_object(o, depth = 0):
     world[depth].append(o)
@@ -36,7 +36,6 @@ def clear():
         layer.clear()
 
 # collision list
-collision_pairs = {}
 
 def add_collision_pair(group, a, b):
     if group not in collision_pairs:
