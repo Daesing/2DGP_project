@@ -46,6 +46,8 @@ class Knight(Entity):
             self.y = self.ground
             self.on_ground = True
 
+    def handle_collision(self,group,other):
+        pass
 
 
     def handle_event(self, event: Event):
@@ -53,6 +55,8 @@ class Knight(Entity):
 
     def add_effect(self, direction,action):
         effect = KnightEffect(self,direction,action)
+        if action == 'slash':
+            game_world.add_collision_pair('slash: false_knight',effect,None)
         game_world.add_object(effect,2)
 
 

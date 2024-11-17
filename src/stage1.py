@@ -21,8 +21,9 @@ def init():
     false_knight = FalseKnight(800,250)
     game_world.add_object(knight,1)
     game_world.add_object(false_knight,1)
-    
 
+    # knight_slash: false_knight collision pair
+    game_world.add_collision_pair('slash:false_knight',None,false_knight)
 
 def handle_events():
 

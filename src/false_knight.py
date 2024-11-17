@@ -17,6 +17,9 @@ class FalseKnight(Entity):
     def draw(self,collections: SpriteCollection):
         super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time,420,270))
 
+    def handle_collision(self,group,other):
+        if group == 'slash:false_knight':
+            pass
 
 
 class Idle(AnimationState[FalseKnight]):

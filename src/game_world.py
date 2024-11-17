@@ -53,8 +53,8 @@ def remove_collision_object(o):
     pass
 
 def collide(a, b):
-    al, ab, ar, at = a.get_bb()
-    bl, bb, br, bt = b.get_bb()
+    al, ab, ar, at = a.get_boundary(collections)
+    bl, bb, br, bt = b.get_boundary(collections)
 
     if ar < bl: return False
     if al > br: return False

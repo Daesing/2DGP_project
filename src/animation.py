@@ -1,4 +1,3 @@
-from typing import Any
 import json
 from pico2d import load_image, draw_rectangle
 
@@ -13,9 +12,15 @@ class SpriteAnimation:
         self.width_cnt = width_cnt
         self.height_cnt = height_cnt
 
+        self.c_width = None
+        self.c_height = None
+
     def draw(self, x, y, total_time, width = None, height = None):
         cycle_time = 3
         self.frame_time = cycle_time/self.frame_cnt
+
+        self.c_width = width
+        self.c_height= height
 
         current_frame = int((total_time // self.frame_time) % self.frame_cnt)
         sx = (current_frame % self.width_cnt) * self.width
@@ -25,6 +30,11 @@ class SpriteAnimation:
             draw_rectangle(x - self.width / 2, y - self.height / 2, x + self.width / 2, y + self.height / 2)
         else:
             draw_rectangle(x - width / 2, y - height / 2, x + width / 2, y + height / 2)
+    def get_size(self):
+        if self.c_width is None:
+            return self.width,self.height
+        else:
+            return self.c_width,self.c_height
 
 class SpriteCollection:
     def __init__(self):

@@ -20,6 +20,10 @@ class KnightEffect(Entity):
         elif action == 'fireball_cast':
             super().__init__(0, 0, FireBall())
 
+    def handle_collision(self,group,other):
+        print('slash collision')
+        if group == 'slash:false_knight':
+            self.knight.skill_point += 1
 
     def update(self):
         super().update()
@@ -27,6 +31,8 @@ class KnightEffect(Entity):
 
     def draw(self,collections: SpriteCollection):
         super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time))
+
+
 
 class SlashEffect(AnimationState[KnightEffect]):
     def __init__(self):
