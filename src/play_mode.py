@@ -5,7 +5,7 @@ import game_world
 import title_mode
 import stage1
 from knight import Knight
-
+from header import WIDTH,HEIGHT
 
 def init():
     global knight

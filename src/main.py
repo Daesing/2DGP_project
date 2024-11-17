@@ -1,11 +1,9 @@
 from pico2d import *
 from game_world import collections
 import logo_mode, game_framework
-
 import play_mode as start_mode
+from header import WIDTH, HEIGHT
 
-WIDTH = 1280
-HEIGHT = 720
 
 pico2d.open_canvas(WIDTH, HEIGHT)
 collections.initialize()

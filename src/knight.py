@@ -22,8 +22,7 @@ class Knight(Entity):
         self.ground = y
         self.on_ground = True
         self.input_manager = InputManager()
-        self.slashable = True
-        self.dashable = True
+        self.actionable = True
 
     # boy.x += boy.dir * RUN_SPEED_PPS * game_framework.frame_time
     def update(self):
@@ -57,8 +56,7 @@ class Idle(AnimationState[Knight]):
             knight.set_animation('knight_idle_left')
 
         knight.vx = 0
-        knight.slashable = True
-        knight.dashable = True
+        knight.actionable = True
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.input_manager.jump: return Jump(self.direction)
@@ -66,6 +64,7 @@ class Idle(AnimationState[Knight]):
             return Upslash(self.direction)
         if entity.input_manager.slash: return Slash(self.direction)
         if entity.input_manager.dash: return Dash(self.direction)
+        if entity.input_manager.fireball_cast: return FireballCast(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             pass
         elif entity.input_manager.left:
@@ -99,8 +98,10 @@ class Run(AnimationState[Knight]):
         if entity.input_manager.slash and entity.input_manager.up:
             return Upslash(self.direction)
         if entity.input_manager.slash: return Slash(self.direction)
-        if entity.input_manager.dash and entity.dashable:
+        if entity.input_manager.dash and entity.actionable:
             return Dash(self.direction)
+        if entity.input_manager.fireball_cast and entity.actionable:
+            return FireballCast(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             return Idle(self.direction)
         elif entity.input_manager.left:
@@ -130,7 +131,7 @@ class Slash(AnimationState[Knight]):
 
         knight.add_effect(self.direction,'slash')
         knight.start_time = get_time()
-        knight.slashable = False
+        knight.actionable = False
 
 
     def exit(self, knight):
@@ -166,7 +167,7 @@ class Upslash(AnimationState[Knight]):
 
         knight.add_effect('up','slash')
         knight.start_time = get_time()
-        knight.slashable = False
+        knight.actionable = False
 
     def exit(self, knight):
         pass
@@ -194,7 +195,7 @@ class Downslash(AnimationState[Knight]):
 
         knight.add_effect('down','slash')
         knight.start_time = get_time()
-        knight.slashable = False
+        knight.actionable = False
 
     def exit(self, knight):
         pass
@@ -237,15 +238,16 @@ class Jump(AnimationState[Knight]):
             return Idle(self.direction)
         if get_time() - self.start_time > 0.5:
             return OnAir(self.direction)
-        if entity.input_manager.slash and entity.input_manager.up and entity.slashable:
+        if entity.input_manager.slash and entity.input_manager.up and entity.actionable:
             return Upslash(self.direction)
-        if entity.input_manager.slash and entity.input_manager.down and entity.slashable:
+        if entity.input_manager.slash and entity.input_manager.down and entity.actionable:
             return Downslash(self.direction)
-        if entity.input_manager.slash and entity.slashable:
+        if entity.input_manager.slash and entity.actionable:
             return Slash(self.direction)
-        if entity.input_manager.dash and entity.dashable:
+        if entity.input_manager.dash and entity.actionable:
             return Dash(self.direction)
-
+        if entity.input_manager.fireball_cast and entity.actionable:
+            return FireballCast(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             entity.vx = 0
         elif entity.input_manager.left:
@@ -277,14 +279,16 @@ class OnAir(AnimationState[Knight]):
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.on_ground:
             return Idle(self.direction)
-        if entity.input_manager.dash and entity.dashable:
+        if entity.input_manager.dash and entity.actionable:
             return Dash(self.direction)
-        if entity.input_manager.slash and entity.input_manager.up and entity.slashable:
+        if entity.input_manager.slash and entity.input_manager.up and entity.actionable:
             return Upslash(self.direction)
-        if entity.input_manager.slash and entity.input_manager.down and entity.slashable:
+        if entity.input_manager.slash and entity.input_manager.down and entity.actionable:
             return Downslash(self.direction)
-        if entity.input_manager.slash and entity.slashable:
+        if entity.input_manager.slash and entity.actionable:
             return Slash(self.direction)
+        if entity.input_manager.fireball_cast and entity.actionable:
+            return FireballCast(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             entity.vx = 0
         elif entity.input_manager.left:
@@ -313,7 +317,7 @@ class Dash(AnimationState[Knight]):
 
         knight.add_effect(self.direction, 'dash')
         knight.start_time = get_time()
-        knight.dashable = False
+        knight.actionable = False
 
     def do(self, knight: Knight) -> AnimationState[Knight] | None:
         if get_time() - knight.start_time > 0.5:
@@ -323,3 +327,23 @@ class Dash(AnimationState[Knight]):
                 return OnAir(self.direction)
 
         return None
+class FireballCast(AnimationState[Knight]):
+    def __init__(self,direction:str):
+        self.direction = direction
+
+    def enter(self,knight):
+        if self.direction == 'left':
+            knight.set_animation('knight_fireball_cast_left')
+        elif self.direction == 'right':
+            knight.set_animation('knight_fireball_cast_right')
+
+        knight.add_effect(self.direction,'fireball_cast')
+        knight.start_time = get_time()
+
+    def do(self, knight:Knight) -> AnimationState[Knight] | None:
+        if get_time() - knight.start_time > 0.5:
+            if knight.on_ground:
+                return Idle(self.direction)
+            else:
+                return OnAir(self.direction)
+        pass

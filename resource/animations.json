@@ -107,6 +107,30 @@
       "frames": 8,
       "width": 4,
       "height": 2
+    },
+    "knight_fireball_cast_right": {
+      "path": "../resource/knight_fireball_cast_right.png",
+      "frames": 6,
+      "width": 6,
+      "height": 1
+    },
+    "knight_fireball_cast_left": {
+      "path": "../resource/knight_fireball_cast_left.png",
+      "frames": 6,
+      "width": 6,
+      "height": 1
+    },
+    "knight_fireball_right": {
+      "path": "../resource/knight_fireball_right.png",
+      "frames": 4,
+      "width": 4,
+      "height": 1
+    },
+    "knight_fireball_left": {
+      "path": "../resource/knight_fireball_left.png",
+      "frames": 4,
+      "width": 4,
+      "height": 1
     }
   }
 }

@@ -16,6 +16,8 @@ class KnightEffect(Entity):
             super().__init__(0, 0, SlashEffect())
         elif action == 'dash':
             super().__init__(0, 0, DashEffect())
+        elif action == 'fireball_cast':
+            super().__init__(0, 0, FireBall())
 
 
     def update(self):
@@ -82,7 +84,7 @@ class DashEffect(AnimationState[KnightEffect]):
             knight_effect.x = knight_effect.knight.x - 100
         elif knight_effect.direction == 'left':
             knight_effect.set_animation('knight_dash_effect_left')
-            knight_effect.x = knight_effect.knight.x + 50
+            knight_effect.x = knight_effect.knight.x + 100
 
         knight_effect.start_time = get_time()
 
@@ -93,7 +95,7 @@ class DashEffect(AnimationState[KnightEffect]):
         if knight_effect.direction == 'right':
             knight_effect.x = knight_effect.knight.x - 100
         elif knight_effect.direction =='left':
-            knight_effect.x = knight_effect.knight.x + 50
+            knight_effect.x = knight_effect.knight.x + 100
 
         if get_time() - knight_effect.start_time > 0.5:
             return Delete()
@@ -102,3 +104,30 @@ class DashEffect(AnimationState[KnightEffect]):
     def exit(self,knight_effect):
         pass
 
+class FireBall(AnimationState[KnightEffect]):
+
+    def __init__(self):
+        pass
+
+    def enter(self,knight_effect):
+        knight_effect.y = knight_effect.knight.y
+
+        if knight_effect.direction == 'right':
+            knight_effect.set_animation('knight_fireball_right')
+            knight_effect.x = knight_effect.knight.x + 10
+        elif knight_effect.direction == 'left':
+            knight_effect.set_animation('knight_fireball_left')
+            knight_effect.x = knight_effect.knight.x - 10
+
+        knight_effect.start_time = get_time()
+
+    def do(self, knight_effect:KnightEffect) -> AnimationState[KnightEffect] | None:
+
+        if knight_effect.direction == 'right':
+            knight_effect.x += 4
+        elif knight_effect.direction == 'left':
+            knight_effect.x -= 4
+
+
+        if get_time() - knight_effect.start_time > 0.5:
+            return Delete()
