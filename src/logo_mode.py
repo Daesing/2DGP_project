@@ -2,6 +2,7 @@ import game_framework
 from pico2d import load_image, get_time, clear_canvas, update_canvas, get_events
 
 import title_mode
+from header import WIDTH,HEIGHT
 
 
 def init():
@@ -23,7 +24,7 @@ def update():
 
 def draw():
     clear_canvas()
-    image.draw(1280//2,720//2)
+    image.draw(WIDTH//2,HEIGHT//2)
     update_canvas()
 
 def handle_events():

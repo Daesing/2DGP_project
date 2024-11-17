@@ -28,7 +28,7 @@ def handle_events():
 
 def update():
     game_world.update()
-    if knight.x > 1300:
+    if knight.x > WIDTH:
         game_framework.change_mode(stage1)
 
 
@@ -36,7 +36,7 @@ def update():
 
 def draw():
     clear_canvas()
-    image.draw(1280 // 2, 720 // 2)
+    image.draw(WIDTH // 2, HEIGHT // 2)
     text.draw(100,650)
     game_world.render()
     update_canvas()

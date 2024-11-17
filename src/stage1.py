@@ -6,6 +6,7 @@ import title_mode
 from knight import Knight
 import play_mode
 import stage2
+from header import WIDTH,HEIGHT
 
 
 # knight 객체의 생성이 스테이지마다 이루어지면 위치를 어떻게 설정하는가?
@@ -33,12 +34,12 @@ def update():
     game_world.update()
     if knight.x < 0:
         game_framework.change_mode(play_mode)
-    elif knight.x > 1280:
+    elif knight.x > WIDTH:
         game_framework.change_mode(stage2)
 
 def draw():
     clear_canvas()
-    stage1_back.draw(1280 // 2, 720 // 2)
+    stage1_back.draw(WIDTH // 2, HEIGHT // 2)
     text.draw(150,650)
     game_world.render()
     update_canvas()

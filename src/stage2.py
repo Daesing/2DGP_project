@@ -5,6 +5,7 @@ import game_world
 import title_mode
 import stage1
 from knight import Knight
+from header import WIDTH,HEIGHT
 
 
 def init():
@@ -35,7 +36,7 @@ def update():
 
 def draw():
     clear_canvas()
-    image.draw(1280 // 2, 720 // 2)
+    image.draw(WIDTH // 2, HEIGHT // 2)
     text.draw(150,650)
     game_world.render()
     update_canvas()
