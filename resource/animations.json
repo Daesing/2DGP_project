@@ -95,6 +95,18 @@
       "frames": 5,
       "width": 5,
       "height": 1
+    },
+    "knight_dash_effect_right": {
+      "path": "../resource/knight_dash_effect_right.png",
+      "frames": 8,
+      "width": 4,
+      "height": 2
+    },
+    "knight_dash_effect_left": {
+      "path": "../resource/knight_dash_effect_left.png",
+      "frames": 8,
+      "width": 4,
+      "height": 2
     }
   }
 }

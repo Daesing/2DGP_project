@@ -1,4 +1,3 @@
-from bdb import effective
 
 from entity import Entity
 from pico2d import *
@@ -24,6 +23,7 @@ class Knight(Entity):
         self.on_ground = True
         self.input_manager = InputManager()
         self.slashable = True
+        self.dashable = True
 
     # boy.x += boy.dir * RUN_SPEED_PPS * game_framework.frame_time
     def update(self):
@@ -40,8 +40,8 @@ class Knight(Entity):
     def handle_event(self, event: Event):
         self.input_manager.on_keyboard_event(event)
 
-    def add_effect(self, direction):
-        effect = KnightEffect(self,direction)
+    def add_effect(self, direction,action):
+        effect = KnightEffect(self,direction,action)
         game_world.add_object(effect,2)
 
 
@@ -58,6 +58,7 @@ class Idle(AnimationState[Knight]):
 
         knight.vx = 0
         knight.slashable = True
+        knight.dashable = True
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.input_manager.jump: return Jump(self.direction)
@@ -98,7 +99,8 @@ class Run(AnimationState[Knight]):
         if entity.input_manager.slash and entity.input_manager.up:
             return Upslash(self.direction)
         if entity.input_manager.slash: return Slash(self.direction)
-        if entity.input_manager.dash: return Dash(self.direction)
+        if entity.input_manager.dash and entity.dashable:
+            return Dash(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             return Idle(self.direction)
         elif entity.input_manager.left:
@@ -126,7 +128,7 @@ class Slash(AnimationState[Knight]):
         elif self.direction == 'left':
             knight.set_animation('knight_slash_left')
 
-        knight.add_effect(self.direction)
+        knight.add_effect(self.direction,'slash')
         knight.start_time = get_time()
         knight.slashable = False
 
@@ -162,7 +164,7 @@ class Upslash(AnimationState[Knight]):
         knight.set_animation('knight_upslash')
         knight.vx = 0
 
-        knight.add_effect('up')
+        knight.add_effect('up','slash')
         knight.start_time = get_time()
         knight.slashable = False
 
@@ -190,7 +192,7 @@ class Downslash(AnimationState[Knight]):
         knight.set_animation('knight_downslash')
         knight.vx = 0
 
-        knight.add_effect('down')
+        knight.add_effect('down','slash')
         knight.start_time = get_time()
         knight.slashable = False
 
@@ -241,7 +243,7 @@ class Jump(AnimationState[Knight]):
             return Downslash(self.direction)
         if entity.input_manager.slash and entity.slashable:
             return Slash(self.direction)
-        if entity.input_manager.dash:
+        if entity.input_manager.dash and entity.dashable:
             return Dash(self.direction)
 
         if entity.input_manager.left and entity.input_manager.right:
@@ -275,7 +277,7 @@ class OnAir(AnimationState[Knight]):
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.on_ground:
             return Idle(self.direction)
-        if entity.input_manager.dash:
+        if entity.input_manager.dash and entity.dashable:
             return Dash(self.direction)
         if entity.input_manager.slash and entity.input_manager.up and entity.slashable:
             return Upslash(self.direction)
@@ -309,8 +311,9 @@ class Dash(AnimationState[Knight]):
             knight.set_animation('knight_dash_left')
             knight.vx = - 600
 
-
+        knight.add_effect(self.direction, 'dash')
         knight.start_time = get_time()
+        knight.dashable = False
 
     def do(self, knight: Knight) -> AnimationState[Knight] | None:
         if get_time() - knight.start_time > 0.5:
@@ -318,7 +321,5 @@ class Dash(AnimationState[Knight]):
                 return Idle(self.direction)
             else:
                 return OnAir(self.direction)
-        if knight.input_manager.jump:
-            return Jump(self.direction)
 
         return None
