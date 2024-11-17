@@ -10,8 +10,8 @@ from header import WIDTH,HEIGHT
 def init():
     global knight
     global image,text
-    image = load_image('../resource/Dirtmouth.png')
-    text = load_image('../resource/lobby_text.png')
+    image = load_image('../resource/background/Dirtmouth.png')
+    text = load_image('../resource/ui/lobby_text.png')
     knight = Knight(WIDTH // 2,100)
     game_world.add_object(knight, 1)
 

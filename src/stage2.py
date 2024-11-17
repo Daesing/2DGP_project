@@ -11,8 +11,8 @@ from header import WIDTH,HEIGHT
 def init():
     global knight
     global image,text
-    image = load_image('../resource/Greenpath_Hornet_Arena.png')
-    text = load_image('../resource/stage2_text.png')
+    image = load_image('../resource/background/Greenpath_Hornet_Arena.png')
+    text = load_image('../resource/ui/stage2_text.png')
     knight = Knight(0,140)
     game_world.add_object(knight, 1)
 

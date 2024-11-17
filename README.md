@@ -6,3 +6,4 @@
 - [x] knight_focus, effect 추가
 - [x] knight_dash, effect 추가
 - [x] knight UI(hp,skill_point) 추가
+- [ ] false_knight 보스 stage1에 허수아비 만들기 

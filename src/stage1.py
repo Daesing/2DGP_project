@@ -7,16 +7,21 @@ from knight import Knight
 import play_mode
 import stage2
 from header import WIDTH,HEIGHT
+from false_knight import FalseKnight
 
 
 # knight 객체의 생성이 스테이지마다 이루어지면 위치를 어떻게 설정하는가?
 def init():
     global stage1_back,text
-    stage1_back = load_image('../resource/Forgotten_Crossroads_False_Knight_Arena.png')
-    text = load_image('../resource/stage1_text.png')
+    stage1_back = load_image('../resource/background/Forgotten_Crossroads_False_Knight_Arena.png')
+    text = load_image('../resource/ui/stage1_text.png')
     global knight
+    global false_knight
     knight = Knight(0,180)
+    false_knight = FalseKnight(800,250)
     game_world.add_object(knight,1)
+    game_world.add_object(false_knight,1)
+    
 
 
 def handle_events():

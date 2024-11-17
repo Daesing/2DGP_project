@@ -1,7 +1,7 @@
 from pico2d import *
 from game_world import collections
 import logo_mode, game_framework
-import play_mode as start_mode
+import stage1 as start_mode
 from header import WIDTH, HEIGHT
 
 

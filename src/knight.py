@@ -22,13 +22,12 @@ class Knight(Entity):
         self.vx, self.vy = 0, 0
         self.hp = 5
         self.skill_point = 9
-        self.hp_fill = load_image('../resource/hp_fill.png')
+        self.hp_fill = load_image('../resource/ui/hp_fill.png')
         self.ground = y
         self.on_ground = True
         self.input_manager = InputManager()
         self.actionable = True
-        self.hp_fill = load_image('../resource/hp_fill.png')
-        self.font = load_font('../resource/ENCR10B.TTF', 16)
+        self.font = load_font('../resource/font/ENCR10B.TTF', 16)
 
     def draw(self,collections: SpriteCollection):
         super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time))
@@ -381,8 +380,10 @@ class Focus(AnimationState[Knight]):
         if get_time() - knight.start_time > 1.4:
             knight.skill_point -= 3
             return Idle(self.direction)
-        if knight.input_manager.left:
-            return Run(self.direction)
-        elif knight.input_manager.right:
-            return Run(self.direction)
+        if knight.input_manager.left or knight.input_manager.right:
+            return Idle(self.direction)
+        if knight.input_manager.slash:
+            return Slash(self.direction)
+        if knight.input_manager.fireball_cast and knight.skill_point >= 3:
+            return FireballCast(self.direction)
 
