@@ -7,6 +7,7 @@ import stage1
 from knight import Knight
 from header import WIDTH,HEIGHT
 
+
 def init():
     global knight
     global image,text

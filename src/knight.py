@@ -406,7 +406,8 @@ class Focus(AnimationState[Knight]):
     def do(self, knight:Knight) -> AnimationState[Knight] | None:
         if get_time() - knight.start_time > 1.4:
             knight.skill_point -= 3
-            knight.hp += 1
+            if knight.hp < 5:
+                knight.hp += 1
             return Idle(self.direction)
         if knight.input_manager.left or knight.input_manager.right:
             return Idle(self.direction)

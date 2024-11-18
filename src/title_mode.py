@@ -7,7 +7,7 @@ import play_mode
 
 def init():
     global image
-    image = load_image('../resource/game_title.png')
+    image = load_image('../resource/background/game_title.png')
 
 
 def finish():
