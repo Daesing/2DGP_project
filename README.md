@@ -1,9 +1,8 @@
-## To do list
-- [x] knight_upslash, effect 추가
-- [x] knight_downslash, effect 추가
-- [x] knight_fireball_cast, effect 추가
-- [x] animation 데이터 json 만들기
-- [x] knight_focus, effect 추가
-- [x] knight_dash, effect 추가
-- [x] knight UI(hp,skill_point) 추가
-- [ ] false_knight 보스 stage1에 허수아비 만들기 
+# Hollow Knight 모작
+2D Game Programing project (Hollow Knight 모작)
+
+Arcadia_Maker 1차 발표 링크 : https://youtu.be/Wv8ofTOpVJ4
+
+Arcadia_Maker 2차 발표 링크 : https://youtu.be/6aeq5mZfiAA
+
+![game_logo.png](resource/background/game_logo.png)
