@@ -7,3 +7,6 @@
 - [x] knight_dash, effect 추가
 - [x] knight UI(hp,skill_point) 추가
 - [ ] false_knight 보스 stage1에 허수아비 만들기 
+- [ ] stage framework push, pop 형태로 변경
+- [ ] false_knight 보스 AI 구현
+- [ ] animation 데이터 composite_draw 기능 추가

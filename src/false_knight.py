@@ -15,7 +15,8 @@ class FalseKnight(Entity):
         self.state_machine.update()
 
     def draw(self,collections: SpriteCollection):
-        super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time,420,270))
+        super().draw(collections.get(self.current_animation).
+                     draw(self.x, self.y, self.animation_time,self.inverted,420,270))
 
     def get_boundary(self, collections: SpriteCollection):
         value = collections.get(self.current_animation).get_size()
@@ -38,7 +39,7 @@ class Idle(AnimationState[FalseKnight]):
 
     def enter(self, false_knight):
         if self.direction == 'left':
-            false_knight.set_animation('false_knight_idle_left')
+            false_knight.set_animation('false_knight_idle_left',True)
         if self.direction == 'right':
             false_knight.set_animation('false_knight_idle_right')
 

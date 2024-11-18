@@ -33,7 +33,7 @@ class KnightEffect(Entity):
         self.state_machine.update()
 
     def draw(self,collections: SpriteCollection):
-        super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time))
+        super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time,self.inverted))
 
     def get_boundary(self, collections: SpriteCollection):
         width,height = collections.get(self.current_animation).get_size()
@@ -102,7 +102,7 @@ class DashEffect(AnimationState[KnightEffect]):
         knight_effect.y = knight_effect.knight.y
 
         if knight_effect.direction == 'right':
-            knight_effect.set_animation('knight_dash_effect_right')
+            knight_effect.set_animation('knight_dash_effect_right',True)
             knight_effect.x = knight_effect.knight.x - 100
         elif knight_effect.direction == 'left':
             knight_effect.set_animation('knight_dash_effect_left')
@@ -116,7 +116,7 @@ class DashEffect(AnimationState[KnightEffect]):
 
         if knight_effect.direction == 'right':
             knight_effect.x = knight_effect.knight.x - 100
-        elif knight_effect.direction =='left':
+        elif knight_effect.direction == 'left':
             knight_effect.x = knight_effect.knight.x + 100
 
         if get_time() - knight_effect.start_time > 0.5:
@@ -144,7 +144,6 @@ class FireBall(AnimationState[KnightEffect]):
         knight_effect.start_time = get_time()
 
     def do(self, knight_effect:KnightEffect) -> AnimationState[KnightEffect] | None:
-
         if knight_effect.direction == 'right':
             knight_effect.x += 4
         elif knight_effect.direction == 'left':

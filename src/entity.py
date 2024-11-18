@@ -13,9 +13,11 @@ class Entity:
         self.animation_time = 0
         self.state_machine = StateMachine(self)
         self.state_machine.start(state)
+        self.inverted = False
 
-    def set_animation(self,animation:str):
+    def set_animation(self,animation:str,inverted = False):
         self.current_animation = animation
+        self.inverted = inverted
         self.animation_time = 0
 
     def draw(self,collections: SpriteCollection):
