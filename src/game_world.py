@@ -1,8 +1,8 @@
 from animation import SpriteCollection
-from pico2d import delay
 collections = SpriteCollection()
 
 world = [[] for _ in range(4)]
+collision_pairs = {}
 
 def add_object(o, depth = 0):
     world[depth].append(o)
@@ -25,6 +25,7 @@ def remove_object(o):
     for layer in world:
         if o in layer:
             layer.remove(o)
+            remove_collision_object(o)  # Delete in collision dic
             del o  # Delete object(memory)
             return
 
@@ -36,7 +37,6 @@ def clear():
         layer.clear()
 
 # collision list
-collision_pairs = {}
 
 def add_collision_pair(group, a, b):
     if group not in collision_pairs:
@@ -53,8 +53,8 @@ def remove_collision_object(o):
     pass
 
 def collide(a, b):
-    al, ab, ar, at = a.get_bb()
-    bl, bb, br, bt = b.get_bb()
+    al, ab, ar, at = a.get_boundary(collections)
+    bl, bb, br, bt = b.get_boundary(collections)
 
     if ar < bl: return False
     if al > br: return False

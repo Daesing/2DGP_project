@@ -1,4 +1,5 @@
 from animation import SpriteCollection
+from animation import SpriteAnimation
 from state_machine import StateMachine, AnimationState
 from typing import Self
 
