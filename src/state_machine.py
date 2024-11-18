@@ -33,6 +33,7 @@ class StateMachine[T]:
         if isinstance(next_state,Delete):
             print('delete')
             game_world.remove_object(self.o)
+
             self.cur_state.exit(self.o)
             print(f'Exit from {self.cur_state}')
             return False

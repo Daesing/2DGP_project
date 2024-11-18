@@ -61,8 +61,8 @@ class Knight(Entity):
                 print('invincible_activate')
 
     def get_boundary(self,collections: SpriteCollection):
-        value = collections.get(self.current_animation).get_size()
-        width, height = value
+        width, height  = collections.get(self.current_animation).get_size()
+
         left = self.x - width / 2
         bottom = self.y - height / 2
         right = self.x + width / 2
@@ -76,7 +76,7 @@ class Knight(Entity):
     def add_effect(self, direction,action):
         effect = KnightEffect(self,direction,action)
         if action == 'slash':
-            game_world.add_collision_pair('slash: false_knight',effect,None)
+            game_world.add_collision_pair('slash:false_knight',effect,None)
         game_world.add_object(effect,2)
 
 
@@ -177,6 +177,9 @@ class Slash(AnimationState[Knight]):
         pass
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
+
+        if entity.input_manager.jump:
+            return Jump(self.direction)
 
         if get_time() - entity.start_time > 0.5:
             if not entity.on_ground:

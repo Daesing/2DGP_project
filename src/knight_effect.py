@@ -13,6 +13,7 @@ class KnightEffect(Entity):
         self.knight = knight
         self.direction = direction
         self.action = action
+        self.hit = True     #타 객체와의 중복 충돌을 막는 flag
         if action == 'slash':
             super().__init__(0, 0, SlashEffect())
         elif action == 'dash':
@@ -22,8 +23,10 @@ class KnightEffect(Entity):
 
     def handle_collision(self,group,other):
         print('slash collision')
-        if group == 'slash:false_knight':
-            self.knight.skill_point += 1
+        if group == 'slash:false_knight' and self.hit:
+            if self.knight.skill_point < 9:
+                self.knight.skill_point += 1
+            self.hit = False
 
     def update(self):
         super().update()
@@ -33,8 +36,8 @@ class KnightEffect(Entity):
         super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time))
 
     def get_boundary(self, collections: SpriteCollection):
-        value = collections.get(self.current_animation).get_size()
-        width, height = value
+        width,height = collections.get(self.current_animation).get_size()
+
         left = self.x - width / 2
         bottom = self.y - height / 2
         right = self.x + width / 2
