@@ -100,8 +100,10 @@ class Idle(AnimationState[Knight]):
             return Upslash(self.direction)
         if entity.input_manager.slash: return Slash(self.direction)
         if entity.input_manager.dash: return Dash(self.direction)
-        if entity.input_manager.fireball_cast: return FireballCast(self.direction)
-        if entity.input_manager.focus: return Focus(self.direction)
+        if entity.input_manager.fireball_cast and entity.skill_point >= 3:
+            return FireballCast(self.direction)
+        if entity.input_manager.focus and entity.skill_point >= 3:
+            return Focus(self.direction)
         if entity.input_manager.left and entity.input_manager.right:
             pass
         elif entity.input_manager.left:
@@ -166,6 +168,8 @@ class Slash(AnimationState[Knight]):
             knight.set_animation('knight_slash')
         elif self.direction == 'left':
             knight.set_animation('knight_slash', True)
+        if knight.on_ground:
+            knight.vx = 0
 
         knight.add_effect(self.direction, 'slash')
         knight.start_time = get_time()
@@ -176,18 +180,13 @@ class Slash(AnimationState[Knight]):
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
 
-        if get_time() - entity.start_time > 0.5:
+
+
+        if get_time() - entity.start_time > 0.4:
             if not entity.on_ground:
                 return OnAir(self.direction)
             if entity.input_manager.jump:
                 return Jump(self.direction)
-
-            if entity.input_manager.left and entity.input_manager.right:
-                return Idle(self.direction)
-            elif entity.input_manager.left:
-                return Run('left')
-            elif entity.input_manager.right:
-                return Run('right')
 
             return Idle(self.direction)
         return None

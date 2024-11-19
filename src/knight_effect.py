@@ -84,7 +84,7 @@ class SlashEffect(AnimationState[KnightEffect]):
         elif knight_effect.direction == 'down':
             knight_effect.y = knight_effect.knight.y - 70
 
-        if get_time() - knight_effect.start_time > 0.5:
+        if get_time() - knight_effect.start_time > 0.4:
             return Delete()
 
         return None
@@ -135,9 +135,11 @@ class FireBall(AnimationState[KnightEffect]):
         knight_effect.y = knight_effect.knight.y
 
         if knight_effect.direction == 'right':
-            knight_effect.set_animation('knight_fireball_right')
+            print('fireball_right')
+            knight_effect.set_animation('knight_fireball_right',True)
             knight_effect.x = knight_effect.knight.x + 10
         elif knight_effect.direction == 'left':
+            print('fireball_left')
             knight_effect.set_animation('knight_fireball_left')
             knight_effect.x = knight_effect.knight.x - 10
 

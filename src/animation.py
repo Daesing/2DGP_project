@@ -26,9 +26,9 @@ class SpriteAnimation:
         sx = (current_frame % self.width_cnt) * self.width
         sy = (self.height_cnt - current_frame // self.width_cnt - 1) * self.height
         if inverted:
-            if width is None:
+            if width is None and height is None:
                 self.image.clip_composite_draw(sx, sy, self.width, self.height, 0, 'h', x, y, self.width, self.height)
-            elif width is not None:
+            else:
                 self.image.clip_composite_draw(sx, sy, self.width, self.height, 0, 'h', x, y, width, height)
         elif not inverted:
             self.image.clip_draw(sx, sy, self.width, self.height, x, y, width, height)
