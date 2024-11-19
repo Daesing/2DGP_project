@@ -1,6 +1,4 @@
 from pico2d import get_time
-from pygame.examples.video import driver
-
 from entity import Entity
 from animation import SpriteCollection
 from state_machine import AnimationState
