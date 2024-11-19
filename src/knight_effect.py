@@ -13,13 +13,14 @@ class KnightEffect(Entity):
         self.knight = knight
         self.direction = direction
         self.action = action
-        self.hit = True     #타 객체와의 중복 충돌을 막는 flag
+        self.hit = True    #타 객체와의 중복 충돌을 막는 flag
         if action == 'slash':
             super().__init__(0, 0, SlashEffect())
         elif action == 'dash':
             super().__init__(0, 0, DashEffect())
         elif action == 'fireball_cast':
             super().__init__(0, 0, FireBall())
+
 
     def handle_collision(self,group,other):
         print('slash collision')
@@ -31,9 +32,6 @@ class KnightEffect(Entity):
     def update(self):
         super().update()
         self.state_machine.update()
-
-    def draw(self,collections: SpriteCollection):
-        super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time,self.inverted))
 
     def get_boundary(self, collections: SpriteCollection):
         width,height = collections.get(self.current_animation).get_size()
@@ -56,10 +54,10 @@ class SlashEffect(AnimationState[KnightEffect]):
         knight_effect.y = knight_effect.knight.y
 
         if knight_effect.direction == 'left':
-            knight_effect.set_animation('knight_slash_effect_left')
+            knight_effect.set_animation('knight_slash_effect',True)
             knight_effect.x = knight_effect.knight.x - 70
         elif knight_effect.direction == 'right':
-            knight_effect.set_animation('knight_slash_effect_right')
+            knight_effect.set_animation('knight_slash_effect')
             knight_effect.x = knight_effect.knight.x + 70
         elif knight_effect.direction == 'up':
             knight_effect.set_animation('knight_upslash_effect')
@@ -102,10 +100,10 @@ class DashEffect(AnimationState[KnightEffect]):
         knight_effect.y = knight_effect.knight.y
 
         if knight_effect.direction == 'right':
-            knight_effect.set_animation('knight_dash_effect_right',True)
+            knight_effect.set_animation('knight_dash_effect')
             knight_effect.x = knight_effect.knight.x - 100
         elif knight_effect.direction == 'left':
-            knight_effect.set_animation('knight_dash_effect_left')
+            knight_effect.set_animation('knight_dash_effect',True)
             knight_effect.x = knight_effect.knight.x + 100
 
         knight_effect.start_time = get_time()
@@ -135,12 +133,10 @@ class FireBall(AnimationState[KnightEffect]):
         knight_effect.y = knight_effect.knight.y
 
         if knight_effect.direction == 'right':
-            print('fireball_right')
-            knight_effect.set_animation('knight_fireball_right',True)
+            knight_effect.set_animation('knight_fireball')
             knight_effect.x = knight_effect.knight.x + 10
         elif knight_effect.direction == 'left':
-            print('fireball_left')
-            knight_effect.set_animation('knight_fireball_left')
+            knight_effect.set_animation('knight_fireball',True)
             knight_effect.x = knight_effect.knight.x - 10
 
         knight_effect.start_time = get_time()

@@ -4,6 +4,7 @@ from pico2d import load_image, draw_rectangle
 
 class SpriteAnimation:
     def __init__(self, image_path, frame_cnt, width_cnt, height_cnt):
+        self.image_path = image_path
         self.image = load_image(image_path)
         self.frame_cnt = frame_cnt
         self.width = self.image.w // width_cnt
@@ -25,15 +26,16 @@ class SpriteAnimation:
         current_frame = int((total_time // self.frame_time) % self.frame_cnt)
         sx = (current_frame % self.width_cnt) * self.width
         sy = (self.height_cnt - current_frame // self.width_cnt - 1) * self.height
+
         if inverted:
-            if width is None and height is None:
+            if width is None or height is None:
                 self.image.clip_composite_draw(sx, sy, self.width, self.height, 0, 'h', x, y, self.width, self.height)
             else:
                 self.image.clip_composite_draw(sx, sy, self.width, self.height, 0, 'h', x, y, width, height)
         elif not inverted:
             self.image.clip_draw(sx, sy, self.width, self.height, x, y, width, height)
 
-        if width is None and height is None:
+        if width is None or height is None:
             draw_rectangle(x - self.width / 2, y - self.height / 2, x + self.width / 2, y + self.height / 2)
         else:
             draw_rectangle(x - width / 2, y - height / 2, x + width / 2, y + height / 2)

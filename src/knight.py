@@ -32,7 +32,7 @@ class Knight(Entity):
         self.invincible_time = 0.0  # 무적 상태 남은 시간
 
     def draw(self, collections: SpriteCollection):
-        super().draw(collections.get(self.current_animation).draw(self.x, self.y, self.animation_time, self.inverted))
+        super().draw(collections)
         self.font.draw(self.x - 10, self.y + 70, f'{self.skill_point:02d}', (255, 255, 0))
         for i in range(1, self.hp + 1):
             self.hp_fill.draw(65 * i, 650, 80, 100)

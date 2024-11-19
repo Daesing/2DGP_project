@@ -24,14 +24,8 @@
       "width": 8,
       "height": 1
     },
-    "knight_slash_effect_left": {
-      "path": "../resource/knight/knight_slash_effect_left.png",
-      "frames": 5,
-      "width": 5,
-      "height": 1
-    },
-    "knight_slash_effect_right": {
-      "path": "../resource/knight/knight_slash_effect_right.png",
+    "knight_slash_effect": {
+      "path": "../resource/knight/knight_slash_effect.png",
       "frames": 5,
       "width": 5,
       "height": 1
@@ -66,14 +60,8 @@
       "width": 5,
       "height": 1
     },
-    "knight_dash_effect_right": {
-      "path": "../resource/knight/knight_dash_effect_right.png",
-      "frames": 8,
-      "width": 4,
-      "height": 2
-    },
-    "knight_dash_effect_left": {
-      "path": "../resource/knight/knight_dash_effect_left.png",
+    "knight_dash_effect": {
+      "path": "../resource/knight/knight_dash_effect.png",
       "frames": 8,
       "width": 4,
       "height": 2
@@ -84,14 +72,8 @@
       "width": 6,
       "height": 1
     },
-    "knight_fireball_right": {
-      "path": "../resource/knight/knight_fireball_right.png",
-      "frames": 4,
-      "width": 4,
-      "height": 1
-    },
-    "knight_fireball_left": {
-      "path": "../resource/knight/knight_fireball_left.png",
+    "knight_fireball": {
+      "path": "../resource/knight/knight_fireball.png",
       "frames": 4,
       "width": 4,
       "height": 1
@@ -102,14 +84,8 @@
       "width": 7,
       "height": 1
     },
-    "false_knight_idle_left": {
-      "path": "../resource/false_knight/false_knight_idle_left.png",
-      "frames": 5,
-      "width": 5,
-      "height": 1
-    },
-    "false_knight_idle_right": {
-      "path": "../resource/false_knight/false_knight_idle_right.png",
+    "false_knight_idle": {
+      "path": "../resource/false_knight/false_knight_idle.png",
       "frames": 5,
       "width": 5,
       "height": 1
