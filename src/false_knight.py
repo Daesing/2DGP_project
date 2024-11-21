@@ -1,7 +1,5 @@
-
 from pico2d import get_time
 from entity import Entity
-from animation import SpriteCollection
 from state_machine import AnimationState
 
 
@@ -9,7 +7,7 @@ class FalseKnight(Entity):
     start_time: float
 
     def __init__(self,x,y):
-        super().__init__(x, y, Idle('left'))
+        super().__init__(x, y, Idle('left'), ratio=0.7)
         self.x,y, = x,y
 
     def update(self):
@@ -19,7 +17,6 @@ class FalseKnight(Entity):
     def handle_collision(self,group,other):
         if group == 'slash:false_knight':
             pass
-
 
 class Idle(AnimationState[FalseKnight]):
     def __init__(self,direction):
