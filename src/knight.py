@@ -23,6 +23,7 @@ class Knight(Entity):
         self.hp = 5
         self.skill_point = 9
         self.hp_fill = load_image('../resource/ui/hp_fill.png')
+        self.hp_empty = load_image('../resource/ui/hp_empty.png')
         self.ground = y
         self.on_ground = True
         self.input_manager = InputManager()
@@ -34,6 +35,8 @@ class Knight(Entity):
     def draw(self, collections: SpriteCollection):
         super().draw(collections)
         self.font.draw(self.x - 10, self.y + 70, f'{self.skill_point:02d}', (255, 255, 0))
+        for i in range(1,6):
+            self.hp_empty.draw(65 * i, 645, 50, 70)
         for i in range(1, self.hp + 1):
             self.hp_fill.draw(65 * i, 650, 80, 100)
 
@@ -179,8 +182,6 @@ class Slash(AnimationState[Knight]):
         pass
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
-
-
 
         if get_time() - entity.start_time > 0.4:
             if not entity.on_ground:

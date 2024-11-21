@@ -35,7 +35,6 @@ def update():
 
 
 
-
 def draw():
     clear_canvas()
     image.draw(WIDTH // 2, HEIGHT // 2)
@@ -45,7 +44,8 @@ def draw():
 
 def finish():
     game_world.clear()
-    pass
+
 def pause(): pass
+
 def resume(): pass
 

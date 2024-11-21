@@ -89,6 +89,18 @@
       "frames": 5,
       "width": 5,
       "height": 1
+    },
+    "false_knight_run": {
+      "path": "../resource/false_knight/false_knight_run.png",
+      "frames": 5,
+      "width": 5,
+      "height": 1
+    },
+    "false_knight_run_pre": {
+      "path": "../resource/false_knight/false_knight_run_pre.png",
+      "frames": 2,
+      "width": 2,
+      "height": 1
     }
   }
 }

@@ -18,7 +18,7 @@ def init():
     global knight
     global false_knight
     knight = Knight(0,180)
-    false_knight = FalseKnight(800,250)
+    false_knight = FalseKnight(800,320)
     game_world.add_object(knight,1)
     game_world.add_object(false_knight,1)
 
