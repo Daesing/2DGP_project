@@ -33,15 +33,6 @@ class KnightEffect(Entity):
         super().update()
         self.state_machine.update()
 
-    def get_boundary(self, collections: SpriteCollection):
-        width,height = collections.get(self.current_animation).get_size()
-
-        left = self.x - width / 2
-        bottom = self.y - height / 2
-        right = self.x + width / 2
-        top = self.y + height / 2
-
-        return left, bottom, right, top
 
 
 class SlashEffect(AnimationState[KnightEffect]):

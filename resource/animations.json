@@ -2,105 +2,74 @@
   "animations": {
     "knight_slash": {
       "path": "../resource/knight/knight_slash.png",
-      "frames": 8,
-      "width": 8,
-      "height": 1
+      "frames": 8, "width": 8, "height": 1
     },
     "knight_idle": {
       "path": "../resource/knight/knight_idle.png",
-      "frames": 4,
-      "width": 4,
-      "height": 1
+      "frames": 4, "width": 4, "height": 1
     },
     "knight_move": {
       "path": "../resource/knight/knight_move.png",
-      "frames": 9,
-      "width": 9,
-      "height": 1
+      "frames": 9, "width": 9, "height": 1
     },
     "knight_jump": {
       "path": "../resource/knight/knight_jump.png",
-      "frames": 8,
-      "width": 8,
-      "height": 1
+      "frames": 8, "width": 8, "height": 1
     },
     "knight_slash_effect": {
       "path": "../resource/knight/knight_slash_effect.png",
-      "frames": 5,
-      "width": 5,
-      "height": 1
+      "frames": 5, "width": 5, "height": 1
     },
     "knight_dash": {
       "path": "../resource/knight/knight_dash.png",
-      "frames": 10,
-      "width": 5,
-      "height": 2
+      "frames": 10, "width": 5, "height": 2
     },
     "knight_upslash": {
       "path": "../resource/knight/knight_upslash.png",
-      "frames": 8,
-      "width": 8,
-      "height": 1
+      "frames": 8, "width": 8, "height": 1
     },
     "knight_upslash_effect": {
       "path": "../resource/knight/knight_upslash_effect.png",
-      "frames": 5,
-      "width": 5,
-      "height": 1
+      "frames": 5, "width": 5, "height": 1
     },
     "knight_downslash": {
       "path": "../resource/knight/knight_downslash.png",
-      "frames": 8,
-      "width": 8,
-      "height": 1
+      "frames": 8, "width": 8, "height": 1
     },
     "knight_downslash_effect": {
       "path": "../resource/knight/knight_downslash_effect.png",
-      "frames": 5,
-      "width": 5,
-      "height": 1
+      "frames": 5, "width": 5, "height": 1
     },
     "knight_dash_effect": {
       "path": "../resource/knight/knight_dash_effect.png",
-      "frames": 8,
-      "width": 4,
-      "height": 2
+      "frames": 8, "width": 4, "height": 2
     },
     "knight_fireball_cast": {
       "path": "../resource/knight/knight_fireball_cast.png",
-      "frames": 6,
-      "width": 6,
-      "height": 1
+      "frames": 6, "width": 6, "height": 1
     },
     "knight_fireball": {
       "path": "../resource/knight/knight_fireball.png",
-      "frames": 4,
-      "width": 4,
-      "height": 1
+      "frames": 4, "width": 4, "height": 1
     },
     "knight_focus": {
       "path": "../resource/knight/knight_focus.png",
-      "frames": 7,
-      "width": 7,
-      "height": 1
+      "frames": 7, "width": 7, "height": 1
     },
     "false_knight_idle": {
       "path": "../resource/false_knight/false_knight_idle.png",
-      "frames": 5,
-      "width": 5,
-      "height": 1
+      "frames": 5, "width": 5, "height": 1,
+      "v_align": "bottom"
     },
     "false_knight_run": {
       "path": "../resource/false_knight/false_knight_run.png",
-      "frames": 5,
-      "width": 5,
-      "height": 1
+      "frames": 5, "width": 5, "height": 1,
+      "v_align": "bottom"
     },
     "false_knight_run_pre": {
       "path": "../resource/false_knight/false_knight_run_pre.png",
-      "frames": 2,
-      "width": 2,
-      "height": 1
+      "frames": 2, "width": 2, "height": 1,
+      "v_align": "bottom"
     }
   }
 }

@@ -16,16 +16,6 @@ class FalseKnight(Entity):
         super().update()
         self.state_machine.update()
 
-    def get_boundary(self, collections: SpriteCollection):
-        value = collections.get(self.current_animation).get_size()
-        width, height = value
-        left = self.x - width / 2
-        bottom = self.y - height / 2
-        right = self.x + width / 2
-        top = self.y + height / 2
-
-        return left, bottom, right, top
-
     def handle_collision(self,group,other):
         if group == 'slash:false_knight':
             pass
