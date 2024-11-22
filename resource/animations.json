@@ -70,6 +70,21 @@
       "path": "../resource/false_knight/false_knight_run_pre.png",
       "frames": 2, "width": 2, "height": 1,
       "v_align": "bottom"
+    },
+    "false_knight_jump_pre": {
+      "path": "../resource/false_knight/false_knight_jump_pre.png",
+      "frames": 3, "width": 3, "height": 1,
+      "v_align": "bottom"
+    },
+    "false_knight_jump": {
+      "path": "../resource/false_knight/false_knight_jump.png",
+      "frames": 4, "width": 4, "height": 1,
+      "v_align": "bottom"
+    },
+    "false_knight_land": {
+      "path": "../resource/false_knight/false_knight_land.png",
+      "frames": 3, "width": 3, "height": 1,
+      "v_align": "bottom"
     }
   }
 }
