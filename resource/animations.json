@@ -85,6 +85,41 @@
       "path": "../resource/false_knight/false_knight_land.png",
       "frames": 3, "width": 3, "height": 1,
       "v_align": "bottom"
+    },
+    "false_knight_attack_pre": {
+      "path": "../resource/false_knight/false_knight_attack_pre.png",
+      "frames": 6, "width": 6, "height": 1,
+      "v_align": "bottom"
+    },
+    "false_knight_attack": {
+      "path": "../resource/false_knight/false_knight_attack.png",
+      "frames": 3, "width": 3, "height": 1,
+      "v_align": "bottom"
+    },
+     "false_knight_recover": {
+      "path": "../resource/false_knight/false_knight_recover.png",
+      "frames": 5, "width": 5, "height": 1,
+      "v_align": "bottom"
+    },
+    "false_knight_jump_attack_up": {
+      "path": "../resource/false_knight/false_knight_jump_attack_up.png",
+      "frames": 5, "width": 4, "height": 2,
+      "v_align": "bottom"
+    },
+    "false_knight_jump_attack1": {
+      "path": "../resource/false_knight/false_knight_jump_attack1.png",
+      "frames": 2, "width": 2, "height": 1,
+      "v_align": "bottom"
+    },
+    "false_knight_jump_attack2": {
+      "path": "../resource/false_knight/false_knight_jump_attack2.png",
+      "frames": 2, "width": 2, "height": 1,
+      "v_align": "bottom"
+    },
+    "false_knight_jump_attack3": {
+      "path": "../resource/false_knight/false_knight_jump_attack3.png",
+      "frames": 2, "width": 2, "height": 1,
+      "v_align": "bottom"
     }
   }
 }

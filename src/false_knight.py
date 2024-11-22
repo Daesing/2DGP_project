@@ -106,7 +106,7 @@ class PreJump(AnimationState[FalseKnight]):
 
     def do(self, false_knight:FalseKnight) -> AnimationState[FalseKnight] | None:
         if get_time() - false_knight.start_time > 0.5:
-            return Jump(self.direction)
+            return JumpAttackUp(self.direction)
 
         return None
 
@@ -144,9 +144,135 @@ class Land(AnimationState[FalseKnight]):
 
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
         if get_time() - false_knight.start_time > 1.0:
-            return Idle(self.direction)
+            return PreAttack(self.direction)
 
         return None
 
 
+class PreAttack(AnimationState[FalseKnight]):
+    def __init__(self, direction):
+        self.direction = direction
 
+    def enter(self, false_knight):
+        if self.direction == 'left':
+            false_knight.set_animation('false_knight_attack_pre', True)
+        elif self.direction == 'right':
+            false_knight.set_animation('false_knight_attack_pre')
+
+        false_knight.start_time = get_time()
+
+    def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+        if get_time() - false_knight.start_time > 0.5:
+            return Attack(self.direction)
+
+        return None
+
+
+class Attack(AnimationState[FalseKnight]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, false_knight):
+        if self.direction == 'left':
+            false_knight.set_animation('false_knight_attack', True)
+        elif self.direction == 'right':
+            false_knight.set_animation('false_knight_attack')
+
+        false_knight.start_time = get_time()
+
+    def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+        if get_time() - false_knight.start_time > 0.7:
+            return Recover(self.direction)
+
+        return None
+
+class Recover(AnimationState[FalseKnight]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, false_knight):
+        if self.direction == 'left':
+            false_knight.set_animation('false_knight_recover', True)
+        elif self.direction == 'right':
+            false_knight.set_animation('false_knight_recover')
+
+        false_knight.start_time = get_time()
+
+    def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+        if get_time() - false_knight.start_time > 0.8:
+            return Idle(self.direction)
+
+        return None
+
+class JumpAttackUp(AnimationState[FalseKnight]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, false_knight):
+        if self.direction == 'left':
+            false_knight.set_animation('false_knight_jump_attack_up', True)
+        elif self.direction == 'right':
+            false_knight.set_animation('false_knight_jump_attack_up')
+
+        false_knight.vy = 1000
+        false_knight.on_ground = False
+        false_knight.start_time = get_time()
+
+    def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+        if get_time() - false_knight.start_time > 0.8:
+            return JumpAttack1(self.direction)
+
+        return None
+
+class JumpAttack1(AnimationState[FalseKnight]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, false_knight):
+        if self.direction == 'left':
+            false_knight.set_animation('false_knight_jump_attack1', True)
+        elif self.direction == 'right':
+            false_knight.set_animation('false_knight_jump_attack1')
+
+        false_knight.start_time = get_time()
+
+    def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+        if get_time() - false_knight.start_time > 0.7:
+            return JumpAttack2(self.direction)
+
+        return None
+class JumpAttack2(AnimationState[FalseKnight]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, false_knight):
+        if self.direction == 'left':
+            false_knight.set_animation('false_knight_jump_attack2', True)
+        elif self.direction == 'right':
+            false_knight.set_animation('false_knight_jump_attack2')
+
+        false_knight.start_time = get_time()
+
+    def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+        if get_time() - false_knight.start_time > 0.2:
+            return JumpAttack3(self.direction)
+
+        return None
+
+class JumpAttack3(AnimationState[FalseKnight]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, false_knight):
+        if self.direction == 'left':
+            false_knight.set_animation('false_knight_jump_attack3', True)
+        elif self.direction == 'right':
+            false_knight.set_animation('false_knight_jump_attack3')
+
+        false_knight.start_time = get_time()
+
+    def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+        if get_time() - false_knight.start_time > 0.2:
+            return Idle(self.direction)
+
+        return None
