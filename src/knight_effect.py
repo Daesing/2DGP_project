@@ -1,6 +1,9 @@
+import threading
+
 from pico2d import load_image, get_time
 
 from entity import Entity
+import game_world
 from src.animation import SpriteCollection
 from state_machine import Delete
 from state_machine import AnimationState
@@ -18,7 +21,7 @@ class KnightEffect(Entity):
             super().__init__(0, 0, SlashEffect())
         elif action == 'dash':
             super().__init__(0, 0, DashEffect())
-        elif action == 'fireball_cast':
+        elif action == 'fireball':
             super().__init__(0, 0, FireBall())
 
 
@@ -28,6 +31,8 @@ class KnightEffect(Entity):
             if self.knight.skill_point < 9:
                 self.knight.skill_point += 1
             self.hit = False
+        if group == 'fireball:false_knight':
+           pass
 
     def update(self):
         super().update()

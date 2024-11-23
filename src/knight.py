@@ -71,6 +71,8 @@ class Knight(Entity):
         effect = KnightEffect(self, direction, action)
         if action == 'slash':
             game_world.add_collision_pair('slash:false_knight', effect, None)
+        elif action == 'fireball':
+            game_world.add_collision_pair('fireball:false_knight',effect,None)
         game_world.add_object(effect, 2)
 
 
@@ -88,21 +90,21 @@ class Idle(AnimationState[Knight]):
         knight.vx = 0
         knight.actionable = True
 
-    def do(self, entity: Knight) -> AnimationState[Knight] | None:
-        if entity.input_manager.jump: return Jump(self.direction)
-        if entity.input_manager.slash and entity.input_manager.up:
+    def do(self, knight: Knight) -> AnimationState[Knight] | None:
+        if knight.input_manager.jump: return Jump(self.direction)
+        if knight.input_manager.slash and knight.input_manager.up:
             return Upslash(self.direction)
-        if entity.input_manager.slash: return Slash(self.direction)
-        if entity.input_manager.dash: return Dash(self.direction)
-        if entity.input_manager.fireball_cast and entity.skill_point >= 3:
+        if knight.input_manager.slash: return Slash(self.direction)
+        if knight.input_manager.dash: return Dash(self.direction)
+        if knight.input_manager.fireball_cast and knight.skill_point >= 3:
             return FireballCast(self.direction)
-        if entity.input_manager.focus and entity.skill_point >= 3:
+        if knight.input_manager.focus and knight.skill_point >= 3:
             return Focus(self.direction)
-        if entity.input_manager.left and entity.input_manager.right:
+        if knight.input_manager.left and knight.input_manager.right:
             pass
-        elif entity.input_manager.left:
+        elif knight.input_manager.left:
             return Run('left')
-        elif entity.input_manager.right:
+        elif knight.input_manager.right:
             return Run('right')
 
         return None
@@ -125,25 +127,25 @@ class Run(AnimationState[Knight]):
     def exit(self, knight):
         pass
 
-    def do(self, entity: Knight) -> AnimationState[Knight] | None:
-        if entity.input_manager.jump: return Jump(self.direction)
-        if entity.input_manager.slash and entity.input_manager.up:
+    def do(self, knight: Knight) -> AnimationState[Knight] | None:
+        if knight.input_manager.jump: return Jump(self.direction)
+        if knight.input_manager.slash and knight.input_manager.up:
             return Upslash(self.direction)
-        if entity.input_manager.slash: return Slash(self.direction)
-        if entity.input_manager.dash and entity.actionable:
+        if knight.input_manager.slash: return Slash(self.direction)
+        if knight.input_manager.dash and knight.actionable:
             return Dash(self.direction)
-        if entity.input_manager.fireball_cast and entity.actionable and entity.skill_point >= 3:
+        if knight.input_manager.fireball_cast and knight.actionable and knight.skill_point >= 3:
             return FireballCast(self.direction)
-        if entity.input_manager.focus and entity.actionable and entity.skill_point >= 3:
+        if knight.input_manager.focus and knight.actionable and knight.skill_point >= 3:
             return Focus(self.direction)
-        if entity.input_manager.left and entity.input_manager.right:
+        if knight.input_manager.left and knight.input_manager.right:
             return Idle(self.direction)
-        elif entity.input_manager.left:
+        elif knight.input_manager.left:
             if self.direction == 'right':
                 return Run('left')
             else:
                 return None
-        elif entity.input_manager.right:
+        elif knight.input_manager.right:
             if self.direction == 'left':
                 return Run('right')
             else:
@@ -172,12 +174,12 @@ class Slash(AnimationState[Knight]):
     def exit(self, knight):
         pass
 
-    def do(self, entity: Knight) -> AnimationState[Knight] | None:
+    def do(self, knight: Knight) -> AnimationState[Knight] | None:
 
-        if get_time() - entity.start_time > 0.4:
-            if not entity.on_ground:
+        if get_time() - knight.start_time > 0.4:
+            if not knight.on_ground:
                 return OnAir(self.direction)
-            if entity.input_manager.jump:
+            if knight.input_manager.jump:
                 return Jump(self.direction)
 
             return Idle(self.direction)
@@ -200,12 +202,12 @@ class Upslash(AnimationState[Knight]):
     def exit(self, knight):
         pass
 
-    def do(self, entity: Knight) -> AnimationState[Knight] | None:
+    def do(self, knight: Knight) -> AnimationState[Knight] | None:
 
-        if get_time() - entity.start_time > 0.5:
-            if not entity.on_ground:
+        if get_time() - knight.start_time > 0.5:
+            if not knight.on_ground:
                 return OnAir(self.direction)
-            if entity.input_manager.jump:
+            if knight.input_manager.jump:
                 return Jump(self.direction)
             return Idle(self.direction)
 
@@ -228,12 +230,12 @@ class Downslash(AnimationState[Knight]):
     def exit(self, knight):
         pass
 
-    def do(self, entity: Knight) -> AnimationState[Knight] | None:
+    def do(self, knight: Knight) -> AnimationState[Knight] | None:
 
-        if get_time() - entity.start_time > 0.5:
-            if not entity.on_ground:
+        if get_time() - knight.start_time > 0.5:
+            if not knight.on_ground:
                 return OnAir(self.direction)
-            if entity.input_manager.jump:
+            if knight.input_manager.jump:
                 return Jump(self.direction)
 
             return Idle(self.direction)
@@ -369,7 +371,7 @@ class FireballCast(AnimationState[Knight]):
             knight.set_animation('knight_fireball_cast', True)
 
         knight.skill_point -= 3
-        knight.add_effect(self.direction, 'fireball_cast')
+        knight.add_effect(self.direction, 'fireball')
         knight.start_time = get_time()
 
     def do(self, knight: Knight) -> AnimationState[Knight] | None:

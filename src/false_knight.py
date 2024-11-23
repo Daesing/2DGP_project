@@ -1,6 +1,9 @@
-from pico2d import get_time
+import threading
+
+from pico2d import get_time, load_font
 from entity import Entity
 import game_framework
+from src.animation import SpriteCollection
 from state_machine import AnimationState
 
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
@@ -14,11 +17,14 @@ class FalseKnight(Entity):
     start_time: float
 
     def __init__(self,x,y):
-        super().__init__(x, y, PreJump('left'), ratio=0.7)
+        super().__init__(x, y, Idle('left'), ratio=0.7)
+        self.hit = True
         self.x,y, = x,y
         self.ground = y
         self.on_ground = True
         self.vx,self.vy = 0,0
+        self.hp = 100
+        self.font = load_font('../resource/font/ENCR10B.TTF', 16)
 
     def update(self):
         super().update()
@@ -30,9 +36,23 @@ class FalseKnight(Entity):
             self.vy = 0
             self.y = self.ground
 
+    def draw(self, collections: SpriteCollection):
+        super().draw(collections)
+        self.font.draw(self.x, self.y + 300, f'{self.hp:02d}', (255, 255, 0))
+
     def handle_collision(self,group,other):
-        if group == 'slash:false_knight':
-            pass
+        if group == 'slash:false_knight' and self.hit:
+            if self.hp > 0:
+                self.hp -= 2
+                self.hit = False
+                threading.Timer(0.5,self.reset_hit).start()
+        if group == 'fireball:false_knight'and self.hit:
+            if self.hp > 0:
+                self.hp -= 5
+                self.hit = False
+                threading.Timer(0.5, self.reset_hit).start()
+    def reset_hit(self):
+        self.hit = True
 
 class Idle(AnimationState[FalseKnight]):
     def __init__(self,direction):

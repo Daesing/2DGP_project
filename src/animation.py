@@ -3,7 +3,7 @@ from pico2d import load_image, draw_rectangle
 
 
 class SpriteAnimation:
-    def __init__(self, image_path, frame_cnt, width_cnt, height_cnt, v_align = None, h_align = None):
+    def __init__(self, image_path, frame_cnt, width_cnt, height_cnt, v_align=None, h_align=None):
         self.image_path = image_path
         self.image = load_image(image_path)
         self.frame_cnt = frame_cnt
@@ -12,14 +12,13 @@ class SpriteAnimation:
         self.frame_time = 30 / 60
         self.width_cnt = width_cnt
         self.height_cnt = height_cnt
-        self.v_align = 'center'  if v_align is None else v_align
-        self.h_align = 'center'  if h_align is None else h_align
-
+        self.v_align = 'center' if v_align is None else v_align
+        self.h_align = 'center' if h_align is None else h_align
 
         self.c_width = None
         self.c_height = None
 
-    def calculate_rect(self,x,y,width,height):
+    def calculate_rect(self, x, y, width, height):
         """
         :param x: 그려지는 x 좌표
         :param y: 그려지는 y 좌표
@@ -49,7 +48,6 @@ class SpriteAnimation:
 
         return draw_x, draw_y, game_width, game_height
 
-
     def draw(self, x, y, total_time, inverted: bool, width=None, height=None):
         cycle_time = 3
         self.frame_time = cycle_time / self.frame_cnt
@@ -61,18 +59,21 @@ class SpriteAnimation:
         sx = (current_frame % self.width_cnt) * self.width
         sy = (self.height_cnt - current_frame // self.width_cnt - 1) * self.height
 
-        draw_x,draw_y,draw_width,draw_height = self.calculate_rect(x,y,width,height)
+        draw_x, draw_y, draw_width, draw_height = self.calculate_rect(x, y, width, height)
 
         if inverted:
-            self.image.clip_composite_draw(sx, sy, self.width, self.height, 0, 'h', draw_x, draw_y, draw_width, draw_height)
+            self.image.clip_composite_draw(sx, sy, self.width, self.height, 0, 'h', draw_x, draw_y, draw_width,
+                                           draw_height)
         elif not inverted:
             self.image.clip_draw(sx, sy, self.width, self.height, draw_x, draw_y, draw_width, draw_height)
 
-        draw_rectangle(draw_x - draw_width / 2, draw_y - draw_height / 2, draw_x + draw_width / 2, draw_y + draw_height / 2)
-
+        draw_rectangle(draw_x - draw_width / 2, draw_y - draw_height / 2, draw_x + draw_width / 2,
+                       draw_y + draw_height / 2)
 
     def get_size(self) -> tuple:
+
         return self.width, self.height
+
 
 class SpriteCollection:
     def __init__(self):

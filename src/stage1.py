@@ -24,6 +24,8 @@ def init():
 
     # knight_slash: false_knight collision pair
     game_world.add_collision_pair('slash:false_knight',None,false_knight)
+    # knight_fireball:false_knight collision pair
+    game_world.add_collision_pair('fireball:false_knight',None,false_knight)
 
     #knight:false_knight
     game_world.add_collision_pair('knight:false_knight',knight,false_knight)
