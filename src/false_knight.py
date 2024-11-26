@@ -68,7 +68,7 @@ class FalseKnight(Entity):
         else:
             self.direction = 'left'
 
-        if abs(stage1.knight.x - self.x) > 500:
+        if abs(stage1.knight.x - self.x) > 400:
             self.state = 'run'
         else:
             action = random.randint(1,3)
@@ -143,7 +143,7 @@ class Run(AnimationState[FalseKnight]):
     def do(self, false_knight:FalseKnight) -> AnimationState[FalseKnight] | None:
 
 
-        if get_time() - false_knight.start_time > 2:
+        if get_time() - false_knight.start_time > 1.5:
             false_knight.state = 'Idle'
             return Idle(self.direction)
 
@@ -180,7 +180,7 @@ class Jump(AnimationState[FalseKnight]):
         elif self.direction == 'right':
             false_knight.set_animation('false_knight_jump')
 
-        false_knight.vy = 1000
+        false_knight.vy = 1300
         false_knight.on_ground = False
         false_knight.start_time = get_time()
 
@@ -332,7 +332,7 @@ class JumpAttack3(AnimationState[FalseKnight]):
         false_knight.start_time = get_time()
 
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
-        if get_time() - false_knight.start_time > 0.2:
+        if get_time() - false_knight.start_time > 0.5:
             return Idle(self.direction)
 
         return None
