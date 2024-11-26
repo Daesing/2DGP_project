@@ -1,3 +1,5 @@
+from pico2d import draw_rectangle
+
 from animation import SpriteCollection
 from state_machine import StateMachine, AnimationState
 from typing import Self
@@ -37,10 +39,12 @@ class Entity:
         return draw_width, draw_height
 
     def get_boundary(self, collections: SpriteCollection):
-        width, height = self.get_size(collections)
-        left = self.x - width / 2
-        bottom = self.y - height / 2
-        right = self.x + width / 2
-        top = self.y + height / 2
+        animation = collections.get(self.current_animation)
+        draw_x, draw_y, draw_width, draw_height = animation.calculate_rect(self.x, self.y, *self.get_size(collections))
+
+        left = draw_x - draw_width / 2
+        bottom = draw_y - draw_height / 2
+        right = draw_x + draw_width / 2
+        top = draw_y + draw_height / 2
 
         return left, bottom, right, top

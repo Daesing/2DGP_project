@@ -1,8 +1,10 @@
+import random
 import threading
 
 from pico2d import get_time, load_font
 from entity import Entity
 import game_framework
+import stage1
 from src.animation import SpriteCollection
 from state_machine import AnimationState
 
@@ -18,6 +20,7 @@ class FalseKnight(Entity):
 
     def __init__(self,x,y):
         super().__init__(x, y, Idle('left'), ratio=0.7)
+        self.direction = None
         self.hit = True
         self.x,y, = x,y
         self.ground = y
@@ -25,6 +28,8 @@ class FalseKnight(Entity):
         self.vx,self.vy = 0,0
         self.hp = 100
         self.font = load_font('../resource/font/ENCR10B.TTF', 16)
+        self.state = 'Idle'
+        self.dead = False
 
     def update(self):
         super().update()
@@ -32,9 +37,12 @@ class FalseKnight(Entity):
         self.vy -= 1500 * game_framework.frame_time
         self.x += self.vx * game_framework.frame_time
         self.y += self.vy * game_framework.frame_time
+        self.check_run()
         if self.y <= self.ground:
             self.vy = 0
             self.y = self.ground
+        if self.hp == 0:
+            self.dead = True
 
     def draw(self, collections: SpriteCollection):
         super().draw(collections)
@@ -54,6 +62,25 @@ class FalseKnight(Entity):
     def reset_hit(self):
         self.hit = True
 
+    def check_run(self):
+        if stage1.knight.x > self.x:
+            self.direction = 'right'
+        else:
+            self.direction = 'left'
+
+        if abs(stage1.knight.x - self.x) > 500:
+            self.state = 'run'
+        else:
+            action = random.randint(1,3)
+            if action == 1:
+                self.state = 'jump_attack'
+            elif action == 2:
+                self.state = 'jump'
+            else:
+                self.state = 'attack'
+
+
+
 class Idle(AnimationState[FalseKnight]):
     def __init__(self,direction):
         self.direction = direction
@@ -64,12 +91,19 @@ class Idle(AnimationState[FalseKnight]):
         if self.direction == 'right':
             false_knight.set_animation('false_knight_idle')
 
+        false_knight.vx = 0
         false_knight.start_time = get_time()
 
     def do(self, false_knight:FalseKnight) -> AnimationState[FalseKnight] | None:
 
-        if get_time() - false_knight.start_time > 2:
-            return PreRun(self.direction)
+        if false_knight.state == 'run':
+            return PreRun(false_knight.direction)
+        elif false_knight.state == 'attack':
+            return PreAttack(false_knight.direction)
+        elif false_knight.state == 'jump_attack':
+            return PreJump(false_knight.direction)
+        elif false_knight.state == 'jump':
+            return PreJump(false_knight.direction)
 
         return None
 
@@ -99,8 +133,10 @@ class Run(AnimationState[FalseKnight]):
     def enter(self,false_knight):
         if self.direction == 'left':
             false_knight.set_animation('false_knight_run',True)
+            false_knight.vx = - RUN_SPEED_PPS
         elif self.direction == 'right':
             false_knight.set_animation('false_knight_run')
+            false_knight.vx = RUN_SPEED_PPS
 
         false_knight.start_time = get_time()
 
@@ -108,7 +144,8 @@ class Run(AnimationState[FalseKnight]):
 
 
         if get_time() - false_knight.start_time > 2:
-            return PreJump(self.direction)
+            false_knight.state = 'Idle'
+            return Idle(self.direction)
 
         return None
 
@@ -126,7 +163,10 @@ class PreJump(AnimationState[FalseKnight]):
 
     def do(self, false_knight:FalseKnight) -> AnimationState[FalseKnight] | None:
         if get_time() - false_knight.start_time > 0.5:
-            return JumpAttackUp(self.direction)
+            if false_knight.state == 'jump_attack':
+                return JumpAttackUp(self.direction)
+            elif false_knight.state == 'jump':
+                return Jump(self.direction)
 
         return None
 
@@ -164,7 +204,7 @@ class Land(AnimationState[FalseKnight]):
 
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
         if get_time() - false_knight.start_time > 1.0:
-            return PreAttack(self.direction)
+            return Idle(self.direction)
 
         return None
 

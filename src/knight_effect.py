@@ -26,7 +26,6 @@ class KnightEffect(Entity):
 
 
     def handle_collision(self,group,other):
-        print('slash collision')
         if group == 'slash:false_knight' and self.hit:
             if self.knight.skill_point < 9:
                 self.knight.skill_point += 1
