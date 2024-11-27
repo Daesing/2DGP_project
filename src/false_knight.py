@@ -5,7 +5,7 @@ from pico2d import get_time, load_font
 from entity import Entity
 import game_framework
 import stage1
-from src.animation import SpriteCollection
+from animation import SpriteCollection
 from state_machine import AnimationState
 
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm

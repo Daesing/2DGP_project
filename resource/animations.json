@@ -120,6 +120,42 @@
       "path": "../resource/false_knight/false_knight_jump_attack3.png",
       "frames": 2, "width": 2, "height": 1,
       "v_align": "bottom"
+    },
+    "hornet_idle": {
+      "path": "../resource/hornet/hornet_idle.png",
+      "frames": 6, "width": 6, "height": 1
+    },
+    "hornet_flourish": {
+      "path": "../resource/hornet/hornet_flourish.png",
+      "frames": 14, "width": 6, "height": 3
+    },
+    "hornet_run": {
+      "path": "../resource/hornet/hornet_run.png",
+      "frames": 8, "width": 8, "height": 1
+    },
+    "hornet_jump": {
+      "path": "../resource/hornet/hornet_jump.png",
+      "frames": 9, "width": 9, "height": 1
+    },
+    "hornet_jump_pre": {
+      "path": "../resource/hornet/hornet_jump_pre.png",
+      "frames": 4, "width": 4, "height": 1
+    },
+    "hornet_land": {
+      "path": "../resource/hornet/hornet_land.png",
+      "frames": 3, "width": 3, "height": 1
+    },
+    "hornet_throw_pre": {
+      "path": "../resource/hornet/hornet_throw_pre.png",
+      "frames": 10, "width": 8, "height": 2
+    },
+    "hornet_throw": {
+      "path": "../resource/hornet/hornet_throw.png",
+      "frames": 6, "width": 6, "height": 1
+    },
+    "hornet_throw_recover": {
+      "path": "../resource/hornet/hornet_throw_recover.png",
+      "frames": 6, "width": 6, "height": 1
     }
   }
 }

@@ -6,15 +6,19 @@ import title_mode
 import stage1
 from knight import Knight
 from header import WIDTH,HEIGHT
+from hornet import Hornet
 
 
 def init():
     global knight
     global image,text
+    global hornet
     image = load_image('../resource/background/Greenpath_Hornet_Arena.png')
     text = load_image('../resource/ui/stage2_text.png')
     knight = Knight(0,140)
+    hornet = Hornet(800,150)
     game_world.add_object(knight, 1)
+    game_world.add_object(hornet,1)
 
 def handle_events():
 
