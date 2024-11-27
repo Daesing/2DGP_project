@@ -156,6 +156,14 @@
     "hornet_throw_recover": {
       "path": "../resource/hornet/hornet_throw_recover.png",
       "frames": 6, "width": 6, "height": 1
+    },
+    "hornet_needle": {
+      "path": "../resource/hornet/hornet_needle.png",
+      "frames": 3, "width": 3, "height": 1
+    },
+    "hornet_needle_thread": {
+      "path": "../resource/hornet/hornet_needle_thread.png",
+      "frames": 6, "width": 3, "height": 2
     }
   }
 }

@@ -5,11 +5,13 @@ import game_framework
 from entity import Entity
 from animation import SpriteCollection
 import stage2
+from hornet_effect import HornetEffect
+import game_world
 from state_machine import AnimationState
 
 
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-RUN_SPEED_KMPH = 30.0  # Km / Hour
+RUN_SPEED_KMPH = 20  # Km / Hour
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -53,6 +55,10 @@ class Hornet(Entity):
 
     def reset_hit(self):
         self.hit = True
+
+    def add_effect(self, direction, action):
+        effect = HornetEffect(self, direction, action)
+        game_world.add_object(effect,2)
 
     def check_run(self):
         if stage2.knight.x > self.x:
@@ -211,6 +217,7 @@ class Throw(AnimationState[Hornet]):
         elif self.direction == 'right':
             hornet.set_animation('hornet_throw', True)
 
+        hornet.add_effect(self.direction,'needle')
         hornet.start_time = get_time()
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
@@ -229,6 +236,7 @@ class ThrowRecover(AnimationState[Hornet]):
         elif self.direction == 'right':
             hornet.set_animation('hornet_throw_recover', True)
 
+        hornet.add_effect(self.direction, 'thread')
         hornet.start_time = get_time()
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
