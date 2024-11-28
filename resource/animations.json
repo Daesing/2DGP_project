@@ -164,6 +164,22 @@
     "hornet_needle_thread": {
       "path": "../resource/hornet/hornet_needle_thread.png",
       "frames": 6, "width": 3, "height": 2
+    },
+    "hornet_dash_pre": {
+      "path": "../resource/hornet/hornet_dash_pre.png",
+      "frames": 10, "width": 8, "height": 2
+    },
+    "hornet_dash": {
+      "path": "../resource/hornet/hornet_dash.png",
+      "frames": 2, "width": 2, "height": 1
+    },
+    "hornet_dash_recover": {
+      "path": "../resource/hornet/hornet_dash_recover.png",
+      "frames": 6, "width": 6, "height": 1
+    },
+    "hornet_dash_effect": {
+      "path": "../resource/hornet/hornet_dash_effect.png",
+      "frames": 6, "width": 2, "height": 3
     }
   }
 }

@@ -8,6 +8,7 @@ from animation import SpriteCollection
 import stage2
 from hornet_effect import HornetEffect
 import game_world
+from header import WIDTH
 from state_machine import AnimationState
 
 
@@ -44,8 +45,14 @@ class Hornet(Entity):
         if self.y <= self.ground:
             self.vy = 0
             self.y = self.ground
+            self.on_ground = True
         if self.hp == 0:
             self.dead = True
+
+        if self.x < 0:
+           self.x = 0
+        elif self.x > WIDTH:
+            self.x = WIDTH
 
     def draw(self, collections: SpriteCollection):
         super().draw(collections)
@@ -69,6 +76,7 @@ class Hornet(Entity):
         if action == 'needle':
             game_world.add_collision_pair('knight:needle',None,effect)
 
+
     def check_run(self):
         if stage2.knight.x > self.x:
             self.direction = 'right'
@@ -76,14 +84,18 @@ class Hornet(Entity):
             self.direction = 'left'
 
         if abs(stage2.knight.x - self.x) > 300:
-            self.state = 'run'
+            action = random.randint(1, 3)
+            if action == 1:
+                self.state = 'run'
+            elif action == 2:
+                self.state = 'jump'
+            elif action == 3:
+                self.state = 'dash'
         else:
             action = random.randint(1, 3)
             if action == 1:
                 self.state = 'throw'
             if action == 2:
-                self.state = 'jump'
-            if action == 3:
                 self.state = 'flourish'
 
 class Idle(AnimationState[Hornet]):
@@ -109,6 +121,8 @@ class Idle(AnimationState[Hornet]):
             return PreJump(hornet.direction)
         elif hornet.state == 'flourish':
             return Flourish(hornet.direction)
+        elif hornet.state == 'dash':
+            return PreDash(hornet.direction)
         return None
 
 class Flourish(AnimationState[Hornet]):
@@ -175,12 +189,15 @@ class Jump(AnimationState[Hornet]):
 
     def enter(self, hornet):
         if self.direction == 'left':
+            hornet.vx = - RUN_SPEED_PPS
             hornet.set_animation('hornet_jump')
         elif self.direction == 'right':
+            hornet.vx = RUN_SPEED_PPS
             hornet.set_animation('hornet_jump', True)
 
         hornet.start_time = get_time()
         hornet.vy = 1000
+        hornet.on_ground = False
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
         if get_time() - hornet.start_time > 1:
@@ -201,9 +218,11 @@ class Land(AnimationState[Hornet]):
         hornet.start_time = get_time()
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
+        if hornet.on_ground:
+            hornet.vx = 0
+
         if get_time() - hornet.start_time > 0.7:
             return Idle(self.direction)
-
         return None
 
 class PreThrow(AnimationState[Hornet]):
@@ -262,4 +281,67 @@ class ThrowRecover(AnimationState[Hornet]):
 
         return None
 
+class PreDash(AnimationState[Hornet]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, hornet):
+        if self.direction == 'left':
+            hornet.set_animation('hornet_dash_pre')
+        elif self.direction == 'right':
+            hornet.set_animation('hornet_dash_pre', True)
+
+        #hornet.add_effect(self.direction,'needle')
+        hornet.start_time = get_time()
+
+    def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
+
+        if get_time() - hornet.start_time > 0.8:
+            return Dash(self.direction)
+
+        return None
+
+class Dash(AnimationState[Hornet]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, hornet):
+        if self.direction == 'left':
+            hornet.vx = - RUN_SPEED_PPS * 5
+            hornet.set_animation('hornet_dash')
+        elif self.direction == 'right':
+            hornet.vx = RUN_SPEED_PPS * 5
+            hornet.set_animation('hornet_dash', True)
+
+        hornet.add_effect(self.direction,'dash')
+
+        hornet.start_time = get_time()
+
+    def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
+
+        if get_time() - hornet.start_time > 0.3:
+            return DashRecover(self.direction)
+
+        return None
+
+class DashRecover(AnimationState[Hornet]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, hornet):
+        hornet.vx = 0
+
+        if self.direction == 'left':
+            hornet.set_animation('hornet_dash_recover')
+        elif self.direction == 'right':
+            hornet.set_animation('hornet_dash_recover', True)
+
+        hornet.start_time = get_time()
+
+    def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
+
+        if get_time() - hornet.start_time > 1.0:
+            return Idle(self.direction)
+
+        return None
 
