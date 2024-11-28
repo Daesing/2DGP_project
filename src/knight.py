@@ -56,12 +56,14 @@ class Knight(Entity):
             self.is_invincible = False
 
     def handle_collision(self, group, other):
-        if group == 'knight:false_knight':
+        print(f'group: {group}')
+        if group == 'knight:false_knight' or group == 'knight:hornet' or 'knight:needle':
             if self.hp > 0 and self.is_invincible == False:
                 self.hp -= 1
                 self.is_invincible = True
                 self.invincible_time = 2.5
                 print('invincible_activate')
+
 
 
     def handle_event(self, event: Event):
@@ -71,6 +73,7 @@ class Knight(Entity):
         effect = KnightEffect(self, direction, action)
         if action == 'slash':
             game_world.add_collision_pair('slash:false_knight', effect, None)
+            game_world.add_collision_pair('slash:hornet',effect,None)
         elif action == 'fireball':
             game_world.add_collision_pair('fireball:false_knight',effect,None)
         game_world.add_object(effect, 2)
@@ -159,7 +162,6 @@ class Slash(AnimationState[Knight]):
         self.direction = direction
 
     def enter(self, knight):
-        print('slash enter')
         if self.direction == 'right':
             knight.set_animation('knight_slash')
         elif self.direction == 'left':

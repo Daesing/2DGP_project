@@ -3,7 +3,6 @@ from pico2d import *
 import game_framework
 import game_world
 import title_mode
-import stage1
 from knight import Knight
 from header import WIDTH,HEIGHT
 from hornet import Hornet
@@ -20,6 +19,10 @@ def init():
     game_world.add_object(knight, 1)
     game_world.add_object(hornet,1)
 
+    game_world.add_collision_pair('knight:hornet',knight,hornet)
+    game_world.add_collision_pair('knight:needle',knight,None)
+    game_world.add_collision_pair('slash:hornet',None, hornet)
+
 def handle_events():
 
     events = get_events()
@@ -33,8 +36,9 @@ def handle_events():
 
 def update():
     game_world.update()
+    game_world.handle_collisions()
     if knight.x < 0:
-        game_framework.change_mode(stage1)
+        knight.x = 0
 
 
 

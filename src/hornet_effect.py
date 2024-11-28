@@ -30,12 +30,17 @@ class HornetEffect(Entity):
 
 
     def handle_collision(self,group,other):
-        pass
+        if group == 'knight:needle':
+            print('needle')
+            pass
 
     def update(self):
         super().update()
         self.state_machine.update()
 
+    def add_effect(self, direction, action):
+        effect = HornetEffect(self, direction, action)
+        game_world.add_object(effect,2)
 
 class Thread(AnimationState[HornetEffect]):
     def __init__(self):
@@ -55,8 +60,7 @@ class Thread(AnimationState[HornetEffect]):
         hornet_effect.start_time = get_time()
 
     def do(self, hornet_effect:HornetEffect) -> AnimationState[HornetEffect] | None:
-
-        if get_time() - hornet_effect.start_time > 0.8:
+        if get_time() - hornet_effect.start_time > 0.4:
             return Delete()
         return None
 
@@ -86,10 +90,10 @@ class Needle(AnimationState[HornetEffect]):
                 hornet_effect.x -= 2
             elif hornet_effect.direction == 'right':
                 hornet_effect.x += 2
-        if 1 < get_time() - hornet_effect.start_time < 2:
+        if 1 < get_time() - hornet_effect.start_time < 1.5:
             if hornet_effect.direction == 'left':
-                hornet_effect.x += 2
+                hornet_effect.x += 3
             elif hornet_effect.direction == 'right':
-                hornet_effect.x -= 2
-        if get_time() - hornet_effect.start_time > 2:
+                hornet_effect.x -= 3
+        if get_time() - hornet_effect.start_time > 1.5:
             return Delete()

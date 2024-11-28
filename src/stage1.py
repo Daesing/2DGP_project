@@ -44,9 +44,7 @@ def handle_events():
 def update():
     game_world.update()
     game_world.handle_collisions()
-    if knight.x < 0 and false_knight.dead:
-        game_framework.change_mode(play_mode)
-    elif knight.x > WIDTH and false_knight.dead:
+    if knight.x > WIDTH and false_knight.dead:
         game_framework.change_mode(stage2)
 
 def draw():

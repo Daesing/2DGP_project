@@ -1,4 +1,5 @@
 import random
+import threading
 
 from pico2d import *
 import game_framework
@@ -21,7 +22,7 @@ class Hornet(Entity):
     start_time: float
 
     def __init__(self,x,y):
-        super().__init__(x, y, Idle('left'), ratio=0.7)
+        super().__init__(x, y, Idle('left'),ratio=0.7)
         self.direction = None
         self.hit = True
         self.x,y, = x,y
@@ -48,10 +49,16 @@ class Hornet(Entity):
 
     def draw(self, collections: SpriteCollection):
         super().draw(collections)
-        self.font.draw(self.x, self.y + 300, f'{self.hp:02d}', (255, 255, 0))
+        self.font.draw(self.x, self.y + 100, f'{self.hp:02d}', (255, 255, 0))
 
     def handle_collision(self,group,other):
-       pass
+        if group == 'knight:hornet':
+           pass
+        if group == 'slash:hornet' and self.hit:
+           if self.hp > 0:
+               self.hp -= 2
+               self.hit = False
+               threading.Timer(0.5, self.reset_hit).start()
 
     def reset_hit(self):
         self.hit = True
@@ -59,6 +66,8 @@ class Hornet(Entity):
     def add_effect(self, direction, action):
         effect = HornetEffect(self, direction, action)
         game_world.add_object(effect,2)
+        if action == 'needle':
+            game_world.add_collision_pair('knight:needle',None,effect)
 
     def check_run(self):
         if stage2.knight.x > self.x:
@@ -72,6 +81,10 @@ class Hornet(Entity):
             action = random.randint(1, 3)
             if action == 1:
                 self.state = 'throw'
+            if action == 2:
+                self.state = 'jump'
+            if action == 3:
+                self.state = 'flourish'
 
 class Idle(AnimationState[Hornet]):
 
@@ -92,6 +105,10 @@ class Idle(AnimationState[Hornet]):
             return Run(hornet.direction)
         elif hornet.state == 'throw':
             return PreThrow(hornet.direction)
+        elif hornet.state == 'jump':
+            return PreJump(hornet.direction)
+        elif hornet.state == 'flourish':
+            return Flourish(hornet.direction)
         return None
 
 class Flourish(AnimationState[Hornet]):
@@ -107,8 +124,8 @@ class Flourish(AnimationState[Hornet]):
         hornet.start_time = get_time()
 
     def do(self, hornet:Hornet) -> AnimationState[Hornet] | None:
-        if get_time() - hornet.start_time > 3:
-            return Idle(self.direction)
+        if get_time() - hornet.start_time > 1.6:
+            return PreThrow(self.direction)
         return None
 
 class Run(AnimationState[Hornet]):
@@ -221,7 +238,8 @@ class Throw(AnimationState[Hornet]):
         hornet.start_time = get_time()
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
-        if get_time() - hornet.start_time > 1.0:
+
+        if get_time() - hornet.start_time > 1.5:
             return ThrowRecover(self.direction)
 
         return None
@@ -236,7 +254,6 @@ class ThrowRecover(AnimationState[Hornet]):
         elif self.direction == 'right':
             hornet.set_animation('hornet_throw_recover', True)
 
-        hornet.add_effect(self.direction, 'thread')
         hornet.start_time = get_time()
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:

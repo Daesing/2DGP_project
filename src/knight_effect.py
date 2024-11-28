@@ -26,7 +26,12 @@ class KnightEffect(Entity):
 
 
     def handle_collision(self,group,other):
+        print('slash:hornet')
         if group == 'slash:false_knight' and self.hit:
+            if self.knight.skill_point < 9:
+                self.knight.skill_point += 1
+            self.hit = False
+        elif group == 'slash:hornet' and self.hit:
             if self.knight.skill_point < 9:
                 self.knight.skill_point += 1
             self.hit = False
@@ -44,7 +49,6 @@ class SlashEffect(AnimationState[KnightEffect]):
         pass
 
     def enter(self, knight_effect):
-        print('Slash effect enter')
         knight_effect.x = knight_effect.knight.x
         knight_effect.y = knight_effect.knight.y
 
