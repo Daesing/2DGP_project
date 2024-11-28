@@ -29,6 +29,8 @@ class HornetEffect(Entity):
             super().__init__(0, 0, Needle())
         elif action == 'dash':
             super().__init__(0, 0, DashEffect())
+        elif action == 'sphere':
+            super().__init__(0, 0, SphereEffect())
 
 
     def handle_collision(self,group,other):
@@ -124,4 +126,26 @@ class DashEffect(AnimationState[HornetEffect]):
         elif hornet_effect.direction == 'right':
             hornet_effect.x = hornet_effect.hornet.x + 400
         if get_time() - hornet_effect.start_time > 0.5:
+            return Delete()
+
+class SphereEffect(AnimationState[HornetEffect]):
+
+    def enter(self, hornet_effect):
+        hornet_effect.y = hornet_effect.hornet.y + 50
+        hornet_effect.x = hornet_effect.hornet.x
+
+        if hornet_effect.direction == 'left':
+            hornet_effect.set_animation('hornet_sphere_effect')
+
+
+        elif hornet_effect.direction == 'right':
+            hornet_effect.set_animation('hornet_sphere_effect', True)
+
+        hornet_effect.start_time = get_time()
+
+    def do(self, hornet_effect:HornetEffect) -> AnimationState[HornetEffect] | None:
+        hornet_effect.y = hornet_effect.hornet.y + 50
+        hornet_effect.x = hornet_effect.hornet.x
+
+        if get_time() - hornet_effect.start_time > 1.0:
             return Delete()

@@ -46,6 +46,8 @@ def update():
     game_world.handle_collisions()
     if knight.x > WIDTH and false_knight.dead:
         game_framework.change_mode(stage2)
+    if knight.hp == 0: pass
+        #game_framework.change_mode()
 
 def draw():
     clear_canvas()

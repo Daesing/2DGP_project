@@ -180,6 +180,18 @@
     "hornet_dash_effect": {
       "path": "../resource/hornet/hornet_dash_effect.png",
       "frames": 6, "width": 2, "height": 3
+    },
+    "hornet_sphere": {
+      "path": "../resource/hornet/hornet_sphere.png",
+      "frames": 9, "width": 9, "height": 1
+    },
+    "hornet_sphere_recover": {
+      "path": "../resource/hornet/hornet_sphere_recover.png",
+      "frames": 2, "width": 2, "height": 1
+    },
+    "hornet_sphere_effect": {
+      "path": "../resource/hornet/hornet_sphere_effect.png",
+      "frames": 9, "width": 5, "height": 2
     }
   }
 }

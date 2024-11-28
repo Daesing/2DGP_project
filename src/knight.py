@@ -259,7 +259,7 @@ class Jump(AnimationState[Knight]):
         self.start_time = get_time()
 
         if knight.on_ground:
-            knight.vy = 700
+            knight.vy = 800
             knight.on_ground = False
 
     def exit(self, knight):

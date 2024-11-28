@@ -139,7 +139,12 @@ class Flourish(AnimationState[Hornet]):
 
     def do(self, hornet:Hornet) -> AnimationState[Hornet] | None:
         if get_time() - hornet.start_time > 1.6:
-            return PreThrow(self.direction)
+
+            action = random.randint(1,2)
+            if action == 1:
+                return PreThrow(self.direction)
+            else:
+                return Sphere(self.direction)
         return None
 
 class Run(AnimationState[Hornet]):
@@ -178,7 +183,10 @@ class PreJump(AnimationState[Hornet]):
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
         if get_time() - hornet.start_time > 0.3:
-            return Jump(self.direction)
+            if hornet.state == 'jump':
+                return Jump(self.direction)
+            elif hornet.state == 'sphere':
+                return Sphere(self.direction)
 
         return None
 
@@ -344,4 +352,44 @@ class DashRecover(AnimationState[Hornet]):
             return Idle(self.direction)
 
         return None
+
+class Sphere(AnimationState[Hornet]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, hornet):
+
+        if self.direction == 'left':
+            hornet.set_animation('hornet_sphere')
+        elif self.direction == 'right':
+            hornet.set_animation('hornet_sphere', True)
+
+        hornet.add_effect(self.direction,'sphere')
+        hornet.start_time = get_time()
+
+    def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
+        if get_time() - hornet.start_time > 1.0:
+            return SphereRecover(self.direction)
+
+        return None
+class SphereRecover(AnimationState[Hornet]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, hornet):
+
+        if self.direction == 'left':
+            hornet.set_animation('hornet_sphere_recover')
+        elif self.direction == 'right':
+            hornet.set_animation('hornet_sphere_recover', True)
+
+        hornet.start_time = get_time()
+
+    def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
+
+        if get_time() - hornet.start_time > 0.3:
+            return Idle(self.direction)
+
+        return None
+
 
