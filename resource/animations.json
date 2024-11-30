@@ -192,6 +192,14 @@
     "hornet_sphere_effect": {
       "path": "../resource/hornet/hornet_sphere_effect.png",
       "frames": 9, "width": 5, "height": 2
+    },
+    "hornet_stun": {
+      "path": "../resource/hornet/hornet_stun.png",
+      "frames": 4, "width": 4, "height": 1
+    },
+    "hornet_wounded": {
+      "path": "../resource/hornet/hornet_wounded.png",
+      "frames": 5, "width": 5, "height": 1
     }
   }
 }

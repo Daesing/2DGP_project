@@ -113,7 +113,7 @@ class DashEffect(AnimationState[HornetEffect]):
 
         elif hornet_effect.direction == 'right':
             hornet_effect.set_animation('hornet_dash_effect', True)
-            hornet_effect.x = hornet_effect.hornet.x + 400
+            hornet_effect.x = hornet_effect.hornet.x - 400
 
         hornet_effect.start_time = get_time()
 
@@ -124,7 +124,7 @@ class DashEffect(AnimationState[HornetEffect]):
             hornet_effect.x = hornet_effect.hornet.x + 400
 
         elif hornet_effect.direction == 'right':
-            hornet_effect.x = hornet_effect.hornet.x + 400
+            hornet_effect.x = hornet_effect.hornet.x - 400
         if get_time() - hornet_effect.start_time > 0.5:
             return Delete()
 

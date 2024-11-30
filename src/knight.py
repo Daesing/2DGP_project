@@ -57,7 +57,8 @@ class Knight(Entity):
 
     def handle_collision(self, group, other):
         print(f'group: {group}')
-        if group == 'knight:false_knight' or group == 'knight:hornet' or 'knight:needle':
+        if (group == 'knight:false_knight' or group == 'knight:hornet' or
+                'knight:needle' or 'knight:sphere'):
             if self.hp > 0 and self.is_invincible == False:
                 self.hp -= 1
                 self.is_invincible = True
@@ -76,6 +77,7 @@ class Knight(Entity):
             game_world.add_collision_pair('slash:hornet',effect,None)
         elif action == 'fireball':
             game_world.add_collision_pair('fireball:false_knight',effect,None)
+            game_world.add_collision_pair('fireball:hornet', effect, None)
         game_world.add_object(effect, 2)
 
 
@@ -372,6 +374,7 @@ class FireballCast(AnimationState[Knight]):
         elif self.direction == 'left':
             knight.set_animation('knight_fireball_cast', True)
 
+        knight.vx = 0
         knight.skill_point -= 3
         knight.add_effect(self.direction, 'fireball')
         knight.start_time = get_time()

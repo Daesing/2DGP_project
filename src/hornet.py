@@ -41,7 +41,7 @@ class Hornet(Entity):
         self.vy -= 1500 * game_framework.frame_time
         self.x += self.vx * game_framework.frame_time
         self.y += self.vy * game_framework.frame_time
-        self.check_run()
+        self.check_action()
         if self.y <= self.ground:
             self.vy = 0
             self.y = self.ground
@@ -66,6 +66,11 @@ class Hornet(Entity):
                self.hp -= 2
                self.hit = False
                threading.Timer(0.5, self.reset_hit).start()
+        if group == 'fireball:hornet' and self.hit:
+           if self.hp > 0:
+               self.hp -= 5
+               self.hit = False
+               threading.Timer(0.5, self.reset_hit).start()
 
     def reset_hit(self):
         self.hit = True
@@ -77,7 +82,9 @@ class Hornet(Entity):
             game_world.add_collision_pair('knight:needle',None,effect)
 
 
-    def check_run(self):
+    def check_action(self):
+
+
         if stage2.knight.x > self.x:
             self.direction = 'right'
         else:
@@ -97,6 +104,12 @@ class Hornet(Entity):
                 self.state = 'throw'
             if action == 2:
                 self.state = 'flourish'
+
+        if self.hp <= 0:
+            self.state = 'wounded'
+        if 40 < self.hp < 60:
+            self.state = 'stun'
+
 
 class Idle(AnimationState[Hornet]):
 
@@ -123,6 +136,10 @@ class Idle(AnimationState[Hornet]):
             return Flourish(hornet.direction)
         elif hornet.state == 'dash':
             return PreDash(hornet.direction)
+        elif hornet.state == 'stun':
+            return Stun(hornet.direction)
+        elif hornet.state == 'wounded':
+            return Wounded(hornet.direction)
         return None
 
 class Flourish(AnimationState[Hornet]):
@@ -392,4 +409,33 @@ class SphereRecover(AnimationState[Hornet]):
 
         return None
 
+class Stun(AnimationState[Hornet]):
+    def __init__(self, direction):
+        self.direction = direction
 
+    def enter(self, hornet):
+        if self.direction == 'left':
+            hornet.set_animation('hornet_stun')
+        elif self.direction == 'right':
+            hornet.set_animation('hornet_stun', True)
+
+    def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
+
+        if hornet.state != 'stun':
+            return Idle(self.direction)
+
+        return None
+
+class Wounded(AnimationState[Hornet]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, hornet):
+        if self.direction == 'left':
+            hornet.set_animation('hornet_wounded')
+        elif self.direction == 'right':
+            hornet.set_animation('hornet_wounded', True)
+
+    def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
+
+        return None
