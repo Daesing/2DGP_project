@@ -200,6 +200,26 @@
     "hornet_wounded": {
       "path": "../resource/hornet/hornet_wounded.png",
       "frames": 5, "width": 5, "height": 1
+    },
+    "hornet_barb": {
+      "path": "../resource/hornet/hornet_barb.png",
+      "frames": 5, "width": 5, "height": 1
+    },
+    "hornet_barb_break": {
+      "path": "../resource/hornet/hornet_barb_break.png",
+      "frames": 3, "width": 3, "height": 1
+    },
+    "hornet_barb_throw": {
+      "path": "../resource/hornet/hornet_barb_throw.png",
+      "frames": 4, "width": 4, "height": 1
+    },
+    "hornet_barb_throw_pre": {
+      "path": "../resource/hornet/hornet_barb_throw_pre.png",
+      "frames": 4, "width": 4, "height": 1
+    },
+    "hornet_barb_throw_recover": {
+      "path": "../resource/hornet/hornet_barb_throw_recover.png",
+      "frames": 5, "width": 5, "height": 1
     }
   }
 }

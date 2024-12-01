@@ -58,7 +58,7 @@ class Knight(Entity):
     def handle_collision(self, group, other):
         print(f'group: {group}')
         if (group == 'knight:false_knight' or group == 'knight:hornet' or
-                'knight:needle' or 'knight:sphere'):
+                'knight:needle' or 'knight:sphere' or 'knight:barb'):
             if self.hp > 0 and self.is_invincible == False:
                 self.hp -= 1
                 self.is_invincible = True

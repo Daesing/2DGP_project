@@ -23,7 +23,7 @@ class Hornet(Entity):
     start_time: float
 
     def __init__(self,x,y):
-        super().__init__(x, y, Idle('left'),ratio=0.7)
+        super().__init__(x, y, PreBarb('left'),ratio=0.7)
         self.direction = None
         self.hit = True
         self.x,y, = x,y
@@ -80,6 +80,8 @@ class Hornet(Entity):
         game_world.add_object(effect,2)
         if action == 'needle':
             game_world.add_collision_pair('knight:needle',None,effect)
+        elif action == 'barb':
+            game_world.add_collision_pair('knight:barb',None,effect)
 
 
     def check_action(self):
@@ -91,13 +93,15 @@ class Hornet(Entity):
             self.direction = 'left'
 
         if abs(stage2.knight.x - self.x) > 300:
-            action = random.randint(1, 3)
+            action = random.randint(1, 4)
             if action == 1:
                 self.state = 'run'
             elif action == 2:
                 self.state = 'jump'
             elif action == 3:
                 self.state = 'dash'
+            elif action == 4:
+                self.state = 'barb'
         else:
             action = random.randint(1, 3)
             if action == 1:
@@ -140,6 +144,8 @@ class Idle(AnimationState[Hornet]):
             return Stun(hornet.direction)
         elif hornet.state == 'wounded':
             return Wounded(hornet.direction)
+        elif hornet.state == 'barb':
+            return PreBarb(hornet.direction)
         return None
 
 class Flourish(AnimationState[Hornet]):
@@ -408,6 +414,64 @@ class SphereRecover(AnimationState[Hornet]):
             return Idle(self.direction)
 
         return None
+
+class PreBarb(AnimationState[Hornet]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, hornet):
+        if self.direction == 'left':
+            hornet.set_animation('hornet_barb_throw_pre')
+        elif self.direction == 'right':
+            hornet.set_animation('hornet_barb_throw_pre', True)
+
+        hornet.start_time = get_time()
+
+    def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
+        if get_time() - hornet.start_time > 0.5:
+            return Barb(self.direction)
+
+        return None
+
+class Barb(AnimationState[Hornet]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, hornet):
+        if self.direction == 'left':
+            hornet.set_animation('hornet_barb_throw')
+        elif self.direction == 'right':
+            hornet.set_animation('hornet_barb_throw', True)
+
+        hornet.start_time = get_time()
+        hornet.add_effect(self.direction,'barb')
+
+    def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
+        if get_time() - hornet.start_time > 1.0:
+            return BarbRecover(self.direction)
+
+        return None
+
+class BarbRecover(AnimationState[Hornet]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, hornet):
+        if self.direction == 'left':
+            hornet.set_animation('hornet_barb_throw_recover')
+        elif self.direction == 'right':
+            hornet.set_animation('hornet_barb_throw_recover', True)
+
+        hornet.start_time = get_time()
+
+    def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
+        if get_time() - hornet.start_time > 0.7:
+            return Idle(self.direction)
+
+        return None
+
+
+
 
 class Stun(AnimationState[Hornet]):
     def __init__(self, direction):
