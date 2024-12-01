@@ -6,6 +6,8 @@ import title_mode
 from knight import Knight
 from header import WIDTH,HEIGHT
 from hornet import Hornet
+import game_over
+import ending
 
 
 def init():
@@ -42,6 +44,11 @@ def update():
     game_world.handle_collisions()
     if knight.x < 0:
         knight.x = 0
+    if knight.hp <= 0:
+        game_framework.change_mode(game_over)
+    if hornet.dead == True and knight.x > WIDTH:
+        game_framework.change_mode(ending)
+
 
 
 

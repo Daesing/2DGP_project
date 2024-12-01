@@ -8,6 +8,7 @@ import play_mode
 import stage2
 from header import WIDTH,HEIGHT
 from false_knight import FalseKnight
+import game_over
 
 
 # knight 객체의 생성이 스테이지마다 이루어지면 위치를 어떻게 설정하는가?
@@ -46,8 +47,8 @@ def update():
     game_world.handle_collisions()
     if knight.x > WIDTH and false_knight.dead:
         game_framework.change_mode(stage2)
-    if knight.hp == 0: pass
-        #game_framework.change_mode()
+    if knight.hp <= 0:
+        game_framework.change_mode(game_over)
 
 def draw():
     clear_canvas()
