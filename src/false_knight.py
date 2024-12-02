@@ -26,7 +26,7 @@ class FalseKnight(Entity):
         self.ground = y
         self.on_ground = True
         self.vx,self.vy = 0,0
-        self.hp = 100
+        self.hp = 200
         self.font = load_font('../resource/font/ENCR10B.TTF', 16)
         self.state = 'Idle'
         self.dead = False

@@ -37,6 +37,7 @@ class KnightEffect(Entity):
                 self.knight.skill_point += 1
             self.hit = False
         elif group == 'slash:hornet' and self.hit:
+            self.load_audio(group)
             if self.knight.skill_point < 9:
                 self.knight.skill_point += 1
             self.hit = False

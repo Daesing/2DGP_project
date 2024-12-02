@@ -93,6 +93,12 @@ class Hornet(Entity):
             self.audio = load_wav('../resource/audio/hornet/hornet_ground_land.wav')
         elif action == 'throw':
             self.audio = load_wav('../resource/audio/hornet/hornet_needle_throw_and_return.wav')
+        elif action == 'flourish':
+            self.audio = load_wav('../resource/audio/hornet/Hornet_Fight_Flourish.wav')
+        elif action == 'yell1':
+            self.audio = load_wav('../resource/audio/hornet/Hornet_Fight_Yell_03.wav')
+        elif action == 'yell2':
+            self.audio = load_wav('../resource/audio/hornet/Hornet_Fight_Yell_04.wav')
         self.audio.set_volume(20)
         self.audio.play()
 
@@ -120,11 +126,12 @@ class Hornet(Entity):
                 self.state = 'throw'
             if action == 2:
                 self.state = 'flourish'
+            if 40 < self.hp < 60:
+                self.state = 'stun'
 
         if self.hp <= 0:
             self.state = 'wounded'
-        if 40 < self.hp < 60:
-            self.state = 'stun'
+
 
 
 class Idle(AnimationState[Hornet]):
@@ -170,6 +177,7 @@ class Flourish(AnimationState[Hornet]):
         elif self.direction == 'right':
             hornet.set_animation('hornet_flourish',True)
 
+        hornet.load_audio('flourish')
         hornet.start_time = get_time()
 
     def do(self, hornet:Hornet) -> AnimationState[Hornet] | None:
@@ -214,6 +222,7 @@ class PreJump(AnimationState[Hornet]):
         elif self.direction == 'right':
             hornet.set_animation('hornet_jump_pre', True)
 
+        hornet.load_audio('yell1')
         hornet.start_time = get_time()
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
@@ -281,6 +290,7 @@ class PreThrow(AnimationState[Hornet]):
         elif self.direction == 'right':
             hornet.set_animation('hornet_throw_pre', True)
 
+        hornet.load_audio('yell2')
         hornet.start_time = get_time()
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
@@ -339,7 +349,7 @@ class PreDash(AnimationState[Hornet]):
         elif self.direction == 'right':
             hornet.set_animation('hornet_dash_pre', True)
 
-        #hornet.add_effect(self.direction,'needle')
+        hornet.load_audio('yell2')
         hornet.start_time = get_time()
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
@@ -461,6 +471,7 @@ class Barb(AnimationState[Hornet]):
             hornet.set_animation('hornet_barb_throw', True)
 
         hornet.start_time = get_time()
+        hornet.load_audio('dash')
         hornet.add_effect(self.direction,'barb')
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
