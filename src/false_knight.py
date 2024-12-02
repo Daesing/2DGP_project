@@ -80,6 +80,14 @@ class FalseKnight(Entity):
             else:
                 self.state = 'attack'
 
+            if 40 < self.hp < 60:
+                self.state = 'stun'
+
+        if self.hp <= 0:
+            self.state = 'death'
+
+
+
     def load_audio(self,action:str):
         if action == 'jump':
             self.audio = load_wav('../resource/audio/false_knight/false_knight_jump.wav')
@@ -115,6 +123,10 @@ class Idle(AnimationState[FalseKnight]):
             return PreJump(false_knight.direction)
         elif false_knight.state == 'jump':
             return PreJump(false_knight.direction)
+        elif false_knight.state == 'death':
+            return PreStun(false_knight.direction)
+        elif false_knight.state == 'stun':
+            return PreStun(false_knight.direction)
 
         return None
 
@@ -356,3 +368,56 @@ class JumpAttack3(AnimationState[FalseKnight]):
             return Idle(self.direction)
 
         return None
+
+class PreStun(AnimationState[FalseKnight]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, false_knight):
+        if self.direction == 'left':
+            false_knight.set_animation('false_knight_stun_pre', True)
+        elif self.direction == 'right':
+            false_knight.set_animation('false_knight_stun_pre')
+
+        false_knight.start_time = get_time()
+
+    def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+        if get_time() - false_knight.start_time > 0.5:
+            if false_knight.state == 'stun':
+                return Stun(self.direction)
+            elif false_knight.state == 'death':
+                return Death(self.direction)
+        return None
+
+
+class Stun(AnimationState[FalseKnight]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, false_knight):
+        if self.direction == 'left':
+            false_knight.set_animation('false_knight_stun', True)
+        elif self.direction == 'right':
+            false_knight.set_animation('false_knight_stun')
+
+    def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+        if false_knight.state != 'stun':
+            return Idle(self.direction)
+
+        return None
+
+
+class Death(AnimationState[FalseKnight]):
+    def __init__(self, direction):
+        self.direction = direction
+
+    def enter(self, false_knight):
+        if self.direction == 'left':
+            false_knight.set_animation('false_knight_death', True)
+        elif self.direction == 'right':
+            false_knight.set_animation('false_knight_death')
+
+    def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+
+        return None
+
