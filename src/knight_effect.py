@@ -1,12 +1,14 @@
-import threading
-
 from pico2d import load_image, get_time
-
 from entity import Entity
-import game_world
-from src.animation import SpriteCollection
+import game_framework
 from state_machine import Delete
 from state_machine import AnimationState
+
+PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
+RUN_SPEED_KMPH = 100.0  # Km / Hour
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
 
 class KnightEffect(Entity):
@@ -17,6 +19,7 @@ class KnightEffect(Entity):
         self.direction = direction
         self.action = action
         self.hit = True    #타 객체와의 중복 충돌을 막는 flag
+        self.vx,self.vy = 0, 0
         if action == 'slash':
             super().__init__(0, 0, SlashEffect())
         elif action == 'dash':
@@ -41,6 +44,8 @@ class KnightEffect(Entity):
     def update(self):
         super().update()
         self.state_machine.update()
+        self.x += self.vx * game_framework.frame_time
+        self.y += self.vy * game_framework.frame_time
 
 
 
@@ -134,17 +139,15 @@ class FireBall(AnimationState[KnightEffect]):
         if knight_effect.direction == 'right':
             knight_effect.set_animation('knight_fireball')
             knight_effect.x = knight_effect.knight.x + 10
+            knight_effect.vx = RUN_SPEED_PPS
         elif knight_effect.direction == 'left':
             knight_effect.set_animation('knight_fireball',True)
             knight_effect.x = knight_effect.knight.x - 10
+            knight_effect.vx = - RUN_SPEED_PPS
 
         knight_effect.start_time = get_time()
 
     def do(self, knight_effect:KnightEffect) -> AnimationState[KnightEffect] | None:
-        if knight_effect.direction == 'right':
-            knight_effect.x += 4
-        elif knight_effect.direction == 'left':
-            knight_effect.x -= 4
 
 
         if get_time() - knight_effect.start_time > 0.5:

@@ -41,7 +41,7 @@ class FalseKnight(Entity):
         if self.y <= self.ground:
             self.vy = 0
             self.y = self.ground
-        if self.hp == 0:
+        if self.hp <= 0:
             self.dead = True
 
     def draw(self, collections: SpriteCollection):
@@ -51,12 +51,12 @@ class FalseKnight(Entity):
     def handle_collision(self,group,other):
         if group == 'slash:false_knight' and self.hit:
             if self.hp > 0:
-                self.hp -= 2
+                self.hp -= 5
                 self.hit = False
                 threading.Timer(0.5,self.reset_hit).start()
         if group == 'fireball:false_knight'and self.hit:
             if self.hp > 0:
-                self.hp -= 5
+                self.hp -= 15
                 self.hit = False
                 threading.Timer(0.5, self.reset_hit).start()
     def reset_hit(self):

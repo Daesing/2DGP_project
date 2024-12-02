@@ -13,7 +13,7 @@ from state_machine import AnimationState
 
 
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-RUN_SPEED_KMPH = 20  # Km / Hour
+RUN_SPEED_KMPH = 30  # Km / Hour
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -63,12 +63,12 @@ class Hornet(Entity):
            pass
         if group == 'slash:hornet' and self.hit:
            if self.hp > 0:
-               self.hp -= 2
+               self.hp -= 5
                self.hit = False
                threading.Timer(0.5, self.reset_hit).start()
         if group == 'fireball:hornet' and self.hit:
            if self.hp > 0:
-               self.hp -= 5
+               self.hp -= 15
                self.hit = False
                threading.Timer(0.5, self.reset_hit).start()
 
@@ -289,7 +289,8 @@ class Throw(AnimationState[Hornet]):
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
 
-        if get_time() - hornet.start_time > 1.5:
+        if get_time() - hornet.start_time > 1.0:
+            hornet.add_effect(self.direction,'thread')
             return ThrowRecover(self.direction)
 
         return None

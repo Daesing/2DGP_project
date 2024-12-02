@@ -401,7 +401,7 @@ class Focus(AnimationState[Knight]):
         knight.start_time = get_time()
 
     def do(self, knight: Knight) -> AnimationState[Knight] | None:
-        if get_time() - knight.start_time > 1.4:
+        if get_time() - knight.start_time > 1.0:
             knight.skill_point -= 3
             if knight.hp < 5:
                 knight.hp += 1

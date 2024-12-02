@@ -44,6 +44,9 @@ def update():
     game_world.handle_collisions()
     if knight.x < 0:
         knight.x = 0
+    elif hornet.dead == False and knight.x > WIDTH:
+        knight.x = WIDTH
+
     if knight.hp <= 0:
         game_framework.change_mode(game_over)
     if hornet.dead == True and knight.x > WIDTH:
