@@ -12,10 +12,13 @@ import ending
 
 def init():
     global knight
-    global image,text
+    global image,text,bgm
     global hornet
     image = load_image('../resource/background/Greenpath_Hornet_Arena.png')
     text = load_image('../resource/ui/stage2_text.png')
+    bgm = load_music('../resource/audio/bgm/S45 HORNET-110.wav')
+    bgm.set_volume(20)
+    bgm.repeat_play()
     knight = Knight(0,140)
     hornet = Hornet(800,150)
     game_world.add_object(knight, 1)
@@ -48,8 +51,10 @@ def update():
         knight.x = WIDTH
 
     if knight.hp <= 0:
+        bgm.stop()
         game_framework.change_mode(game_over)
     if hornet.dead == True and knight.x > WIDTH:
+        bgm.stop()
         game_framework.change_mode(ending)
 
 

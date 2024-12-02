@@ -2,7 +2,7 @@ from pico2d import load_image, get_events, clear_canvas, update_canvas
 from sdl2 import SDL_QUIT, SDL_KEYDOWN, SDLK_ESCAPE, SDLK_SPACE, SDLK_RETURN
 
 import game_framework
-import play_mode
+import lobby
 from header import WIDTH,HEIGHT
 import title_mode
 

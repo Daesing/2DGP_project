@@ -4,7 +4,7 @@ import game_framework
 import game_world
 import title_mode
 from knight import Knight
-import play_mode
+import lobby
 import stage2
 from header import WIDTH,HEIGHT
 from false_knight import FalseKnight
