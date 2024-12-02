@@ -24,6 +24,7 @@ class Hornet(Entity):
 
     def __init__(self,x,y):
         super().__init__(x, y, PreBarb('left'),ratio=0.7)
+        self.audio = None
         self.direction = None
         self.hit = True
         self.x,y, = x,y
@@ -83,6 +84,17 @@ class Hornet(Entity):
         elif action == 'barb':
             game_world.add_collision_pair('knight:barb',None,effect)
 
+    def load_audio(self,action):
+        if action == 'dash':
+            self.audio = load_wav('../resource/audio/hornet/hornet_dash.wav')
+        elif action =='jump':
+            self.audio = load_wav('../resource/audio/hornet/hornet_jump.wav')
+        elif action == 'land':
+            self.audio = load_wav('../resource/audio/hornet/hornet_ground_land.wav')
+        elif action == 'throw':
+            self.audio = load_wav('../resource/audio/hornet/hornet_needle_throw_and_return.wav')
+        self.audio.set_volume(20)
+        self.audio.play()
 
     def check_action(self):
 
@@ -226,6 +238,7 @@ class Jump(AnimationState[Hornet]):
             hornet.vx = RUN_SPEED_PPS
             hornet.set_animation('hornet_jump', True)
 
+        hornet.load_audio('jump')
         hornet.start_time = get_time()
         hornet.vy = 1000
         hornet.on_ground = False
@@ -246,6 +259,7 @@ class Land(AnimationState[Hornet]):
         elif self.direction == 'right':
             hornet.set_animation('hornet_land', True)
 
+
         hornet.start_time = get_time()
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
@@ -253,6 +267,7 @@ class Land(AnimationState[Hornet]):
             hornet.vx = 0
 
         if get_time() - hornet.start_time > 0.7:
+            hornet.load_audio('land')
             return Idle(self.direction)
         return None
 
@@ -285,6 +300,7 @@ class Throw(AnimationState[Hornet]):
             hornet.set_animation('hornet_throw', True)
 
         hornet.add_effect(self.direction,'needle')
+        hornet.load_audio('throw')
         hornet.start_time = get_time()
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:
@@ -346,7 +362,7 @@ class Dash(AnimationState[Hornet]):
             hornet.set_animation('hornet_dash', True)
 
         hornet.add_effect(self.direction,'dash')
-
+        hornet.load_audio('dash')
         hornet.start_time = get_time()
 
     def do(self, hornet: Hornet) -> AnimationState[Hornet] | None:

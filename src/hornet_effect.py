@@ -69,7 +69,7 @@ class Thread(AnimationState[HornetEffect]):
         hornet_effect.start_time = get_time()
 
     def do(self, hornet_effect: HornetEffect) -> AnimationState[HornetEffect] | None:
-        if get_time() - hornet_effect.start_time > 0.4:
+        if get_time() - hornet_effect.start_time > 0.3:
             return Delete()
         return None
 
@@ -98,10 +98,10 @@ class Needle(AnimationState[HornetEffect]):
 
         if get_time() - hornet_effect.start_time > 1.0:
             if hornet_effect.direction == 'left':
-                hornet_effect.vx = RUN_SPEED_PPS
+                hornet_effect.vx = RUN_SPEED_PPS*2
             elif hornet_effect.direction == 'right':
-                hornet_effect.vx = - RUN_SPEED_PPS
-        if get_time() - hornet_effect.start_time > 1.8:
+                hornet_effect.vx = - RUN_SPEED_PPS*2
+        if get_time() - hornet_effect.start_time > 1.4:
             return Delete()
 
 
