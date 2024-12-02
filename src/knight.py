@@ -31,6 +31,7 @@ class Knight(Entity):
         self.font = load_font('../resource/font/ENCR10B.TTF', 16)
         self.is_invincible = False  # 무적 상태 여부
         self.invincible_time = 0.0  # 무적 상태 남은 시간
+        self.audio = None
 
     def draw(self, collections: SpriteCollection):
         super().draw(collections)
@@ -80,6 +81,18 @@ class Knight(Entity):
             game_world.add_collision_pair('fireball:hornet', effect, None)
         game_world.add_object(effect, 2)
 
+
+    def load_audio(self,action:str):
+        if action == 'dash':
+            self.audio = load_wav('../resource/audio/knight/hero_dash.wav')
+        elif action =='jump':
+            self.audio = load_wav('../resource/audio/knight/hero_jump.wav')
+        elif action == 'fireball':
+            self.audio = load_wav('../resource/audio/knight/hero_fireball.wav')
+        elif action == 'land':
+            self.audio = load_wav('../resource/audio/knight/hero_land_soft.wav')
+        self.audio.set_volume(20)
+        self.audio.play()
 
 class Idle(AnimationState[Knight]):
 
@@ -263,6 +276,7 @@ class Jump(AnimationState[Knight]):
         if knight.on_ground:
             knight.vy = 800
             knight.on_ground = False
+        knight.load_audio('jump')
 
     def exit(self, knight):
         pass
@@ -312,6 +326,7 @@ class OnAir(AnimationState[Knight]):
 
     def do(self, entity: Knight) -> AnimationState[Knight] | None:
         if entity.on_ground:
+            entity.load_audio('land')
             return Idle(self.direction)
         if entity.input_manager.dash and entity.actionable:
             return Dash(self.direction)
@@ -353,6 +368,7 @@ class Dash(AnimationState[Knight]):
         knight.add_effect(self.direction, 'dash')
         knight.start_time = get_time()
         knight.actionable = False
+        knight.load_audio('dash')
 
     def do(self, knight: Knight) -> AnimationState[Knight] | None:
         if get_time() - knight.start_time > 0.5:
@@ -378,6 +394,7 @@ class FireballCast(AnimationState[Knight]):
         knight.skill_point -= 3
         knight.add_effect(self.direction, 'fireball')
         knight.start_time = get_time()
+        knight.load_audio('fireball')
 
     def do(self, knight: Knight) -> AnimationState[Knight] | None:
         if get_time() - knight.start_time > 0.5:

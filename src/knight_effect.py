@@ -1,11 +1,11 @@
-from pico2d import load_image, get_time
+from pico2d import load_image, get_time, load_wav
 from entity import Entity
 import game_framework
 from state_machine import Delete
 from state_machine import AnimationState
 
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-RUN_SPEED_KMPH = 100.0  # Km / Hour
+RUN_SPEED_KMPH = 150.0  # Km / Hour
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -46,8 +46,6 @@ class KnightEffect(Entity):
         self.state_machine.update()
         self.x += self.vx * game_framework.frame_time
         self.y += self.vy * game_framework.frame_time
-
-
 
 class SlashEffect(AnimationState[KnightEffect]):
     def __init__(self):
@@ -109,6 +107,7 @@ class DashEffect(AnimationState[KnightEffect]):
         elif knight_effect.direction == 'left':
             knight_effect.set_animation('knight_dash_effect',True)
             knight_effect.x = knight_effect.knight.x + 100
+
 
         knight_effect.start_time = get_time()
 
