@@ -13,9 +13,13 @@ import game_over
 
 # knight 객체의 생성이 스테이지마다 이루어지면 위치를 어떻게 설정하는가?
 def init():
-    global stage1_back,text
+    global stage1_back,text,bgm
     stage1_back = load_image('../resource/background/Forgotten_Crossroads_False_Knight_Arena.png')
     text = load_image('../resource/ui/stage1_text.png')
+    bgm = load_music('../resource/audio/bgm/Boss Battle 1.wav')
+    bgm.set_volume(20)
+    bgm.repeat_play()
+
     global knight
     global false_knight
     knight = Knight(0,180)
@@ -51,8 +55,10 @@ def update():
         knight.x = WIDTH
 
     if knight.x > WIDTH and false_knight.dead:
+        bgm.stop()
         game_framework.change_mode(stage2)
     if knight.hp <= 0:
+        bgm.stop()
         game_framework.change_mode(game_over)
 
 def draw():

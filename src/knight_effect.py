@@ -20,6 +20,7 @@ class KnightEffect(Entity):
         self.action = action
         self.hit = True    #타 객체와의 중복 충돌을 막는 flag
         self.vx,self.vy = 0, 0
+        self.audio = None
         if action == 'slash':
             super().__init__(0, 0, SlashEffect())
         elif action == 'dash':
@@ -31,6 +32,7 @@ class KnightEffect(Entity):
     def handle_collision(self,group,other):
         print('slash:hornet')
         if group == 'slash:false_knight' and self.hit:
+            self.load_audio(group)
             if self.knight.skill_point < 9:
                 self.knight.skill_point += 1
             self.hit = False
@@ -46,6 +48,14 @@ class KnightEffect(Entity):
         self.state_machine.update()
         self.x += self.vx * game_framework.frame_time
         self.y += self.vy * game_framework.frame_time
+
+    def load_audio(self,group):
+        if group == 'slash:false_knight':
+            self.audio = load_wav('../resource/audio/false_knight/false_knight_damage_armour.wav')
+
+        self.audio.set_volume(20)
+        self.audio.play()
+
 
 class SlashEffect(AnimationState[KnightEffect]):
     def __init__(self):

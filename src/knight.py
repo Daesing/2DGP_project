@@ -61,6 +61,7 @@ class Knight(Entity):
         if (group == 'knight:false_knight' or group == 'knight:hornet' or
                 'knight:needle' or 'knight:sphere' or 'knight:barb'):
             if self.hp > 0 and self.is_invincible == False:
+                self.load_audio('damaged')
                 self.hp -= 1
                 self.is_invincible = True
                 self.invincible_time = 2.5
@@ -91,6 +92,8 @@ class Knight(Entity):
             self.audio = load_wav('../resource/audio/knight/hero_fireball.wav')
         elif action == 'land':
             self.audio = load_wav('../resource/audio/knight/hero_land_soft.wav')
+        elif action == 'damaged':
+            self.audio = load_wav('../resource/audio/knight/hero_damage.wav')
         self.audio.set_volume(20)
         self.audio.play()
 

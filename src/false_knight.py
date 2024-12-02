@@ -1,7 +1,7 @@
 import random
 import threading
 
-from pico2d import get_time, load_font
+from pico2d import get_time, load_font, load_wav
 from entity import Entity
 import game_framework
 import stage1
@@ -9,7 +9,7 @@ from animation import SpriteCollection
 from state_machine import AnimationState
 
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-RUN_SPEED_KMPH = 30.0  # Km / Hour
+RUN_SPEED_KMPH = 40.0  # Km / Hour
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
@@ -30,6 +30,7 @@ class FalseKnight(Entity):
         self.font = load_font('../resource/font/ENCR10B.TTF', 16)
         self.state = 'Idle'
         self.dead = False
+        self.audio = None
 
     def update(self):
         super().update()
@@ -79,7 +80,17 @@ class FalseKnight(Entity):
             else:
                 self.state = 'attack'
 
-
+    def load_audio(self,action:str):
+        if action == 'jump':
+            self.audio = load_wav('../resource/audio/false_knight/false_knight_jump.wav')
+        elif action == 'land':
+            self.audio = load_wav('../resource/audio/false_knight/false_knight_land.wav')
+        elif action == 'swing':
+            self.audio = load_wav('../resource/audio/false_knight/false_knight_swing.wav')
+        elif action == 'strike':
+            self.audio = load_wav('../resource/audio/false_knight/false_knight_strike_ground.wav')
+        self.audio.set_volume(20)
+        self.audio.play()
 
 class Idle(AnimationState[FalseKnight]):
     def __init__(self,direction):
@@ -143,7 +154,7 @@ class Run(AnimationState[FalseKnight]):
     def do(self, false_knight:FalseKnight) -> AnimationState[FalseKnight] | None:
 
 
-        if get_time() - false_knight.start_time > 1.5:
+        if get_time() - false_knight.start_time > 1.0:
             false_knight.state = 'Idle'
             return Idle(self.direction)
 
@@ -182,6 +193,7 @@ class Jump(AnimationState[FalseKnight]):
 
         false_knight.vy = 1300
         false_knight.on_ground = False
+        false_knight.load_audio('jump')
         false_knight.start_time = get_time()
 
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
@@ -200,10 +212,13 @@ class Land(AnimationState[FalseKnight]):
         elif self.direction == 'right':
             false_knight.set_animation('false_knight_land')
 
+
         false_knight.start_time = get_time()
 
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+
         if get_time() - false_knight.start_time > 1.0:
+            false_knight.load_audio('land')
             return Idle(self.direction)
 
         return None
@@ -238,10 +253,12 @@ class Attack(AnimationState[FalseKnight]):
         elif self.direction == 'right':
             false_knight.set_animation('false_knight_attack')
 
+        false_knight.load_audio('swing')
         false_knight.start_time = get_time()
 
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
         if get_time() - false_knight.start_time > 0.7:
+            false_knight.load_audio('strike')
             return Recover(self.direction)
 
         return None
@@ -294,10 +311,12 @@ class JumpAttack1(AnimationState[FalseKnight]):
         elif self.direction == 'right':
             false_knight.set_animation('false_knight_jump_attack1')
 
+        false_knight.load_audio('swing')
         false_knight.start_time = get_time()
 
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
-        if get_time() - false_knight.start_time > 0.7:
+        if get_time() - false_knight.start_time > 1.0:
+            false_knight.load_audio('strike')
             return JumpAttack2(self.direction)
 
         return None
@@ -329,6 +348,7 @@ class JumpAttack3(AnimationState[FalseKnight]):
         elif self.direction == 'right':
             false_knight.set_animation('false_knight_jump_attack3')
 
+        false_knight.load_audio('land')
         false_knight.start_time = get_time()
 
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
