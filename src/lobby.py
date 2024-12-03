@@ -11,9 +11,9 @@ from header import WIDTH,HEIGHT
 def init():
     global knight
     global image,text,bgm
-    image = load_image('../resource/background/Dirtmouth.png')
-    text = load_image('../resource/ui/lobby_text.png')
-    bgm = load_music('../resource/audio/bgm/Lobby.wav')
+    image = load_image('resource/background/Dirtmouth.png')
+    text = load_image('resource/ui/lobby_text.png')
+    bgm = load_music('resource/audio/bgm/Lobby.wav')
     bgm.set_volume(30)
     bgm.repeat_play()
     knight = Knight(WIDTH // 2,100)

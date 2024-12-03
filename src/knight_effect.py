@@ -52,7 +52,7 @@ class KnightEffect(Entity):
 
     def load_audio(self,group):
         if group == 'slash:false_knight' or 'slash:hornet':
-            self.audio = load_wav('../resource/audio/false_knight/false_knight_damage_armour.wav')
+            self.audio = load_wav('resource/audio/false_knight/false_knight_damage_armour.wav')
 
         self.audio.set_volume(20)
         self.audio.play()

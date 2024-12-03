@@ -14,9 +14,9 @@ def init():
     global knight
     global image,text,bgm
     global hornet
-    image = load_image('../resource/background/Greenpath_Hornet_Arena.png')
-    text = load_image('../resource/ui/stage2_text.png')
-    bgm = load_music('../resource/audio/bgm/S45 HORNET-110.wav')
+    image = load_image('resource/background/Greenpath_Hornet_Arena.png')
+    text = load_image('resource/ui/stage2_text.png')
+    bgm = load_music('resource/audio/bgm/S45 HORNET-110.wav')
     bgm.set_volume(20)
     bgm.repeat_play()
     knight = Knight(0,140)

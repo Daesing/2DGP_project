@@ -27,7 +27,7 @@ class FalseKnight(Entity):
         self.on_ground = True
         self.vx,self.vy = 0,0
         self.hp = 200
-        self.font = load_font('../resource/font/ENCR10B.TTF', 16)
+        self.font = load_font('resource/font/ENCR10B.TTF', 16)
         self.state = 'Idle'
         self.dead = False
         self.audio = None
@@ -90,13 +90,13 @@ class FalseKnight(Entity):
 
     def load_audio(self,action:str):
         if action == 'jump':
-            self.audio = load_wav('../resource/audio/false_knight/false_knight_jump.wav')
+            self.audio = load_wav('resource/audio/false_knight/false_knight_jump.wav')
         elif action == 'land':
-            self.audio = load_wav('../resource/audio/false_knight/false_knight_land.wav')
+            self.audio = load_wav('resource/audio/false_knight/false_knight_land.wav')
         elif action == 'swing':
-            self.audio = load_wav('../resource/audio/false_knight/false_knight_swing.wav')
+            self.audio = load_wav('resource/audio/false_knight/false_knight_swing.wav')
         elif action == 'strike':
-            self.audio = load_wav('../resource/audio/false_knight/false_knight_strike_ground.wav')
+            self.audio = load_wav('resource/audio/false_knight/false_knight_strike_ground.wav')
         self.audio.set_volume(20)
         self.audio.play()
 

@@ -7,8 +7,8 @@ import lobby
 
 def init():
     global image,bgm
-    image = load_image('../resource/background/game_title.png')
-    bgm = load_music('../resource/audio/bgm/Title.wav')
+    image = load_image('resource/background/game_title.png')
+    bgm = load_music('resource/audio/bgm/Title.wav')
     bgm.set_volume(30)
     bgm.repeat_play()
 

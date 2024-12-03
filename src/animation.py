@@ -80,7 +80,7 @@ class SpriteCollection:
         self.initialized = False
 
     def initialize(self):
-        with open('../resource/animations.json', 'r') as file:
+        with open('resource/animations.json', 'r') as file:
             data = json.load(file)
             self.animations = {
                 name: SpriteAnimation(

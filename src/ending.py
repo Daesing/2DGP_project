@@ -8,8 +8,8 @@ import title_mode
 
 def init():
     global image,bgm
-    image = load_image('../resource/background/ending_scene.png')
-    bgm = load_music('../resource/audio/bgm/Ending.wav')
+    image = load_image('resource/background/ending_scene.png')
+    bgm = load_music('resource/audio/bgm/Ending.wav')
     bgm.set_volume(30)
     bgm.repeat_play()
 

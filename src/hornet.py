@@ -32,7 +32,7 @@ class Hornet(Entity):
         self.on_ground = True
         self.vx,self.vy = 0,0
         self.hp = 100
-        self.font = load_font('../resource/font/ENCR10B.TTF', 16)
+        self.font = load_font('resource/font/ENCR10B.TTF', 16)
         self.state = 'Idle'
         self.dead = False
 
@@ -86,19 +86,19 @@ class Hornet(Entity):
 
     def load_audio(self,action):
         if action == 'dash':
-            self.audio = load_wav('../resource/audio/hornet/hornet_dash.wav')
+            self.audio = load_wav('resource/audio/hornet/hornet_dash.wav')
         elif action =='jump':
-            self.audio = load_wav('../resource/audio/hornet/hornet_jump.wav')
+            self.audio = load_wav('resource/audio/hornet/hornet_jump.wav')
         elif action == 'land':
-            self.audio = load_wav('../resource/audio/hornet/hornet_ground_land.wav')
+            self.audio = load_wav('resource/audio/hornet/hornet_ground_land.wav')
         elif action == 'throw':
-            self.audio = load_wav('../resource/audio/hornet/hornet_needle_throw_and_return.wav')
+            self.audio = load_wav('resource/audio/hornet/hornet_needle_throw_and_return.wav')
         elif action == 'flourish':
-            self.audio = load_wav('../resource/audio/hornet/Hornet_Fight_Flourish.wav')
+            self.audio = load_wav('resource/audio/hornet/Hornet_Fight_Flourish.wav')
         elif action == 'yell1':
-            self.audio = load_wav('../resource/audio/hornet/Hornet_Fight_Yell_03.wav')
+            self.audio = load_wav('resource/audio/hornet/Hornet_Fight_Yell_03.wav')
         elif action == 'yell2':
-            self.audio = load_wav('../resource/audio/hornet/Hornet_Fight_Yell_04.wav')
+            self.audio = load_wav('resource/audio/hornet/Hornet_Fight_Yell_04.wav')
         self.audio.set_volume(20)
         self.audio.play()
 

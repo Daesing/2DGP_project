@@ -1,239 +1,239 @@
 {
   "animations": {
     "knight_slash": {
-      "path": "../resource/knight/knight_slash.png",
+      "path": "resource/knight/knight_slash.png",
       "frames": 8, "width": 8, "height": 1
     },
     "knight_idle": {
-      "path": "../resource/knight/knight_idle.png",
+      "path": "resource/knight/knight_idle.png",
       "frames": 4, "width": 4, "height": 1
     },
     "knight_move": {
-      "path": "../resource/knight/knight_move.png",
+      "path": "resource/knight/knight_move.png",
       "frames": 9, "width": 9, "height": 1
     },
     "knight_jump": {
-      "path": "../resource/knight/knight_jump.png",
+      "path": "resource/knight/knight_jump.png",
       "frames": 8, "width": 8, "height": 1
     },
     "knight_slash_effect": {
-      "path": "../resource/knight/knight_slash_effect.png",
+      "path": "resource/knight/knight_slash_effect.png",
       "frames": 5, "width": 5, "height": 1
     },
     "knight_dash": {
-      "path": "../resource/knight/knight_dash.png",
+      "path": "resource/knight/knight_dash.png",
       "frames": 10, "width": 5, "height": 2
     },
     "knight_upslash": {
-      "path": "../resource/knight/knight_upslash.png",
+      "path": "resource/knight/knight_upslash.png",
       "frames": 8, "width": 8, "height": 1
     },
     "knight_upslash_effect": {
-      "path": "../resource/knight/knight_upslash_effect.png",
+      "path": "resource/knight/knight_upslash_effect.png",
       "frames": 5, "width": 5, "height": 1
     },
     "knight_downslash": {
-      "path": "../resource/knight/knight_downslash.png",
+      "path": "resource/knight/knight_downslash.png",
       "frames": 8, "width": 8, "height": 1
     },
     "knight_downslash_effect": {
-      "path": "../resource/knight/knight_downslash_effect.png",
+      "path": "resource/knight/knight_downslash_effect.png",
       "frames": 5, "width": 5, "height": 1
     },
     "knight_dash_effect": {
-      "path": "../resource/knight/knight_dash_effect.png",
+      "path": "resource/knight/knight_dash_effect.png",
       "frames": 8, "width": 4, "height": 2
     },
     "knight_fireball_cast": {
-      "path": "../resource/knight/knight_fireball_cast.png",
+      "path": "resource/knight/knight_fireball_cast.png",
       "frames": 6, "width": 6, "height": 1
     },
     "knight_fireball": {
-      "path": "../resource/knight/knight_fireball.png",
+      "path": "resource/knight/knight_fireball.png",
       "frames": 4, "width": 4, "height": 1
     },
     "knight_focus": {
-      "path": "../resource/knight/knight_focus.png",
+      "path": "resource/knight/knight_focus.png",
       "frames": 7, "width": 7, "height": 1
     },
     "false_knight_idle": {
-      "path": "../resource/false_knight/false_knight_idle.png",
+      "path": "resource/false_knight/false_knight_idle.png",
       "frames": 5, "width": 5, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_run": {
-      "path": "../resource/false_knight/false_knight_run.png",
+      "path": "resource/false_knight/false_knight_run.png",
       "frames": 5, "width": 5, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_run_pre": {
-      "path": "../resource/false_knight/false_knight_run_pre.png",
+      "path": "resource/false_knight/false_knight_run_pre.png",
       "frames": 2, "width": 2, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_jump_pre": {
-      "path": "../resource/false_knight/false_knight_jump_pre.png",
+      "path": "resource/false_knight/false_knight_jump_pre.png",
       "frames": 3, "width": 3, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_jump": {
-      "path": "../resource/false_knight/false_knight_jump.png",
+      "path": "resource/false_knight/false_knight_jump.png",
       "frames": 4, "width": 4, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_land": {
-      "path": "../resource/false_knight/false_knight_land.png",
+      "path": "resource/false_knight/false_knight_land.png",
       "frames": 3, "width": 3, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_attack_pre": {
-      "path": "../resource/false_knight/false_knight_attack_pre.png",
+      "path": "resource/false_knight/false_knight_attack_pre.png",
       "frames": 6, "width": 6, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_attack": {
-      "path": "../resource/false_knight/false_knight_attack.png",
+      "path": "resource/false_knight/false_knight_attack.png",
       "frames": 3, "width": 3, "height": 1,
       "v_align": "bottom"
     },
      "false_knight_recover": {
-      "path": "../resource/false_knight/false_knight_recover.png",
+      "path": "resource/false_knight/false_knight_recover.png",
       "frames": 5, "width": 5, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_jump_attack_up": {
-      "path": "../resource/false_knight/false_knight_jump_attack_up.png",
+      "path": "resource/false_knight/false_knight_jump_attack_up.png",
       "frames": 5, "width": 4, "height": 2,
       "v_align": "bottom"
     },
     "false_knight_jump_attack1": {
-      "path": "../resource/false_knight/false_knight_jump_attack1.png",
+      "path": "resource/false_knight/false_knight_jump_attack1.png",
       "frames": 2, "width": 2, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_jump_attack2": {
-      "path": "../resource/false_knight/false_knight_jump_attack2.png",
+      "path": "resource/false_knight/false_knight_jump_attack2.png",
       "frames": 2, "width": 2, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_jump_attack3": {
-      "path": "../resource/false_knight/false_knight_jump_attack3.png",
+      "path": "resource/false_knight/false_knight_jump_attack3.png",
       "frames": 2, "width": 2, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_stun_pre": {
-      "path": "../resource/false_knight/false_knight_stun_pre.png",
+      "path": "resource/false_knight/false_knight_stun_pre.png",
       "frames": 4, "width": 4, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_stun": {
-      "path": "../resource/false_knight/false_knight_stun.png",
+      "path": "resource/false_knight/false_knight_stun.png",
       "frames": 1, "width": 1, "height": 1,
       "v_align": "bottom"
     },
     "false_knight_death": {
-      "path": "../resource/false_knight/false_knight_death.png",
+      "path": "resource/false_knight/false_knight_death.png",
       "frames": 1, "width": 1, "height": 1,
       "v_align": "bottom"
     },
     "hornet_idle": {
-      "path": "../resource/hornet/hornet_idle.png",
+      "path": "resource/hornet/hornet_idle.png",
       "frames": 6, "width": 6, "height": 1
     },
     "hornet_flourish": {
-      "path": "../resource/hornet/hornet_flourish.png",
+      "path": "resource/hornet/hornet_flourish.png",
       "frames": 14, "width": 6, "height": 3
     },
     "hornet_run": {
-      "path": "../resource/hornet/hornet_run.png",
+      "path": "resource/hornet/hornet_run.png",
       "frames": 8, "width": 8, "height": 1
     },
     "hornet_jump": {
-      "path": "../resource/hornet/hornet_jump.png",
+      "path": "resource/hornet/hornet_jump.png",
       "frames": 9, "width": 9, "height": 1
     },
     "hornet_jump_pre": {
-      "path": "../resource/hornet/hornet_jump_pre.png",
+      "path": "resource/hornet/hornet_jump_pre.png",
       "frames": 4, "width": 4, "height": 1
     },
     "hornet_land": {
-      "path": "../resource/hornet/hornet_land.png",
+      "path": "resource/hornet/hornet_land.png",
       "frames": 3, "width": 3, "height": 1
     },
     "hornet_throw_pre": {
-      "path": "../resource/hornet/hornet_throw_pre.png",
+      "path": "resource/hornet/hornet_throw_pre.png",
       "frames": 10, "width": 8, "height": 2
     },
     "hornet_throw": {
-      "path": "../resource/hornet/hornet_throw.png",
+      "path": "resource/hornet/hornet_throw.png",
       "frames": 6, "width": 6, "height": 1
     },
     "hornet_throw_recover": {
-      "path": "../resource/hornet/hornet_throw_recover.png",
+      "path": "resource/hornet/hornet_throw_recover.png",
       "frames": 6, "width": 6, "height": 1
     },
     "hornet_needle": {
-      "path": "../resource/hornet/hornet_needle.png",
+      "path": "resource/hornet/hornet_needle.png",
       "frames": 3, "width": 3, "height": 1
     },
     "hornet_needle_thread": {
-      "path": "../resource/hornet/hornet_needle_thread.png",
+      "path": "resource/hornet/hornet_needle_thread.png",
       "frames": 6, "width": 3, "height": 2
     },
     "hornet_dash_pre": {
-      "path": "../resource/hornet/hornet_dash_pre.png",
+      "path": "resource/hornet/hornet_dash_pre.png",
       "frames": 10, "width": 8, "height": 2
     },
     "hornet_dash": {
-      "path": "../resource/hornet/hornet_dash.png",
+      "path": "resource/hornet/hornet_dash.png",
       "frames": 2, "width": 2, "height": 1
     },
     "hornet_dash_recover": {
-      "path": "../resource/hornet/hornet_dash_recover.png",
+      "path": "resource/hornet/hornet_dash_recover.png",
       "frames": 6, "width": 6, "height": 1
     },
     "hornet_dash_effect": {
-      "path": "../resource/hornet/hornet_dash_effect.png",
+      "path": "resource/hornet/hornet_dash_effect.png",
       "frames": 6, "width": 2, "height": 3
     },
     "hornet_sphere": {
-      "path": "../resource/hornet/hornet_sphere.png",
+      "path": "resource/hornet/hornet_sphere.png",
       "frames": 9, "width": 9, "height": 1
     },
     "hornet_sphere_recover": {
-      "path": "../resource/hornet/hornet_sphere_recover.png",
+      "path": "resource/hornet/hornet_sphere_recover.png",
       "frames": 2, "width": 2, "height": 1
     },
     "hornet_sphere_effect": {
-      "path": "../resource/hornet/hornet_sphere_effect.png",
+      "path": "resource/hornet/hornet_sphere_effect.png",
       "frames": 9, "width": 5, "height": 2
     },
     "hornet_stun": {
-      "path": "../resource/hornet/hornet_stun.png",
+      "path": "resource/hornet/hornet_stun.png",
       "frames": 4, "width": 4, "height": 1
     },
     "hornet_wounded": {
-      "path": "../resource/hornet/hornet_wounded.png",
+      "path": "resource/hornet/hornet_wounded.png",
       "frames": 5, "width": 5, "height": 1
     },
     "hornet_barb": {
-      "path": "../resource/hornet/hornet_barb.png",
+      "path": "resource/hornet/hornet_barb.png",
       "frames": 5, "width": 5, "height": 1
     },
     "hornet_barb_break": {
-      "path": "../resource/hornet/hornet_barb_break.png",
+      "path": "resource/hornet/hornet_barb_break.png",
       "frames": 3, "width": 3, "height": 1
     },
     "hornet_barb_throw": {
-      "path": "../resource/hornet/hornet_barb_throw.png",
+      "path": "resource/hornet/hornet_barb_throw.png",
       "frames": 4, "width": 4, "height": 1
     },
     "hornet_barb_throw_pre": {
-      "path": "../resource/hornet/hornet_barb_throw_pre.png",
+      "path": "resource/hornet/hornet_barb_throw_pre.png",
       "frames": 4, "width": 4, "height": 1
     },
     "hornet_barb_throw_recover": {
-      "path": "../resource/hornet/hornet_barb_throw_recover.png",
+      "path": "resource/hornet/hornet_barb_throw_recover.png",
       "frames": 5, "width": 5, "height": 1
     }
   }

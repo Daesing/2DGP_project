@@ -9,7 +9,7 @@ import title_mode
 
 def init():
     global image
-    image = load_image('../resource/background/game_over.png')
+    image = load_image('resource/background/game_over.png')
 
 
 def finish():

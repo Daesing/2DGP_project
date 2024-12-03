@@ -9,7 +9,7 @@ def init():
     global image
     global logo_start_time
 
-    image = load_image('../resource/background/game_logo.png')
+    image = load_image('resource/background/game_logo.png')
     logo_start_time = get_time()
 
 def finish():

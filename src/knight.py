@@ -22,13 +22,13 @@ class Knight(Entity):
         self.vx, self.vy = 0, 0
         self.hp = 5
         self.skill_point = 9
-        self.hp_fill = load_image('../resource/ui/hp_fill.png')
-        self.hp_empty = load_image('../resource/ui/hp_empty.png')
+        self.hp_fill = load_image('resource/ui/hp_fill.png')
+        self.hp_empty = load_image('resource/ui/hp_empty.png')
         self.ground = y
         self.on_ground = True
         self.input_manager = InputManager()
         self.actionable = True
-        self.font = load_font('../resource/font/ENCR10B.TTF', 16)
+        self.font = load_font('resource/font/ENCR10B.TTF', 16)
         self.is_invincible = False  # 무적 상태 여부
         self.invincible_time = 0.0  # 무적 상태 남은 시간
         self.audio = None
@@ -85,15 +85,15 @@ class Knight(Entity):
 
     def load_audio(self,action:str):
         if action == 'dash':
-            self.audio = load_wav('../resource/audio/knight/hero_dash.wav')
+            self.audio = load_wav('resource/audio/knight/hero_dash.wav')
         elif action =='jump':
-            self.audio = load_wav('../resource/audio/knight/hero_jump.wav')
+            self.audio = load_wav('resource/audio/knight/hero_jump.wav')
         elif action == 'fireball':
-            self.audio = load_wav('../resource/audio/knight/hero_fireball.wav')
+            self.audio = load_wav('resource/audio/knight/hero_fireball.wav')
         elif action == 'land':
-            self.audio = load_wav('../resource/audio/knight/hero_land_soft.wav')
+            self.audio = load_wav('resource/audio/knight/hero_land_soft.wav')
         elif action == 'damaged':
-            self.audio = load_wav('../resource/audio/knight/hero_damage.wav')
+            self.audio = load_wav('resource/audio/knight/hero_damage.wav')
         self.audio.set_volume(20)
         self.audio.play()
 
