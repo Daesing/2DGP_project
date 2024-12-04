@@ -26,7 +26,7 @@ class FalseKnight(Entity):
         self.ground = y
         self.on_ground = True
         self.vx,self.vy = 0,0
-        self.hp = 200
+        self.hp = 300
         self.font = load_font('resource/font/ENCR10B.TTF', 16)
         self.state = 'Idle'
         self.dead = False
@@ -42,6 +42,7 @@ class FalseKnight(Entity):
         if self.y <= self.ground:
             self.vy = 0
             self.y = self.ground
+            self.on_ground = True
         if self.hp <= 0:
             self.dead = True
 
@@ -80,11 +81,12 @@ class FalseKnight(Entity):
             else:
                 self.state = 'attack'
 
-            if 40 < self.hp < 60:
+            if 40 < self.hp < 80 or 140 < self.hp < 180:
                 self.state = 'stun'
 
         if self.hp <= 0:
             self.state = 'death'
+            self.dead = True
 
 
 
@@ -97,7 +99,11 @@ class FalseKnight(Entity):
             self.audio = load_wav('resource/audio/false_knight/false_knight_swing.wav')
         elif action == 'strike':
             self.audio = load_wav('resource/audio/false_knight/false_knight_strike_ground.wav')
-        self.audio.set_volume(20)
+        elif action == 'run':
+            self.audio = load_wav('resource/audio/false_knight/False_Knight_Attack_New_01.wav')
+        elif action == 'attack':
+            self.audio = load_wav('resource/audio/false_knight/False_Knight_Attack_New_02.wav')
+        self.audio.set_volume(30)
         self.audio.play()
 
 class Idle(AnimationState[FalseKnight]):
@@ -139,7 +145,6 @@ class PreRun(AnimationState[FalseKnight]):
             false_knight.set_animation('false_knight_run_pre',True)
         elif self.direction == 'right':
             false_knight.set_animation('false_knight_run_pre')
-
             false_knight.start_time = get_time()
 
     def do(self, false_knight:FalseKnight) -> AnimationState[FalseKnight] | None:
@@ -160,7 +165,7 @@ class Run(AnimationState[FalseKnight]):
         elif self.direction == 'right':
             false_knight.set_animation('false_knight_run')
             false_knight.vx = RUN_SPEED_PPS
-
+        false_knight.load_audio('run')
         false_knight.start_time = get_time()
 
     def do(self, false_knight:FalseKnight) -> AnimationState[FalseKnight] | None:
@@ -182,7 +187,9 @@ class PreJump(AnimationState[FalseKnight]):
         elif self.direction == 'right':
             false_knight.set_animation('false_knight_jump_pre')
 
+        false_knight.load_audio('run')
         false_knight.start_time = get_time()
+
 
     def do(self, false_knight:FalseKnight) -> AnimationState[FalseKnight] | None:
         if get_time() - false_knight.start_time > 0.5:
@@ -199,8 +206,10 @@ class Jump(AnimationState[FalseKnight]):
 
     def enter(self, false_knight):
         if self.direction == 'left':
+            false_knight.vx = -100
             false_knight.set_animation('false_knight_jump', True)
         elif self.direction == 'right':
+            false_knight.vx = 100
             false_knight.set_animation('false_knight_jump')
 
         false_knight.vy = 1300
@@ -229,6 +238,9 @@ class Land(AnimationState[FalseKnight]):
 
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
 
+        if false_knight.on_ground:
+            false_knight.vx = 0
+
         if get_time() - false_knight.start_time > 1.0:
             false_knight.load_audio('land')
             return Idle(self.direction)
@@ -245,9 +257,8 @@ class PreAttack(AnimationState[FalseKnight]):
             false_knight.set_animation('false_knight_attack_pre', True)
         elif self.direction == 'right':
             false_knight.set_animation('false_knight_attack_pre')
-
         false_knight.start_time = get_time()
-
+        false_knight.load_audio('attack')
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
         if get_time() - false_knight.start_time > 0.5:
             return Attack(self.direction)
@@ -299,8 +310,10 @@ class JumpAttackUp(AnimationState[FalseKnight]):
 
     def enter(self, false_knight):
         if self.direction == 'left':
+            false_knight.vx = -100
             false_knight.set_animation('false_knight_jump_attack_up', True)
         elif self.direction == 'right':
+            false_knight.vx = 100
             false_knight.set_animation('false_knight_jump_attack_up')
 
         false_knight.vy = 1000
@@ -327,6 +340,8 @@ class JumpAttack1(AnimationState[FalseKnight]):
         false_knight.start_time = get_time()
 
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+        if false_knight.on_ground:
+            false_knight.vx = 0
         if get_time() - false_knight.start_time > 1.0:
             false_knight.load_audio('strike')
             return JumpAttack2(self.direction)
@@ -345,6 +360,7 @@ class JumpAttack2(AnimationState[FalseKnight]):
         false_knight.start_time = get_time()
 
     def do(self, false_knight: FalseKnight) -> AnimationState[FalseKnight] | None:
+
         if get_time() - false_knight.start_time > 0.2:
             return JumpAttack3(self.direction)
 

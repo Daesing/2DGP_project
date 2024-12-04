@@ -36,7 +36,7 @@ class Knight(Entity):
     def draw(self, collections: SpriteCollection):
         super().draw(collections)
         self.font.draw(self.x - 10, self.y + 70, f'{self.skill_point:02d}', (255, 255, 0))
-        for i in range(1,6):
+        for i in range(1, 6):
             self.hp_empty.draw(65 * i, 645, 50, 70)
         for i in range(1, self.hp + 1):
             self.hp_fill.draw(65 * i, 650, 80, 100)
@@ -58,16 +58,13 @@ class Knight(Entity):
 
     def handle_collision(self, group, other):
         print(f'group: {group}')
-        if (group == 'knight:false_knight' or group == 'knight:hornet' or
-                'knight:needle' or 'knight:sphere' or 'knight:barb'):
+        if group == 'knight:false_knight' or 'knight:hornet' or 'knight:needle' or 'knight:sphere' or 'knight:barb':
             if self.hp > 0 and self.is_invincible == False:
                 self.load_audio('damaged')
                 self.hp -= 1
                 self.is_invincible = True
                 self.invincible_time = 2.5
                 print('invincible_activate')
-
-
 
     def handle_event(self, event: Event):
         self.input_manager.on_keyboard_event(event)
@@ -76,17 +73,16 @@ class Knight(Entity):
         effect = KnightEffect(self, direction, action)
         if action == 'slash':
             game_world.add_collision_pair('slash:false_knight', effect, None)
-            game_world.add_collision_pair('slash:hornet',effect,None)
+            game_world.add_collision_pair('slash:hornet', effect, None)
         elif action == 'fireball':
-            game_world.add_collision_pair('fireball:false_knight',effect,None)
+            game_world.add_collision_pair('fireball:false_knight', effect, None)
             game_world.add_collision_pair('fireball:hornet', effect, None)
         game_world.add_object(effect, 2)
 
-
-    def load_audio(self,action:str):
+    def load_audio(self, action: str):
         if action == 'dash':
             self.audio = load_wav('resource/audio/knight/hero_dash.wav')
-        elif action =='jump':
+        elif action == 'jump':
             self.audio = load_wav('resource/audio/knight/hero_jump.wav')
         elif action == 'fireball':
             self.audio = load_wav('resource/audio/knight/hero_fireball.wav')
@@ -96,6 +92,7 @@ class Knight(Entity):
             self.audio = load_wav('resource/audio/knight/hero_damage.wav')
         self.audio.set_volume(20)
         self.audio.play()
+
 
 class Idle(AnimationState[Knight]):
 

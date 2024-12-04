@@ -56,6 +56,8 @@ def update():
     if hornet.dead == True and knight.x > WIDTH:
         bgm.stop()
         game_framework.change_mode(ending)
+    if hornet.dead:
+        game_world.remove_collision_object(hornet)
 
 
 

@@ -31,7 +31,7 @@ class Hornet(Entity):
         self.ground = y
         self.on_ground = True
         self.vx,self.vy = 0,0
-        self.hp = 100
+        self.hp = 250
         self.font = load_font('resource/font/ENCR10B.TTF', 16)
         self.state = 'Idle'
         self.dead = False
@@ -126,11 +126,12 @@ class Hornet(Entity):
                 self.state = 'throw'
             if action == 2:
                 self.state = 'flourish'
-            if 40 < self.hp < 60:
+            if 100 < self.hp < 150:
                 self.state = 'stun'
 
         if self.hp <= 0:
             self.state = 'wounded'
+            self.dead = True
 
 
 

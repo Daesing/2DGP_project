@@ -61,6 +61,9 @@ def update():
         bgm.stop()
         game_framework.change_mode(game_over)
 
+    if false_knight.dead:
+        game_world.remove_collision_object(false_knight)
+
 def draw():
     clear_canvas()
     stage1_back.draw(WIDTH // 2, HEIGHT // 2)
