@@ -67,7 +67,8 @@ class SpriteAnimation:
         elif not inverted:
             self.image.clip_draw(sx, sy, self.width, self.height, draw_x, draw_y, draw_width, draw_height)
 
-        draw_rectangle(draw_x - draw_width / 2, draw_y - draw_height / 2, draw_x + draw_width / 2, draw_y + draw_height / 2)
+
+        # draw_rectangle(draw_x - draw_width / 2, draw_y - draw_height / 2, draw_x + draw_width / 2, draw_y + draw_height / 2)
 
     def get_size(self) -> tuple:
 

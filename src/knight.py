@@ -22,6 +22,7 @@ class Knight(Entity):
         self.vx, self.vy = 0, 0
         self.hp = 5
         self.skill_point = 9
+        self.point_image = load_image('resource/ui/skill_point.png')
         self.hp_fill = load_image('resource/ui/hp_fill.png')
         self.hp_empty = load_image('resource/ui/hp_empty.png')
         self.ground = y
@@ -35,11 +36,14 @@ class Knight(Entity):
 
     def draw(self, collections: SpriteCollection):
         super().draw(collections)
-        self.font.draw(self.x - 10, self.y + 70, f'{self.skill_point:02d}', (255, 255, 0))
+        # self.font.draw(self.x - 10, self.y + 70, f'{self.skill_point:02d}', (255, 255, 0))
         for i in range(1, 6):
             self.hp_empty.draw(65 * i, 645, 50, 70)
         for i in range(1, self.hp + 1):
             self.hp_fill.draw(65 * i, 650, 80, 100)
+        for i in range(1,self.skill_point + 1):
+            if i % 3 == 0:
+                self.point_image.draw(65 * i//3,570,80,80)
 
     def update(self):
         super().update()

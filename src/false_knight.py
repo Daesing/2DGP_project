@@ -48,7 +48,7 @@ class FalseKnight(Entity):
 
     def draw(self, collections: SpriteCollection):
         super().draw(collections)
-        self.font.draw(self.x, self.y + 300, f'{self.hp:02d}', (255, 255, 0))
+        # self.font.draw(self.x, self.y + 300, f'{self.hp:02d}', (255, 255, 0))
 
     def handle_collision(self,group,other):
         if group == 'slash:false_knight' and self.hit:
