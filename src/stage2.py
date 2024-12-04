@@ -30,6 +30,7 @@ def init():
     game_world.add_collision_pair('fireball:hornet',None,hornet)
     game_world.add_collision_pair('knight:sphere',knight,None)
     game_world.add_collision_pair('knight:barb',knight,None)
+    game_world.add_collision_pair('knight:sphere',knight,None)
 
 def handle_events():
 

@@ -83,6 +83,8 @@ class Hornet(Entity):
             game_world.add_collision_pair('knight:needle',None,effect)
         elif action == 'barb':
             game_world.add_collision_pair('knight:barb',None,effect)
+        elif action == 'sphere':
+            game_world.add_collision_pair('knight:sphere',None,effect)
 
     def load_audio(self,action):
         if action == 'dash':
