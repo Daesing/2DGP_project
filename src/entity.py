@@ -42,9 +42,9 @@ class Entity:
         animation = collections.get(self.current_animation)
         draw_x, draw_y, draw_width, draw_height = animation.calculate_rect(self.x, self.y, *self.get_size(collections))
 
-        left = draw_x - draw_width / 2
-        bottom = draw_y - draw_height / 2
-        right = draw_x + draw_width / 2
-        top = draw_y + draw_height / 2
+        left = draw_x - draw_width / 2 + 10
+        bottom = draw_y - draw_height / 2 + 10
+        right = draw_x + draw_width / 2 - 10
+        top = draw_y + draw_height / 2 - 10
 
         return left, bottom, right, top

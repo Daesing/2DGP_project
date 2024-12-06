@@ -95,6 +95,8 @@ class Knight(Entity):
             self.audio = load_wav('resource/audio/knight/hero_land_soft.wav')
         elif action == 'damaged':
             self.audio = load_wav('resource/audio/knight/hero_damage.wav')
+        elif action == 'focus':
+            self.audio = load_wav('resource/audio/knight/focus_health_heal.wav')
         self.audio.set_volume(20)
         self.audio.play()
 
@@ -423,7 +425,8 @@ class Focus(AnimationState[Knight]):
         knight.start_time = get_time()
 
     def do(self, knight: Knight) -> AnimationState[Knight] | None:
-        if get_time() - knight.start_time > 1.0:
+        if get_time() - knight.start_time > 0.7:
+            knight.load_audio('focus')
             knight.skill_point -= 3
             if knight.hp < 5:
                 knight.hp += 1
