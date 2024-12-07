@@ -62,14 +62,21 @@ class Knight(Entity):
 
     def handle_collision(self, group, other):
         print(f'group: {group}')
-        if (group == 'knight:false_knight' or 'knight:hornet' or 'knight:needle' or 'knight:sphere' or 'knight:barb'
-                or 'knight:sphere'):
+        if group == 'knight:false_knight':
             if self.hp > 0 and self.is_invincible == False:
                 self.load_audio('damaged')
                 self.hp -= 1
                 self.is_invincible = True
                 self.invincible_time = 2.5
                 print('invincible_activate')
+        elif group == 'knight:hornet' or 'knight:needle' or 'knight:sphere' or 'knight:barb':
+            if self.hp > 0 and self.is_invincible == False:
+                self.load_audio('damaged')
+                self.hp -= 1
+                self.is_invincible = True
+                self.invincible_time = 2.5
+                print('invincible_activate')
+
 
     def handle_event(self, event: Event):
         self.input_manager.on_keyboard_event(event)

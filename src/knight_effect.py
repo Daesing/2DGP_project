@@ -30,7 +30,6 @@ class KnightEffect(Entity):
 
 
     def handle_collision(self,group,other):
-        print('slash:hornet')
         if group == 'slash:false_knight' and self.hit:
             self.load_audio(group)
             if self.knight.skill_point < 9:
