@@ -74,7 +74,7 @@ class Knight(Entity):
                 self.load_audio('damaged')
                 self.hp -= 1
                 self.is_invincible = True
-                self.invincible_time = 2.5
+                self.invincible_time = 1.5
                 print('invincible_activate')
 
 
