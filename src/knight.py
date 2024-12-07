@@ -4,7 +4,7 @@ from input_manager import InputManager
 from knight_effect import KnightEffect
 import game_world
 import game_framework
-from src.animation import SpriteCollection
+from animation import SpriteCollection
 from state_machine import AnimationState
 
 PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
